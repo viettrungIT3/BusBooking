@@ -1,0 +1,64 @@
+.owl-carousel-sync1 .item {
+    min-height: 261.8px;
+    border-radius: 6.85px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.owl-carousel-sync2 .item {
+    opacity: .6;
+    cursor: pointer;
+    border: 1px #fff solid;
+    padding: 4px;
+    border-radius: 6.85px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.owl-carousel-sync2 .item h1 {
+    font-size: 1em;
+}
+
+.owl-carousel-sync2 .current .item {
+    opacity: 1;
+}
+
+.owl-theme .owl-nav {
+    /*default owl-theme theme reset .disabled:hover links */
+}
+
+.owl-theme .owl-nav {
+    -webkit-transition: all 0.618s ease;
+    transition: all 0.618s ease;
+}
+
+.owl-carousel-sync1.owl-theme {
+    position: relative;
+}
+
+.owl-carousel-sync1.owl-theme .owl-next,
+.owl-carousel-sync1.owl-theme .owl-prev {
+    width: 1.618em;
+    height: 0.618em;
+    margin-top: 2.618em;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1em;
+    top: 76.4%;
+}
+
+.owl-carousel-sync1.owl-theme .owl-prev {
+    left: 11%;
+}
+
+.owl-carousel-sync1.owl-theme .owl-next {
+    right: 11%;
+}
