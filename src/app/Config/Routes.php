@@ -10,4 +10,4 @@ $routes->get('/login', 'User::login');
 $routes->post('/login', 'User::login');
 $routes->get('/register', 'User::register');
 $routes->post('/register', 'User::register');
-
+$routes->get('/bus-detail', 'Bus::detail');

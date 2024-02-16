@@ -1,0 +1,7 @@
+.content-main {}
+.content-main > .row {
+    /* flex-direction: row-reverse; */
+}
+.content-main .info-container {
+    /* float: right; */
+}
