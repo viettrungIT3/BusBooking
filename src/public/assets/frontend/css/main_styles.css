@@ -33,6 +33,7 @@
 	13.4 Footer - Contact Info
 14. Copyright
 15. Banner
+16. Star rating
 
 
 ******************************/
@@ -324,8 +325,7 @@ section {
     margin-right: 0px;
 }
 
-.parallax-window
-{
+.parallax-window {
     min-height: 400px;
     background: transparent;
 }
@@ -2261,38 +2261,72 @@ section {
 15. Banner
 *********************************/
 
-.ct-banner
-{
-	width: 100%;
-	height: 465px;
-	background: transparent;
+.ct-banner {
+    width: 100%;
+    height: 465px;
+    background: transparent;
 }
-.ct-banner_background
-{
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
+
+.ct-banner_background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
 }
-.ct-banner_content
-{
-	position: absolute;
-	bottom: 106px;
-	left: 50%;
-	-webkit-transform: translateX(-50%);
-	-moz-transform: translateX(-50%);
-	-ms-transform: translateX(-50%);
-	-o-transform: translateX(-50%);
-	transform: translateX(-50%);
+
+.ct-banner_content {
+    position: absolute;
+    bottom: 106px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
 }
-.ct-banner_title
-{
-	font-size: 72px;
-	font-weight: 800;
-	color: #FFFFFF;
-	text-transform: uppercase;
+
+.ct-banner_title {
+    font-size: 72px;
+    font-weight: 800;
+    color: #FFFFFF;
+    text-transform: uppercase;
+}
+
+
+/*********************************
+16. Star rating
+*********************************/
+/* component */
+
+.star-rating {
+    /* border: solid 1px #ccc; */
+    display: flex;
+    flex-direction: row-reverse;
+    font-size: 1.5em;
+    justify-content: space-around;
+    padding: 0 .2em;
+    text-align: center;
+    width: 5em;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    color: #ccc;
+    cursor: pointer;
+}
+
+.star-rating input:checked~label {
+    color: #f90;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label {
+    color: #fc0;
 }
