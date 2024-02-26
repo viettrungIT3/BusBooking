@@ -4,15 +4,6 @@
 
 <!-- Link css -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/frontend/css/bus-detail.css">
-<link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/frontend/css/owl-carousel-sync.css">
-
-<!-- Owl Carousel2 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-	integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
-	integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
-	crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <!-- banner -->
 <div class="ct-banner">
@@ -80,57 +71,21 @@
 			</div>
 			<div class="col-lg-8">
 				<!-- main slider carousel -->
-				<div class="row">
-					<div class="col-md-12" id="slider">
-						<div id="owl-carousel-sync1" class="owl-carousel owl-theme owl-carousel-sync1">
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1649069189760.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1649069198474.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1669087815120.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg" alt="">
-							</div>
-						</div>
 
-						<div id="owl-carousel-sync2" class="owl-carousel owl-theme owl-carousel-sync2">
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1649069189760.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1649069198474.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1669087815120.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg" alt="">
-							</div>
-							<div class="item"><img
-									src="https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg" alt="">
-							</div>
-						</div>
-					</div>
-				</div>
+				<?php echo
+					view('frontend/partials/slider.php', [
+						'p_id' => 'slider_bus_detail_1',
+						'p_images' => [
+							"https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg",
+							"https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg",
+							"https://saodieu.vn/media/transporter/207/1703558347_1649069189760.jpg",
+							"https://saodieu.vn/media/transporter/207/1703558347_1649069198474.jpg",
+							"https://saodieu.vn/media/transporter/207/1703558347_1669087815120.jpg",
+							"https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg",
+							"https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg"
+						]
+					]);
+				?>
 			</div>
 		</div>
 		<div class="row mt-5" style="padding:10px 0">
@@ -340,88 +295,5 @@
 
 <!-- Contact -->
 <?= $this->include('frontend/partials/contact.php') ?>
-
-
-<script>
-	$(document).ready(function () {
-
-		var owlCarouselSync1 = $("#owl-carousel-sync1");
-		var owlCarouselSync2 = $("#owl-carousel-sync2");
-		var slidesPerPage = 7; //globaly define number of elements per page
-		var syncedSecondary = true;
-
-		owlCarouselSync1.owlCarousel({
-			items: 1,
-			slideSpeed: 2000,
-			nav: false,
-			autoplay: true,
-			dots: false,
-			loop: true,
-			responsiveRefreshRate: 200,
-			navText: ['<svg width="100%" height="100%" viewBox="0 0 11 20"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>', '<svg width="100%" height="100%" viewBox="0 0 11 20" version="1.1"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'],
-		}).on('changed.owl.carousel', syncPosition);
-
-		owlCarouselSync2
-			.on('initialized.owl.carousel', function () {
-				owlCarouselSync2.find(".owl-item").eq(0).addClass("current");
-			})
-			.owlCarousel({
-				items: slidesPerPage,
-				dots: false,
-				nav: false,
-				smartSpeed: 200,
-				slideSpeed: 500,
-				slideBy: slidesPerPage, //alternatively you can slide by 1, this way the active slide will stick to the first item in the second carousel
-				responsiveRefreshRate: 100
-			}).on('changed.owl.carousel', syncPosition2);
-
-		function syncPosition(el) {
-			//if you set loop to false, you have to restore this next line
-			//var current = el.item.index;
-
-			//if you disable loop you have to comment this block
-			var count = el.item.count - 1;
-			var current = Math.round(el.item.index - (el.item.count / 2) - .5);
-
-			if (current < 0) {
-				current = count;
-			}
-			if (current > count) {
-				current = 0;
-			}
-
-			//end block
-
-			owlCarouselSync2
-				.find(".owl-item")
-				.removeClass("current")
-				.eq(current)
-				.addClass("current");
-			var onscreen = owlCarouselSync2.find('.owl-item.active').length - 1;
-			var start = owlCarouselSync2.find('.owl-item.active').first().index();
-			var end = owlCarouselSync2.find('.owl-item.active').last().index();
-
-			if (current > end) {
-				owlCarouselSync2.data('owl.carousel').to(current, 100, true);
-			}
-			if (current < start) {
-				owlCarouselSync2.data('owl.carousel').to(current - onscreen, 100, true);
-			}
-		}
-
-		function syncPosition2(el) {
-			if (syncedSecondary) {
-				var number = el.item.index;
-				owlCarouselSync1.data('owl.carousel').to(number, 100, true);
-			}
-		}
-
-		owlCarouselSync2.on("click", ".owl-item", function (e) {
-			e.preventDefault();
-			var number = $(this).index();
-			owlCarouselSync1.data('owl.carousel').to(number, 300, true);
-		});
-	});
-</script>
 
 <?= $this->endSection() ?>
