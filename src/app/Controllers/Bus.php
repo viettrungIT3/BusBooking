@@ -242,4 +242,12 @@ class Bus extends Controller
 
         return view('frontend/tickets/tickets', $data);
     }
+    
+    public function checkout()
+    {
+        $data = [
+            'title' => 'Giỏ hàng & Thanh toán',
+        ];
+        return view('frontend/checkout/checkout', $data);
+    }
 }
