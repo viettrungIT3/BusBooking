@@ -13,3 +13,5 @@ $routes->post('/register', 'User::register');
 $routes->get('/bus-detail', 'Bus::detail');
 $routes->get('/tickets', 'Bus::tickets');
 $routes->get('/checkout', 'Bus::checkout');
+$routes->get('/checkout/info', 'Bus::checkout_info');
+$routes->get('/checkout/cancel', 'Bus::checkout_cancel');

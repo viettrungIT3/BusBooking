@@ -43,7 +43,7 @@ $data_list_trip = [
 
 <!-- banner -->
 <div class="ct-banner">
-    <div class="ct-banner_background parallax-window" style="background-image: url('images/banner_bus_detail.jpg')">
+    <div class="ct-banner_background parallax-window" style="background-image: url('<?php echo base_url() ?>/images/banner_bus_detail.jpg')">
     </div>
 </div>
 
@@ -177,7 +177,7 @@ $data_list_trip = [
                             <label class="form-label fw-bold">Tổng tiền vé:</label>
                             <div class="input-group">
                                 <input type="text" class="form-control fw-bold" value="120.000 đ" disabled>
-                                <button class="btn btn-primary" type="button">Đặt vé</button>
+                                <a href="/checkout/info" class="btn btn-primary" type="button">Đặt vé</a>
                             </div>
                         </div>
                     </div>
