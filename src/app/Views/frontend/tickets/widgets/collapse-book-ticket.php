@@ -111,10 +111,10 @@ $data_list_trip = [
 
             <!-- Images -->
             <div class="mb-3 d-flex justify-content-center align-items-center">
-                <img src="images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg" style="height: 100px; margin: 0 4px;" alt="">
-                <img src="images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg" style="height: 100px; margin: 0 4px;" alt="">
-                <img src="images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg" style="height: 100px; margin: 0 4px;" alt="">
-                <img src="images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg" style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg" style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg" style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg" style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg" style="height: 100px; margin: 0 4px;" alt="">
                 <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#showImagesModal">Xem thêm</a>
             </div>
 
@@ -135,13 +135,13 @@ $data_list_trip = [
                                 view('frontend/partials/slider.php', [
                                     'p_id' => 'slider_1',
                                     'p_images' => [
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg",
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg",
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg",
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg",
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-05.jpg",
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-06.jpg",
-                                        "images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-07.jpg"
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg",
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg",
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg",
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg",
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-05.jpg",
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-06.jpg",
+                                        base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-07.jpg"
                                     ]
                                 ]);
                             ?>

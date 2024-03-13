@@ -1,5 +1,5 @@
 <section class="contact mt-5">
-    <div class="contact_background" style="background-image:url(images/contact.png)"></div>
+    <div class="contact_background" style="background-image:url(<?php echo base_url() ?>/images/contact.png)"></div>
 
     <div class="container">
         <div class="row">

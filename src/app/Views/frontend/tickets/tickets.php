@@ -7,7 +7,7 @@
 
 <!-- banner -->
 <div class="ct-banner">
-    <div class="ct-banner_background parallax-window" style="background-image: url('images/banner_bus_detail.jpg')">
+    <div class="ct-banner_background parallax-window" style="background-image: url('<?php echo base_url() ?>/images/banner_bus_detail.jpg')">
     </div>
     <!-- <div class="ct-banner_content">
         <div class="ct-banner_title">about us</div>
@@ -97,7 +97,7 @@
                 <div class="card" style="padding: 20px;">
                     <h3 class="text-center mb-2">Xe Từ Hà Nội Đi Thái Nguyên</h3>
                     <div class="text-center mb-2">
-                        <img src="images/city_street_with_green_bus.png" alt="Bus" class="bus">
+                        <img src="<?php echo base_url() ?>/images/city_street_with_green_bus.png" alt="Bus" class="bus">
                     </div>
 
                     <div class="info">

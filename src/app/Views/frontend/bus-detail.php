@@ -7,7 +7,8 @@
 
 <!-- banner -->
 <div class="ct-banner">
-	<div class="ct-banner_background parallax-window" style="background-image: url('images/banner_bus_detail.jpg')">
+	<div class="ct-banner_background parallax-window"
+		style="background-image: url('<?php echo base_url() ?>/images/banner_bus_detail.jpg')">
 	</div>
 	<!-- <div class="ct-banner_content">
 		<div class="ct-banner_title">about us</div>
@@ -74,15 +75,15 @@
 
 				<?php echo
 					view('frontend/partials/slider.php', [
-						'p_id' => 'slider_bus_detail_1',
+						'p_id' => 'slider_1',
 						'p_images' => [
-							"https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg",
-							"https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg",
-							"https://saodieu.vn/media/transporter/207/1703558347_1649069189760.jpg",
-							"https://saodieu.vn/media/transporter/207/1703558347_1649069198474.jpg",
-							"https://saodieu.vn/media/transporter/207/1703558347_1669087815120.jpg",
-							"https://saodieu.vn/media/transporter/207/1703558347_1669087926657.jpg",
-							"https://saodieu.vn/media/transporter/207/1703558347_1656172475810.jpg"
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg",
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg",
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg",
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg",
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-05.jpg",
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-06.jpg",
+							base_url() . "/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-07.jpg"
 						]
 					]);
 				?>

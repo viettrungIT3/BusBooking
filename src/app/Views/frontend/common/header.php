@@ -31,7 +31,7 @@
             <div class="row">
                 <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
                     <div class="logo_container">
-                        <div class="logo"><a href="#"><img src="images/logo.png" alt="">Bus Booking</a></div>
+                        <div class="logo"><a href="#"><img src="<?php echo base_url() ?>/images/logo.png" alt="">Bus Booking</a></div>
                     </div>
                     <div class="main_nav_container ml-auto">
                         <ul class="main_nav_list">
@@ -57,7 +57,7 @@
         <div class="menu_close_container">
             <div class="menu_close"></div>
         </div>
-        <div class="logo menu_logo"><a href="#"><img src="images/logo.png" alt=""></a></div>
+        <div class="logo menu_logo"><a href="#"><img src="<?php echo base_url() ?>/images/logo.png" alt=""></a></div>
         <ul>
             <li class="menu_item"><a href="#">trang chủ</a></li>
             <li class="menu_item"><a href="about.html">về chúng tôi</a></li>
