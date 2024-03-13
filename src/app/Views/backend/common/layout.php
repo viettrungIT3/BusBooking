@@ -12,16 +12,38 @@
     <?= $this->include('backend/common/head.php') ?>
 </head>
 
-<body>
+<body class="sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed dark-mode">
+    <div class="wrapper">
 
-    <!-- Header -->
-    <?= $this->include('backend/common/header.php') ?>
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__wobble" src="<?= get_adminLTE_url() ?>dist/img/AdminLTELogo.png" alt="AdminLTELogo"
+                height="60" width="60">
+        </div>
 
-    <!-- Content -->
-    <!-- <?= $this->renderSection('content') ?> -->
+        <!-- Navbar -->
+        <?= $this->include('backend/common/navbar.php') ?>
+        <!-- /.navbar -->
 
-    <!-- Footer -->
-    <?= $this->include('backend/common/footer.php') ?>
+        <!-- Main Sidebar Container -->
+        <?= $this->include('backend/common/sidebar.php') ?>
+
+
+        <!-- Content -->
+        <!-- <?= $this->renderSection('content') ?> -->
+        <!-- /.content -->
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+
+        <!-- Footer -->
+        <?= $this->include('backend/common/footer.php') ?>
+        <!-- /.footer -->
+        
+    </div>
 </body>
 
 </html>
