@@ -4,7 +4,7 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 
-class Bus extends Controller
+class WebsiteBus extends Controller
 {
     public function detail()
     {
