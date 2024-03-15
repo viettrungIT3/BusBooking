@@ -1,15 +1,25 @@
 <?= $this->extend('layout') ?>
 
 <?= $this->section('content') ?>
-<div class="row justify-content-center">
-    <div class="col-md-6">
+
+<style>
+    html,
+    body,
+    .wrapper,
+    .container {
+        height: 100% !important;
+    }
+</style>
+
+<div class="container">
+    <div class="wrapper d-flex align-items-center justify-content-center h-100">
         <div class="card">
             <div class="card-header">
                 <h4>Đăng ký</h4>
             </div>
             <div class="card-body">
                 <!-- Hiển thị thông báo lỗi nếu có -->
-                <?php if (isset($validation)) : ?>
+                <?php if (isset($validation)): ?>
                     <div class="alert alert-danger">
                         <?php echo $validation->listErrors(); ?>
                     </div>
@@ -24,6 +34,10 @@
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" name="email" class="form-control" value="<?php echo set_value('email'); ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" name="phone" class="form-control" value="<?php echo set_value('phone'); ?>">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Mật khẩu</label>

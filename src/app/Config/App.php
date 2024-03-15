@@ -54,7 +54,7 @@ class App extends BaseConfig
      * 'REQUEST_URI'    Uses $_SERVER['REQUEST_URI']
      * 'QUERY_STRING'   Uses $_SERVER['QUERY_STRING']
      * 'PATH_INFO'      Uses $_SERVER['PATH_INFO']
-     *
+     *mainPage
      * WARNING: If you set this to 'PATH_INFO', URIs will always be URL-decoded!
      */
     public string $uriProtocol = 'REQUEST_URI';
@@ -69,7 +69,7 @@ class App extends BaseConfig
      * strings (like currency markers, numbers, etc), that your program
      * should run under for this request.
      */
-    public string $defaultLocale = 'en';
+    public string $defaultLocale = 'vi';
 
     /**
      * --------------------------------------------------------------------------
@@ -96,7 +96,7 @@ class App extends BaseConfig
      *
      * @var string[]
      */
-    public array $supportedLocales = ['en'];
+    public array $supportedLocales = ['vi'];
 
     /**
      * --------------------------------------------------------------------------
