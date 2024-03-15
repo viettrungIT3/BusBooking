@@ -30,7 +30,7 @@
 
 
         <!-- Content -->
-        <!-- <?= $this->renderSection('content') ?> -->
+        <?= $this->renderSection('content') ?>
         <!-- /.content -->
 
         <!-- Control Sidebar -->

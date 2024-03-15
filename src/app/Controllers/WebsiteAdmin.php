@@ -7,8 +7,8 @@ class WebsiteAdmin extends BaseController
     public function index(): string
     {
         $data = [
-            'title' => 'Trang chủ',
+            'title' => 'Trang chủ - Bảng điều khiển',
         ];
-        return view('backend/index.php', $data);
+        return view('backend/dashboard/index.php', $data);
     }
 }
