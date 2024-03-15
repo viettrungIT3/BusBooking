@@ -38,8 +38,7 @@ class User extends Controller
 
             if ($user && password_verify($password, $user['password'])) {
                 $ses_data = [
-                    'id' => $user['id'],
-                    'name' => $user['name'],
+                    'current_user_id' => $user['id'],
                     'logged_in' => true,
                     'lastActivity' => time()
                 ];
@@ -54,9 +53,7 @@ class User extends Controller
 
             if ($user && password_verify($password, $user['password'])) {
                 $ses_data = [
-                    'id' => $user['id'],
-                    'name' => $user['name'],
-                    'role' => $user['role'],
+                    'current_admin_id' => $user['id'],
                     'admin_logged_in' => true,
                     'lastActivity' => time()
                 ];
