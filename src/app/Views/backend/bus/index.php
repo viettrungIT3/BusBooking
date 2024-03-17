@@ -16,12 +16,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0">Quản lý xe buýt</h1>
+					<h1 class="m-0">Quản lý xe</h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Quản lý xe buýt</li>
+						<li class="breadcrumb-item active">Quản lý xe</li>
 					</ol>
 				</div>
 			</div>
@@ -34,8 +34,9 @@
 			<!-- Log on to codeastro.com for more projects -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<a href="<?= base_url('backend/manage-bus/create-bus') ?>" type="button" class="btn btn-success pull-right">
-						Add Bus
+					<a href="<?= base_url('admin/manage-bus/create-bus') ?>" type="button"
+						class="btn btn-success pull-right">
+						Thêm xe
 					</a>
 				</div>
 				<div class="card-body">
@@ -47,7 +48,7 @@
 									<th>#</th>
 									<th>Mã xe</th>
 									<th>Tên xe</th>
-									<th>Tấm xe</th>
+									<th>Biển số xe </th>
 									<th>Số chỗ ngồi</th>
 									<th>Trạng thái</th>
 									<th>Hành động</th>
@@ -74,9 +75,9 @@
 											<?= $row['seat_number'] ?? ''; ?>
 										</td>
 										<?php if ($row['status'] == '1') { ?>
-											<td class="btn-success"> Đang hoạt động</td>
+											<td class="btn-success"> Mở</td>
 										<?php } else { ?>
-											<td class="btn-danger">Không hoạt động</td>
+											<td class="btn-danger">Khóa</td>
 										<?php } ?>
 										<td align="center"><a
 												href="<?= base_url('admin/manage-bus/view-bus/' . $row['id']) ?>"

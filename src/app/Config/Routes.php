@@ -21,5 +21,7 @@ $routes->group('admin', ['filter' => 'sessionLogin'], static function ($routes) 
     $routes->get('', 'WebsiteAdmin::index');
     $routes->get('dashboard', 'WebsiteAdmin::index');
     $routes->get('manage-bus', 'WebsiteAdmin::bus');
-    $routes->get('manage-bus/view-bus/(:num)', 'WebsiteAdmin::bus');
+    $routes->get('manage-bus/create-bus', 'WebsiteAdmin::create_bus');
+    $routes->post('manage-bus/create-bus', 'WebsiteAdmin::create_bus');
+    $routes->get('manage-bus/view-bus/(:num)', 'WebsiteAdmin::view_bus');
 });
