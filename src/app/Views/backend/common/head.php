@@ -15,3 +15,14 @@ function get_adminLTE_url($path = '')
 <link rel="stylesheet" href="<?php echo get_adminLTE_url(); ?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 <!-- Theme AdminLTE-3 style -->
 <link rel="stylesheet" href="<?php echo get_adminLTE_url(); ?>dist/css/adminlte.min.css">
+
+
+<!-- REQUIRED SCRIPTS -->
+<!-- jQuery -->
+<script src="<?= get_adminLTE_url() ?>plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap -->
+<script src="<?= get_adminLTE_url() ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="<?= get_adminLTE_url() ?>plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+<!-- AdminLTE -->
+<script src="<?= get_adminLTE_url() ?>dist/js/adminlte.js"></script>

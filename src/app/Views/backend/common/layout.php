@@ -12,7 +12,7 @@
     <?= $this->include('backend/common/head.php') ?>
 </head>
 
-<body class="sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed dark-mode">
+<body class="sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
     <div class="wrapper">
 
         <!-- Preloader -->

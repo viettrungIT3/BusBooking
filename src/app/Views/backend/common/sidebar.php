@@ -15,7 +15,7 @@
       </div>
       <div class="info">
         <a href="#" class="d-block">
-          <?= $current_user['name'] ?? 'Admin1' ?>
+          <?= $current_user['name'] ?? $current_user[0]['name'] ?? 'Admin1' ?>
         </a>
       </div>
     </div>
@@ -26,8 +26,8 @@
         data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-        <li class="nav-item menu-open">
-          <a href="/admin" class="nav-link active">
+        <li class="nav-item">
+          <a href="/admin/dashboard" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
               Trang chủ
@@ -35,7 +35,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/admin/manage-bus" class="nav-link">
             <i class="nav-icon fas fa fa-bus"></i>
             <p>
               Quản lý xe buýt
@@ -67,28 +67,28 @@
           </a>
         </li>
         <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-ticket-alt"></i>
-              <p>
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-ticket-alt"></i>
+            <p>
               Quản lý vé
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Đang chờ</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Đã bán</p>
-                </a>
-              </li>
-            </ul>
-          </li>
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Đang chờ</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Đã bán</p>
+              </a>
+            </li>
+          </ul>
+        </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fa fa-dollar-sign"></i>
@@ -109,5 +109,30 @@
     </nav>
     <!-- /.sidebar-menu -->
   </div>
+
+  <script>
+    // Lấy tất cả các menu co thẻ a có thuộc tính href
+    var links = document.querySelectorAll('a[href].nav-link');
+    var currentUrl = window.location.pathname;
+
+    // Lặp qua tất cả các thẻ a và kiểm tra xem href có trùng với url hiện tại hay không
+    links.forEach(function (link) {
+      if (link.getAttribute('href') == currentUrl) {
+        link.classList.add('active'); // Thêm class active nếu trùng
+        var parentLi = link.closest('.nav-item.has-treeview'); // Tìm thẻ cha có class nav-item
+        if (parentLi) {
+          parentLi.classList.add('menu-open'); // Thêm class menu-open cho thẻ cha
+
+          var parentUl = parentLi.closest('.nav.nav-treeview'); // Tìm thẻ cha có class .nav.nav-treeview
+          if (parentUl) {
+            var parentLi2 = parentUl.closest('.nav-item.has-treeview'); // Tìm thẻ cha có class nav-item
+            if (parentLi2) {
+              parentLi2.classList.add('menu-open'); // Thêm class menu-open cho thẻ cha
+            }
+          }
+        }
+      }
+    });
+  </script>
   <!-- /.sidebar -->
 </aside>
