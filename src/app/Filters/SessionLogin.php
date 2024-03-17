@@ -28,7 +28,7 @@ class SessionLogin implements FilterInterface
 
         $session = session();
 
-        if (($session->get('logged_in') || $session->get('admin_logged_in')) && (time() - $session->get('lastActivity') > 7200)) {
+        if (($session->get('logged_in') == NULL || $session->get('admin_logged_in') == NULL) && (time() - $session->get('lastActivity') > 7200)) {
             $session->destroy();
             return redirect()->to('/login');
         }
