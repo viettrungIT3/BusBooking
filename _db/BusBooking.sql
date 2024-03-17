@@ -25,11 +25,12 @@ DROP TABLE IF EXISTS `administrators`;
 CREATE TABLE `administrators` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `user_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `password` varchar(255) NOT NULL,
+  `role` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  UNIQUE KEY `email` (`user_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,6 +39,7 @@ CREATE TABLE `administrators` (
 
 LOCK TABLES `administrators` WRITE;
 /*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
+INSERT INTO `administrators` VALUES (1,'Admin','admin','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','1');
 /*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +87,9 @@ CREATE TABLE `buses` (
   `name` varchar(100) NOT NULL,
   `license_plate` varchar(20) NOT NULL,
   `seat_number` int NOT NULL,
+  `status` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,6 +98,7 @@ CREATE TABLE `buses` (
 
 LOCK TABLES `buses` WRITE;
 /*!40000 ALTER TABLE `buses` DISABLE KEYS */;
+INSERT INTO `buses` VALUES (1,'Đức Phúc Limousine','20G-00027',16,NULL);
 /*!40000 ALTER TABLE `buses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +231,7 @@ CREATE TABLE `users` (
   `address` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,34 +240,9 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Trung Nguyen','viettrungcntt03@gmail.com','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','',NULL),(2,'Việt Trung','a@gmail.com','$2y$10$v/XTJCO6dKRc0fzwxF3ZNenKxRSqgiPN4Sdbv1m1eujxdJQhBQrtG','',NULL);
+INSERT INTO `users` VALUES (1,'Trung Nguyen','viettrungcntt03@gmail.com','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','',NULL),(2,'Việt Trung','a@gmail.com','$2y$10$v/XTJCO6dKRc0fzwxF3ZNenKxRSqgiPN4Sdbv1m1eujxdJQhBQrtG','',NULL),(3,'Trung Nguyen','a1@gmail.com','$2y$10$EfBW7.KPPwoQqF20iJl17.PUQJEV5ZwWpsNnS3HwFGg9dqlGb8z96','',NULL),(4,'Trung Nguyen','34627xuantran@gmail.com','$2y$10$YSLBJXm5GSg44zH.S8eXzeGTy3mXL1QmL0UZ29TGBX2ef5vOuM3BO','',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'BusBooking'
---
-/*!50003 DROP PROCEDURE IF EXISTS `user_get` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`%` PROCEDURE `user_get`(
-	IN in_id int
-)
-BEGIN
-	SELECT * FROM user WHERE id = in_id;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -274,4 +253,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-10  5:21:03
+-- Dump completed on 2024-03-15 20:16:05
