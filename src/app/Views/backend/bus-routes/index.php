@@ -34,10 +34,10 @@
 			<!-- Log on to codeastro.com for more projects -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<a href="<?= base_url('admin/manage-routes/create-route') ?>" type="button"
-						class="btn btn-success pull-right">
+					<button type="button" class="btn btn-success pull-right" data-toggle="modal"
+						data-target="#ModalRoutes">
 						Thêm tuyến đường
-					</a>
+					</button>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -69,8 +69,8 @@
 										<td>
 											<?= $row['destination'] ?? ''; ?>
 										</td>
-										<td>
-											<?= $row['listed_price'] ?? ''; ?>
+										<td class="text-end">
+											<?= number_format((float) ($row['listed_price']), 0, ",", "."); ?> VNĐ
 										</td>
 									</tr>
 									<?php
@@ -83,6 +83,47 @@
 		</div>
 		<!-- /.container-fluid -->
 	</section>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="ModalRoutes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Thêm tuyến đường</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form action="<?= base_url() ?>admin/manage-routes/create-route" method="post">
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="origin" name="origin" class="form-control" placeholder="Điểm đi"
+								required="required" autofocus="autofocus">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="destination" name="destination" class="form-control"
+								placeholder="Điểm đến" required="required" autofocus="autofocus">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="form-label-group">
+							<input type="text" id="listed_price" name="listed_price" class="form-control"
+								placeholder="Giá niêm yết" required="required" autofocus="autofocus">
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<button class="btn btn-success">Add</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- DataTables  & Plugins -->

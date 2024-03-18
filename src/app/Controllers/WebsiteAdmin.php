@@ -64,7 +64,7 @@ class WebsiteAdmin extends BaseController
     }
 
 
-    public function route_dashboard()
+    public function dashboard_routes()
     {
         $routesModel = new \App\Models\RoutesModel();
         $data['bus'] = $routesModel->findAll();
@@ -75,5 +75,25 @@ class WebsiteAdmin extends BaseController
             'routes' => $routesModel->findAll() ?? [],
         ];
         return view('backend/bus-routes/index.php', $data);
+    }
+
+
+    public function create_route()
+    {
+        helper(['form']);
+        $routesModel = new \App\Models\RoutesModel();
+
+        $data = [
+            'origin' => $this->request->getVar('origin'),
+            'destination' => $this->request->getVar('destination'),
+            'listed_price' => $this->request->getVar('listed_price')
+        ];
+        try {
+            $routesModel->save($data);
+            return redirect()->to('/admin/manage-routes')->with('success', 'Thêm mới thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+        }
+
     }
 }
