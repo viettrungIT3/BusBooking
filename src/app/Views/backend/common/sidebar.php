@@ -43,10 +43,10 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/admin/manage-routes" class="nav-link">
             <i class="nav-icon fas fa fa-compass"></i>
             <p>
-              Quản lý điểm đi/điểm đến
+              Quản lý các tuyến đường
             </p>
           </a>
         </li>

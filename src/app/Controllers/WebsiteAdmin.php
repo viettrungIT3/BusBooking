@@ -62,4 +62,18 @@ class WebsiteAdmin extends BaseController
 
         return view('backend/bus-create/index.php', $data);
     }
+
+
+    public function route_dashboard()
+    {
+        $routesModel = new \App\Models\RoutesModel();
+        $data['bus'] = $routesModel->findAll();
+
+        $data = [
+            'title' => 'Quản lý các tuyến đường',
+            'current_user' => $this->getAdministrator(),
+            'routes' => $routesModel->findAll() ?? [],
+        ];
+        return view('backend/bus-routes/index.php', $data);
+    }
 }
