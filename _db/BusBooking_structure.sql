@@ -34,16 +34,6 @@ CREATE TABLE `administrators` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `administrators`
---
-
-LOCK TABLES `administrators` WRITE;
-/*!40000 ALTER TABLE `administrators` DISABLE KEYS */;
-INSERT INTO `administrators` VALUES (1,'Admin','admin','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','1');
-/*!40000 ALTER TABLE `administrators` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `bookings`
 --
 
@@ -67,15 +57,6 @@ CREATE TABLE `bookings` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `bookings`
---
-
-LOCK TABLES `bookings` WRITE;
-/*!40000 ALTER TABLE `bookings` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bookings` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `buses`
 --
 
@@ -91,16 +72,6 @@ CREATE TABLE `buses` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `buses`
---
-
-LOCK TABLES `buses` WRITE;
-/*!40000 ALTER TABLE `buses` DISABLE KEYS */;
-INSERT INTO `buses` VALUES (1,'Đức Phúc Limousine','20G-00027',16,1),(2,'Đức Phúc Limousine ','20G - 00027',17,NULL),(3,'Đức Phúc Limousine ','20G - 00027',16,NULL),(4,'Đức Phúc Limousine ','20G - 00028',5,NULL);
-/*!40000 ALTER TABLE `buses` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `payments`
@@ -123,15 +94,6 @@ CREATE TABLE `payments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `payments`
---
-
-LOCK TABLES `payments` WRITE;
-/*!40000 ALTER TABLE `payments` DISABLE KEYS */;
-/*!40000 ALTER TABLE `payments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `routes`
 --
 
@@ -146,16 +108,6 @@ CREATE TABLE `routes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `routes`
---
-
-LOCK TABLES `routes` WRITE;
-/*!40000 ALTER TABLE `routes` DISABLE KEYS */;
-INSERT INTO `routes` VALUES (1,'Hà Nội','Thái Nguyên',140000),(2,'Thái Nguyên','Hà Nội',140000),(3,'Nội Bài','Thái Nguyên',160000),(4,'Thái Nguyên','Nội Bài',160000);
-/*!40000 ALTER TABLE `routes` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `schedules`
@@ -180,16 +132,6 @@ CREATE TABLE `schedules` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `schedules`
---
-
-LOCK TABLES `schedules` WRITE;
-/*!40000 ALTER TABLE `schedules` DISABLE KEYS */;
-INSERT INTO `schedules` VALUES (1,1,1,'2024-03-20 06:00:00','2024-03-20 09:00:00',140000),(2,2,2,'2024-03-20 07:00:00','2024-03-20 10:30:00',140000);
-/*!40000 ALTER TABLE `schedules` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `stop_points`
 --
 
@@ -208,16 +150,6 @@ CREATE TABLE `stop_points` (
   CONSTRAINT `stop_points_ibfk_1` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `stop_points`
---
-
-LOCK TABLES `stop_points` WRITE;
-/*!40000 ALTER TABLE `stop_points` DISABLE KEYS */;
-INSERT INTO `stop_points` VALUES (1,1,'Điểm dừng 1','2024-03-20 07:00:00','2024-03-20 07:05:00',1),(2,1,'Điểm dừng 2','2024-03-20 07:05:00','2024-03-20 07:10:00',2),(3,1,'Điểm dừng 3','2024-03-20 07:10:00','2024-03-20 07:15:00',3),(4,1,'Điểm dừng 4','2024-03-20 07:15:00','2024-03-20 07:20:00',4);
-/*!40000 ALTER TABLE `stop_points` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tickets`
@@ -239,15 +171,6 @@ CREATE TABLE `tickets` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `tickets`
---
-
-LOCK TABLES `tickets` WRITE;
-/*!40000 ALTER TABLE `tickets` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tickets` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `users`
 --
 
@@ -265,16 +188,6 @@ CREATE TABLE `users` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users`
---
-
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Trung Nguyen','viettrungcntt03@gmail.com','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','',NULL),(2,'Việt Trung','a@gmail.com','$2y$10$v/XTJCO6dKRc0fzwxF3ZNenKxRSqgiPN4Sdbv1m1eujxdJQhBQrtG','',NULL),(3,'Trung Nguyen','a1@gmail.com','$2y$10$EfBW7.KPPwoQqF20iJl17.PUQJEV5ZwWpsNnS3HwFGg9dqlGb8z96','',NULL),(4,'Trung Nguyen','34627xuantran@gmail.com','$2y$10$YSLBJXm5GSg44zH.S8eXzeGTy3mXL1QmL0UZ29TGBX2ef5vOuM3BO','',NULL);
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -285,4 +198,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-26 17:09:22
+-- Dump completed on 2024-03-26 17:16:00
