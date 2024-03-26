@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/admin/manage-schedules" class="nav-link">
             <i class="nav-icon fas fa fa-clipboard-list"></i>
             <p>
               Quản lý lịch trình

@@ -94,6 +94,32 @@ class WebsiteAdmin extends BaseController
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
         }
+    }
 
+
+    public function dashboard_schedules()
+    {
+        $db = \Config\Database::connect();
+        $builder = $db->table('schedules AS s'); // Khởi tạo query builder với bảng 'schedules'
+        $builder->select('s.id, s.departure_time, s.arrival_time, s.price, 
+                          b.name AS bus_name, r.origin, r.destination, r.listed_price, 
+                          GROUP_CONCAT(sp.name ORDER BY sp.sequence SEPARATOR ", ") AS stop_points',
+            false
+        ); // False để cho phép sử dụng hàm trong câu lệnh SELECT
+        $builder->join('buses AS b', 's.bus_id = b.id'); // Thêm join với bảng 'buses'
+        $builder->join('routes AS r', 's.route_id = r.id'); // Thêm join với bảng 'routes'
+        $builder->join('stop_points AS sp', 's.id = sp.schedule_id', 'left'); // Thêm left join với bảng 'stop_points'
+        $builder->groupBy('s.id, s.departure_time, s.arrival_time, s.price, b.name, r.origin, r.destination, r.listed_price'); // Nhóm kết quả theo schedule
+
+        $data = [
+            'title' => 'Quản lý lịch trình',
+            'current_user' => $this->getAdministrator(),
+            'schedules' => $builder->get()->getResult() ?? [],
+        ];
+
+        // echo '<pre>';
+        // var_dump($data);
+        // die();
+        return view('backend/manage-schedules/index.php', $data);
     }
 }
