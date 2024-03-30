@@ -167,7 +167,8 @@ class WebsiteAdmin extends BaseController
                             'schedule_id' => $insertedID,
                             'name' => $currentRoute['origin'],
                             'arrival_time' => $this->request->getVar('departure_time'),
-                            'sequence' => $indexStopPoint
+                            'sequence' => $indexStopPoint,
+                            'is_lock' => 1
                         ];
                         $stopPointModel->insert($data_stop_point);
                         $indexStopPoint++;
@@ -178,7 +179,8 @@ class WebsiteAdmin extends BaseController
                                     'schedule_id' => $insertedID,
                                     'name' => $point['name'],
                                     'arrival_time' => $point['time'],
-                                    'sequence' => $indexStopPoint
+                                    'sequence' => $indexStopPoint,
+                                    'is_lock' => 0
                                 ];
                                 $stopPointModel->insert($data_stop_point);
                                 $indexStopPoint++;
@@ -190,7 +192,8 @@ class WebsiteAdmin extends BaseController
                             'schedule_id' => $insertedID,
                             'name' => $currentRoute['destination'],
                             'arrival_time' => $this->request->getVar('arrival_time'),
-                            'sequence' => $indexStopPoint
+                            'sequence' => $indexStopPoint,
+                            'is_lock' => 1
                         ];
                         $stopPointModel->insert($data_stop_point);
                         $indexStopPoint++;
