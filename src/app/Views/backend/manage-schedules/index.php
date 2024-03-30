@@ -2,14 +2,7 @@
 
 <?= $this->section('content') ?>
 
-<?php
-// echo '<pre>';
-// var_dump($schedules);
-// die();
-
-?>
-
-
+<!-- css -->
 <!-- DataTables -->
 <link rel="stylesheet"
 	href="<?php echo base_url() . '/plugins/AdminLTE-3.2.0/'; ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -37,14 +30,41 @@
 
 	<section class="content-main">
 		<div class="container-fluid">
+			<div class="row">
+				<!-- Hiển thị thông báo lỗi nếu có -->
+				<?php if (isset($validation)): ?>
+					<div class="col-12">
+						<div class="alert alert-danger">
+							<?php echo $validation->listErrors(); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if (session()->getFlashdata('error')): ?>
+					<div class="col-12">
+						<div class="alert alert-danger">
+							<?= session()->getFlashdata('error'); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
+				<?php if (session()->getFlashdata('success')): ?>
+					<div class="col-12">
+						<div class="alert alert-success">
+							<?= session()->getFlashdata('success'); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
+			</div>
 			<!-- DataTales Example -->
 			<!-- Log on to codeastro.com for more projects -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<button type="button" class="btn btn-success pull-right" data-toggle="modal"
-						data-target="#ModalRoutes">
-						Thêm tuyến đường
-					</button>
+					<a href="<?= base_url('/admin/manage-schedules/create-schedule') ?>" type="button"
+						class="btn btn-success pull-right">
+						Thêm lịch trình
+					</a>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -55,7 +75,7 @@
 									<th>#</th>
 									<th>Mã</th>
 									<th>Xe</th>
-									<th>Mã</th>
+									<th>Tuyến đường</th>
 									<th>Thời gian đi</th>
 									<th>Thời gian đến</th>
 									<th>Giá ve</th>
@@ -106,47 +126,6 @@
 		</div>
 		<!-- /.container-fluid -->
 	</section>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="ModalRoutes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Thêm tuyến đường</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form action="<?= base_url() ?>admin/manage-routes/create-route" method="post">
-					<div class="form-group">
-						<div class="form-label-group">
-							<input type="text" id="origin" name="origin" class="form-control" placeholder="Điểm đi"
-								required="required" autofocus="autofocus">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-label-group">
-							<input type="text" id="destination" name="destination" class="form-control"
-								placeholder="Điểm đến" required="required" autofocus="autofocus">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-label-group">
-							<input type="text" id="listed_price" name="listed_price" class="form-control"
-								placeholder="Giá niêm yết" required="required" autofocus="autofocus">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-						<button class="btn btn-success">Add</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 </div>
 
 <!-- DataTables  & Plugins -->
