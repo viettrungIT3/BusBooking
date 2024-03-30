@@ -272,9 +272,82 @@ class WebsiteAdmin extends BaseController
         ];
 
         $schedule = $scheduleModel->find($id);
-        $stopPoints = $stopPointModel->where('schedule_id', $schedule['id'])
+        $stopPoints = $stopPointModel->where('schedule_id', $id)
             ->orderBy('sequence', 'ASC')
             ->findAll();
+
+        if ($this->validate($rules)) {
+            $data_schedule = [
+                'id' => $id,
+                'bus_id' => $this->request->getVar('bus_id') ?? $schedule['bus_id'],
+                'route_id' => $this->request->getVar('route_id') ?? $schedule['route_id'],
+                'departure_time' => $this->request->getVar('departure_time') ?? $schedule['departure_time'],
+                'arrival_time' => $this->request->getVar('arrival_time') ?? $schedule['arrival_time'],
+                'price' => $this->request->getVar('price') ?? $schedule['price'],
+            ];
+
+            try {
+                // Thêm dữ liệu vào database
+                $scheduleModel->update($id, $data_schedule);
+                
+                // Xoa các điểm đến tuyến đường da ton tai
+                $stopPointModel->where('schedule_id', $id)->delete();
+                
+                // Thêm các điểm đến tuyến đường
+                $indexStopPoint = 1;
+                try {
+
+                    $currentRoute = $routesModel->find($this->request->getVar('route_id'));
+                    
+                    $data_stop_point = [
+                        'schedule_id' => $id,
+                        'name' => $currentRoute['origin'],
+                        'arrival_time' => $this->request->getVar('departure_time'),
+                        'sequence' => $indexStopPoint,
+                        'is_lock' => 1
+                    ];
+                    $stopPointModel->insert($data_stop_point);
+                    $indexStopPoint++;
+
+                    if ($this->request->getVar('points') != null) {
+
+                        foreach ($this->request->getVar('points') as $point) {
+                            if ($point['name'] != $currentRoute['origin'] && $point['name'] != $currentRoute['destination']) {
+                                $data_stop_point = [
+                                    'schedule_id' => $id,
+                                    'name' => $point['name'],
+                                    'arrival_time' => $point['time'],
+                                    'sequence' => $indexStopPoint,
+                                    'is_lock' => 0
+                                ];
+                                $stopPointModel->insert($data_stop_point);
+                                $indexStopPoint++;
+                            }
+                        }
+                    }
+
+
+                    $data_stop_point = [
+                        'schedule_id' => $id,
+                        'name' => $currentRoute['destination'],
+                        'arrival_time' => $this->request->getVar('arrival_time'),
+                        'sequence' => $indexStopPoint,
+                        'is_lock' => 1
+                    ];
+                    $stopPointModel->insert($data_stop_point);
+                    $indexStopPoint++;
+                } catch (\Throwable $th) {
+                    //throw $th;
+                    return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+                }
+
+                // Nếu thêm thành công, chuyển hướng đến trang manage-schedules
+                return redirect()->to('/admin/manage-schedules')->with('success', 'Cập nhật thành công');
+
+            } catch (\Exception $e) {
+                return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+            }
+        }
 
         $data = [
             'title' => 'Quản lý lịch trình',
