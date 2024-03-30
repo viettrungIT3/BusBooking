@@ -112,7 +112,7 @@
 											<?= $row->stop_points; ?>
 										</td>
 										<td align="center"><a
-												href="<?= base_url('admin/manage-schedules/view/' . $row->id) ?>"
+												href="<?= base_url('admin/manage-schedules/' . $row->id) ?>"
 												class="btn btn btn-info">View</a></a>
 										</td>
 									</tr>

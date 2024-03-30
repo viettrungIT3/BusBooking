@@ -122,6 +122,31 @@ class WebsiteAdmin extends BaseController
         return view('backend/manage-schedules/index.php', $data);
     }
 
+    public function show_schedule($id)
+    {
+
+        $scheduleModel = new \App\Models\SchedulesModel();
+        $busModel = new \App\Models\BusModel();
+        $routesModel = new \App\Models\RoutesModel();
+        $stopPointModel = new \App\Models\StopPointModel();
+
+        $schedule = $scheduleModel->find($id);
+        $bus = $busModel->find($schedule['bus_id']);
+        $route = $routesModel->find($schedule['route_id']);
+        $stopPoints = $stopPointModel->where('schedule_id', $schedule['id'])->findAll();
+
+        $data = [
+            'title' => 'Quản lý lịch trình',
+            'current_user' => $this->getAdministrator(),
+            'schedule' => $schedule,
+            'bus' => $bus,
+            'route' => $route,
+            'stop_points' => $stopPoints,
+        ];
+
+        return view('backend/show-schedule/index.php', $data);
+    }
+
     public function create_schedule()
     {
         $busModel = new \App\Models\BusModel();
