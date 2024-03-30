@@ -11,6 +11,7 @@ class StopPointModel extends Model
         'schedule_id',
         'name',
         'arrival_time',
-        'sequence'
+        'sequence',
+        'is_lock'
     ];
 }
