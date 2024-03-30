@@ -253,4 +253,39 @@ class WebsiteAdmin extends BaseController
 
         return view('backend/create-schedule/index.php', $data);
     }
+
+    public function update_schedule($id)
+    {
+        $busModel = new \App\Models\BusModel();
+        $routesModel = new \App\Models\RoutesModel();
+        $scheduleModel = new \App\Models\SchedulesModel();
+        $stopPointModel = new \App\Models\StopPointModel();
+
+        helper(['form']);
+
+        $rules = [
+            'bus_id' => 'required',
+            'route_id' => 'required',
+            'departure_time' => 'required',
+            'arrival_time' => 'required',
+            'price' => 'required',
+        ];
+
+        $schedule = $scheduleModel->find($id);
+        $stopPoints = $stopPointModel->where('schedule_id', $schedule['id'])
+            ->orderBy('sequence', 'ASC')
+            ->findAll();
+
+        $data = [
+            'title' => 'Quản lý lịch trình',
+            'current_user' => $this->getAdministrator(),
+            'validation' => $this->validator,
+            'buses' => $busModel->findAll(),
+            'routes' => $routesModel->findAll(),
+            'schedule' => $schedule,
+            'stop_points' => $stopPoints,
+        ];
+
+        return view('backend/update-schedule/index.php', $data);
+    }
 }

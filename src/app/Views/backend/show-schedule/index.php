@@ -53,6 +53,17 @@
                         <h3 class="card-title">Lịch trình
                             <?= '[' . $schedule['id'] . ']' ?>
                         </h3>
+                        <div class="card-tools">
+                            <a class="btn btn-info btn-sm"
+                                href="<?= base_url() . "admin/manage-schedules/update-schedule/" . $schedule['id'] ?>">
+                                <i class="fas fa-pencil-alt"></i>
+                                Sửa
+                            </a>
+                            <a class="btn btn-danger btn-sm" href="#">
+                                <i class="fas fa-trash"></i>
+                                Xóa
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">

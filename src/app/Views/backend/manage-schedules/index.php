@@ -111,9 +111,17 @@
 										<td>
 											<?= $row->stop_points; ?>
 										</td>
-										<td align="center"><a
-												href="<?= base_url('admin/manage-schedules/' . $row->id) ?>"
-												class="btn btn btn-info">View</a></a>
+										<td align="center">
+											<a href="<?= base_url('admin/manage-schedules/' . $row->id) ?>"
+												class="btn btn-primary btn-sm">
+												<i class="fas fa-eye"></i>
+												Xem
+											</a>
+											<a class="btn btn-info btn-sm"
+												href="<?= base_url() . "admin/manage-schedules/update-schedule/" . $row->id ?>">
+												<i class="fas fa-pencil-alt"></i>
+												Sửa
+											</a>
 										</td>
 									</tr>
 									<?php
