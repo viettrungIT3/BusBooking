@@ -133,7 +133,9 @@ class WebsiteAdmin extends BaseController
         $schedule = $scheduleModel->find($id);
         $bus = $busModel->find($schedule['bus_id']);
         $route = $routesModel->find($schedule['route_id']);
-        $stopPoints = $stopPointModel->where('schedule_id', $schedule['id'])->findAll();
+        $stopPoints = $stopPointModel->where('schedule_id', $schedule['id'])
+            ->orderBy('sequence', 'ASC')
+            ->findAll();
 
         $data = [
             'title' => 'Quản lý lịch trình',
