@@ -229,6 +229,8 @@
 
         // run
         initializeDateTimePickers();
+        addStopPointEvent(); 
+        updateRowTableStopPoints()
 
         // Khởi tạo datetimepicker, nếu cần thiết
         // Bạn cần chắc chắn khởi tạo lại các datetimepicker sau khi thêm chúng vào DOM
@@ -339,70 +341,88 @@
             `;
 
             $('#container-stop-points').html(tableContent).show();
+            addStopPointEvent();
         }
 
         // Hàm thêm sự kiện cho nút "Thêm điểm dừng"
-        $('#add-stop-point').on('click', function () {
-            var rowCount = $('#container-stop-points table tbody tr').length;
-            // Tạo một hàng mới với số thứ tự là rowCount (vì điểm đến sẽ được dời xuống một vị trí)
-            var newRow = `
-                <tr>
-                    <td>${rowCount}</td>
-                    <td>
-                        <input type="text" class="form-control" name="points[${rowCount}][name]" placeholder="Điểm dừng ${rowCount}" aria-label="Điểm dừng ${rowCount}" required="">
-                    </td>
-                    <td>
-                        <div class="input-group date" id="arrival_time_points_${rowCount}" data-target-input="nearest">
-                            <input type="text" class="form-control datetimepicker-input" name="points[${rowCount}][time]" placeholder="Giờ đến" 
-                                data-target="#arrival_time_points_${rowCount}" required="" />
-                            <div class="input-group-append" data-target="#arrival_time_points_${rowCount}"
-                                data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        function addStopPointEvent() {
+            $('#add-stop-point').on('click', function () {
+                var rowCount = $('#container-stop-points table tbody tr').length;
+                // Tạo một hàng mới với số thứ tự là rowCount (vì điểm đến sẽ được dời xuống một vị trí)
+                var newRow = `
+                    <tr>
+                        <td>${rowCount}</td>
+                        <td>
+                            <input type="text" class="form-control" name="points[${rowCount}][name]" placeholder="Điểm dừng ${rowCount}" aria-label="Điểm dừng ${rowCount}" required="">
+                        </td>
+                        <td>
+                            <div class="input-group date" id="arrival_time_points_${rowCount}" data-target-input="nearest">
+                                <input type="text" class="form-control datetimepicker-input" name="points[${rowCount}][time]" placeholder="Giờ đến" 
+                                    data-target="#arrival_time_points_${rowCount}" required="" />
+                                <div class="input-group-append" data-target="#arrival_time_points_${rowCount}"
+                                    data-toggle="datetimepicker">
+                                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm delete-stop-point"><i class="fa fa-trash"></i></button>
-                    </td>
-                </tr>
-            `;
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm delete-stop-point"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
 
-            // Nếu không, chèn hàng mới ngay trước hàng cuối cùng
-            $(newRow).insertBefore($('#container-stop-points table tbody tr:last'));
+                // Nếu không, chèn hàng mới ngay trước hàng cuối cùng
+                $(newRow).insertBefore($('#container-stop-points table tbody tr:last'));
 
 
-            // Cập nhật lại số thứ tự của tất cả các hàng để phản ánh chính xác vị trí sau khi chèn
-            updateRowNumbers();
+                // Cập nhật lại tất cả các hàng để phản ánh chính xác vị trí sau khi chèn
+                updateRowTableStopPoints();
 
-            $('#arrival_time_points_' + rowCount).datetimepicker({
-                sideBySide: true,
-                format: 'YYYY-MM-DD HH:mm',
-                icons: { time: 'far fa-clock' }
+                $('#arrival_time_points_' + rowCount).datetimepicker({
+                    sideBySide: true,
+                    format: 'YYYY-MM-DD HH:mm',
+                    icons: { time: 'far fa-clock' }
+                });
             });
-        });
+        }
 
-        function updateRowNumbers() {
+        function updateRowTableStopPoints() {
+            // Cập nhật tên và ID cho các ô input và datetimepicker trong mỗi hàng
             $('#container-stop-points table tbody tr').each(function (index) {
+                // Cập nhật số thứ tự dòng
                 $(this).find('td:first').text(index + 1);
+
+                // Cập nhật thuộc tính name cho ô input điểm dừng
+                $(this).find('input[type="text"]').first().attr("name", `points[${index}][name]`);
+                $(this).find('input[type="text"]').last().attr("name", `points[${index}][time]`);
             });
         }
 
         // Sự kiện xóa hàng
         $('body').on('click', '.delete-stop-point', function () {
             $(this).closest('tr').remove();
-            updateRowNumbers();
+            updateRowTableStopPoints();
         });
 
-        // Khi lựa chọn xe thay đổi
+        // Khi lựa chọn route-select thay đổi
         $('#route-select').change(function () {
             var selectedOption = $.trim($(this).find('option:selected').text());
             var points = selectedOption.split(" ---> ");
             var startPoint = points.length > 0 ? points[0] : "";
             var endPoint = points.length > 1 ? points[1].split(' (')[0] : ""; // Cắt bỏ phần giá vé
+            var priceText = points.length > 1 ? points[1].split(' (')[1] : ""; // Lấy phần giá vé
+
+            // Làm sạch chuỗi giá vé để loại bỏ ký tự không mong muốn
+            // Ví dụ, chuyển "140.000VNĐ)" thành "140000"
+            var price = priceText.replace(/[^\d]/g, '');
 
             if ($(this).val() !== "") {
                 $('#container-time-and-price').empty();
                 renderTimeAndPriceContent(); // Render nội dung khi có một lựa chọn được chọn
+
+                // Cập nhật giá trị cho ô input giá vé
+                // Đảm bảo bạn có một input với id là 'price-input' trong hàm renderTimeAndPriceContent()
+                $('#price-input').val(price);
 
                 // Xóa nội dung hiện tại và tạo mới với điểm đi và điểm đến
                 $('#container-stop-points').empty();
@@ -412,6 +432,7 @@
                 $('#container-stop-points').hide();
             }
         });
+
 
         // Lắng nghe sự kiện thay đổi trên tất cả các input và select trong form
         $('input, select').change(function () {
