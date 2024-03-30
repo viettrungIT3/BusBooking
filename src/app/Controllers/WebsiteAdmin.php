@@ -67,7 +67,6 @@ class WebsiteAdmin extends BaseController
     public function dashboard_routes()
     {
         $routesModel = new \App\Models\RoutesModel();
-        $data['bus'] = $routesModel->findAll();
 
         $data = [
             'title' => 'Quản lý các tuyến đường',
@@ -121,5 +120,107 @@ class WebsiteAdmin extends BaseController
         // var_dump($data);
         // die();
         return view('backend/manage-schedules/index.php', $data);
+    }
+
+    public function create_schedule()
+    {
+        $busModel = new \App\Models\BusModel();
+        $routesModel = new \App\Models\RoutesModel();
+
+        helper(['form']);
+
+        $rules = [
+            'bus_id' => 'required',
+            'route_id' => 'required',
+            'departure_time' => 'required',
+            'arrival_time' => 'required',
+            'price' => 'required',
+        ];
+
+        if ($this->validate($rules)) {
+            $data_schedule = [
+                'bus_id' => $this->request->getVar('bus_id'),
+                'route_id' => $this->request->getVar('route_id'),
+                'departure_time' => $this->request->getVar('departure_time'),
+                'arrival_time' => $this->request->getVar('arrival_time'),
+                'price' => $this->request->getVar('price')
+            ];
+
+            $scheduleModel = new \App\Models\SchedulesModel();
+
+            $currentRoute = $routesModel->find($this->request->getVar('route_id'));
+
+            try {
+                // Thêm dữ liệu vào database
+                $insertedID = $scheduleModel->insert($data_schedule);
+
+                // Kiểm tra xem dữ liệu có được thêm thành công không
+                if ($insertedID) {
+
+                    $stopPointModel = new \App\Models\StopPointModel();
+                    $indexStopPoint = 1;
+
+                    try {
+                        // Thêm các điểm đến tuyến đường
+
+                        $data_stop_point = [
+                            'schedule_id' => $insertedID,
+                            'name' => $currentRoute['origin'],
+                            'arrival_time' => $this->request->getVar('departure_time'),
+                            'sequence' => $indexStopPoint
+                        ];
+                        $stopPointModel->insert($data_stop_point);
+                        $indexStopPoint++;
+
+                        foreach ($this->request->getVar('points[]') as $point) {
+                            if ($point['name'] != $currentRoute['origin'] && $point['name'] != $currentRoute['destination']) {
+                                $data_stop_point = [
+                                    'schedule_id' => $insertedID,
+                                    'name' => $point['name'],
+                                    'arrival_time' => $point['time'],
+                                    'sequence' => $indexStopPoint
+                                ];
+                                $stopPointModel->insert($data_stop_point);
+                                $indexStopPoint++;
+                            }
+                        }
+
+
+                        $data_stop_point = [
+                            'schedule_id' => $insertedID,
+                            'name' => $currentRoute['destination'],
+                            'arrival_time' => $this->request->getVar('arrival_time'),
+                            'sequence' => $indexStopPoint
+                        ];
+                        $stopPointModel->insert($data_stop_point);
+                        $indexStopPoint++;
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    }
+
+
+                    // Nếu thêm thành công, chuyển hướng đến trang manage-schedules
+                    return redirect()->to('/admin/manage-schedules')->with('success', 'Thêm mới thành công');
+                } else {
+                    // Nếu thêm thất bại, bạn có thể chuyển hướng người dùng đến trang báo lỗi hoặc hiển thị thông báo lỗi
+                    // Ví dụ: hiển thị thông báo lỗi và giữ người dùng ở trang form hiện tại
+                    session()->setFlashdata('error', 'Có lỗi xảy ra khi thêm lịch trình. Vui lòng thử lại.');
+                    return redirect()->back()->withInput();
+                }
+            } catch (\Exception $e) {
+                return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+            }
+        }
+
+
+        $data = [
+            'title' => 'Quản lý lịch trình',
+            'current_user' => $this->getAdministrator(),
+            'validation' => $this->validator,
+            'buses' => $busModel->findAll(),
+            'routes' => $routesModel->findAll(),
+        ];
+
+        return view('backend/create-schedule/index.php', $data);
     }
 }
