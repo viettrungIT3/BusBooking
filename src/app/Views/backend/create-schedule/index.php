@@ -96,7 +96,7 @@
                                     <a class="btn btn-danger" href="javascript:history.back()">
                                         Quay lại
                                     </a>
-                                    <button type="submit" class="btn btn-success float-right">
+                                    <button type="submit" class="btn btn-success float-right" disabled>
                                         Thêm lịch trình
                                     </button>
                                 </div>
@@ -266,8 +266,8 @@
                 $(newRow).insertBefore($('#container-stop-points table tbody tr:last'));
 
 
-                // Cập nhật lại số thứ tự của tất cả các hàng để phản ánh chính xác vị trí sau khi chèn
-                updateRowNumbers();
+                // Cập nhật lại tất cả các hàng để phản ánh chính xác vị trí sau khi chèn
+                updateRowTableStopPoints();
 
                 $('#arrival_time_points_' + rowCount).datetimepicker({
                     sideBySide: true,
@@ -277,28 +277,44 @@
             });
         }
 
-        function updateRowNumbers() {
+
+        function updateRowTableStopPoints() {
+            // Cập nhật tên và ID cho các ô input và datetimepicker trong mỗi hàng
             $('#container-stop-points table tbody tr').each(function (index) {
+                // Cập nhật số thứ tự dòng
                 $(this).find('td:first').text(index + 1);
+
+                // Cập nhật thuộc tính name cho ô input điểm dừng
+                $(this).find('input[type="text"]').first().attr("name", `points[${index}][name]`);
+                $(this).find('input[type="text"]').last().attr("name", `points[${index}][time]`);
             });
         }
 
         // Sự kiện xóa hàng
         $('body').on('click', '.delete-stop-point', function () {
             $(this).closest('tr').remove();
-            updateRowNumbers();
+            updateRowTableStopPoints();
         });
 
-        // Khi lựa chọn xe thay đổi
+        // Khi lựa chọn route-select thay đổi
         $('#route-select').change(function () {
             var selectedOption = $.trim($(this).find('option:selected').text());
             var points = selectedOption.split(" ---> ");
             var startPoint = points.length > 0 ? points[0] : "";
             var endPoint = points.length > 1 ? points[1].split(' (')[0] : ""; // Cắt bỏ phần giá vé
+            var priceText = points.length > 1 ? points[1].split(' (')[1] : ""; // Lấy phần giá vé
+
+            // Làm sạch chuỗi giá vé để loại bỏ ký tự không mong muốn
+            // Ví dụ, chuyển "140.000VNĐ)" thành "140000"
+            var price = priceText.replace(/[^\d]/g, '');
 
             if ($(this).val() !== "") {
                 $('#container-time-and-price').empty();
                 renderTimeAndPriceContent(); // Render nội dung khi có một lựa chọn được chọn
+
+                // Cập nhật giá trị cho ô input giá vé
+                // Đảm bảo bạn có một input với id là 'price-input' trong hàm renderTimeAndPriceContent()
+                $('#price-input').val(price);
 
                 // Xóa nội dung hiện tại và tạo mới với điểm đi và điểm đến
                 $('#container-stop-points').empty();
@@ -307,8 +323,13 @@
                 $('#container-time-and-price').hide(); // Ẩn nếu không có lựa chọn nào
                 $('#container-stop-points').hide();
             }
+        });
 
-            console.log($('#arrival_time input').val());
+
+        // Lắng nghe sự kiện thay đổi trên tất cả các input và select trong form
+        $('input, select').change(function () {
+            // Khi có một thay đổi, bỏ trạng thái disabled của nút submit
+            $('button[type="submit"]').prop('disabled', false);
         });
     });
 
