@@ -120,7 +120,6 @@
                                                 <th style="width: 10px">#</th>
                                                 <th>Điểm dừng</th>
                                                 <th>Giờ đến</th>
-                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -138,18 +137,6 @@
                                                     </td>
                                                     <td>
                                                         <?= date('Y-m-d H:i', strtotime($schedule['arrival_time'])); ?>
-                                                    </td>
-                                                    <td align="center">
-                                                        <?php if (!$row->is_lock): ?>
-                                                            <a class="btn btn-info btn-sm" href="#">
-                                                                <i class="fas fa-pencil-alt"></i>
-                                                                Sửa
-                                                            </a>
-                                                            <a class="btn btn-danger btn-sm" href="#">
-                                                                <i class="fas fa-trash"></i>
-                                                                Xóa
-                                                            </a>
-                                                        <?php endif; ?>
                                                     </td>
                                                 </tr>
                                                 <?php
