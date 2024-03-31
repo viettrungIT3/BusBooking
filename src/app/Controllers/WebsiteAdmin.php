@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use CodeIgniter\I18n\Time;
+
 class WebsiteAdmin extends BaseController
 {
     public function index(): string
@@ -409,6 +411,116 @@ class WebsiteAdmin extends BaseController
             // Xóa thành công
             return redirect()->to('/admin/manage-schedules')->with('success', 'Lịch trình đã được xóa thành công.');
         }
+    }
+
+    public function copySchedule()
+    {
+        $scheduleId = $this->request->getPost('scheduleId');
+        $dateRange = $this->request->getPost('dateRange'); // Lấy khoảng thời gian từ form
+
+        if ($scheduleId == null || $dateRange == null) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Vui lòng chọn lịch trình và khoảng thời gian để sao chép.');
+        }
+
+        // Kiểm tra định dạng của $dateRange
+        if (!preg_match('/^\d{4}-\d{2}-\d{2} - \d{4}-\d{2}-\d{2}$/', (string) $dateRange)) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Định dạng khoảng thời gian không hợp lệ. Định dạng yêu cầu: YYYY-MM-DD - YYYY-MM-DD');
+        }
+
+        list($startDate, $endDate) = explode(' - ', (string) $dateRange); // Tách chuỗi để lấy ngày bắt đầu và kết thúc
+
+        // Đảm bảo ngày bắt đầu và ngày kết thúc là hợp lệ
+        $startDate = strtotime($startDate);
+        $endDate = strtotime($endDate);
+        if (!$startDate || !$endDate || $endDate < $startDate) {
+            return redirect()->back()->withInput()
+                ->with('error', 'Khoảng thời gian không hợp lệ.');
+        }
+
+        $scheduleModel = new \App\Models\SchedulesModel();
+        $schedule = $scheduleModel->find($scheduleId);
+
+        if (!$schedule) {
+            // Nếu không tìm thấy lịch trình
+            return redirect()->back()
+                ->with('error', 'Không tìm thấy lịch trình với ID: ' . $scheduleId);
+        }
+
+        $stopPointModel = new \App\Models\StopPointModel();
+        $stopPoints = $stopPointModel->where('schedule_id', $scheduleId)->findAll();
+
+        if (empty($stopPoints)) {
+            // Nếu không tìm thấy điểm dừng nào
+            return redirect()->back()
+                ->with('error', 'Không có điểm dừng nào cho lịch trình với ID: ' . $scheduleId);
+        }
+
+        // Khởi tạo 
+        $departureDateTime = new Time($schedule['departure_time']);
+        $departureDate = Time::parse($departureDateTime->format('Y-m-d'), 'UTC');
+        $startDate = new Time('@' . $startDate);
+        $endDate = new Time('@' . $endDate);
+
+        // Sử dụng vòng lặp để hiển thị sự chênh lệch từng ngày
+        for ($date = $startDate; $date->isBefore($endDate) || $date->equals($endDate); $date = $date->addDays(1)) {
+            // Sử dụng format('Y-m-d') để lấy ngày và bỏ qua thời gian
+            $currentDate = Time::parse($date->format('Y-m-d'), 'UTC');
+
+            $daysDifference = $departureDate->difference($currentDate)->getDays();
+
+            if (!$this->cloneScheduleWithDayDiff($schedule, $stopPoints, $daysDifference)) {
+                return redirect()->back()->withInput()
+                    ->with('error', 'Không thể sao chép lịch trình. Vui lòng thử lại.');
+            }
+        }
+
+        return redirect()->to('/admin/manage-schedules')
+            ->with('success', "Bản sao lịch trình đã được tạo thành công. Lịch trình ID: {$scheduleId} từ {$startDate->format('Y-m-d')} đến {$endDate->format('Y-m-d')}.");
+    }
+
+    public function cloneScheduleWithDayDiff($schedule, $stopPoints, $daysDifference)
+    {
+        $scheduleModel = new \App\Models\SchedulesModel();
+        $stopPointModel = new \App\Models\StopPointModel();
+
+        // Tạo bản sao của schedule
+        $newScheduleData = [
+            'bus_id' => $schedule['bus_id'],
+            'route_id' => $schedule['route_id'],
+            // Thêm số ngày chênh lệch vào departure_time và arrival_time
+            'departure_time' => (new Time($schedule['departure_time']))->addDays($daysDifference)->toDateTimeString(),
+            'arrival_time' => (new Time($schedule['arrival_time']))->addDays($daysDifference)->toDateTimeString(),
+            'price' => $schedule['price'],
+        ];
+        $newScheduleId = $scheduleModel->insert($newScheduleData);
+
+        if (!$newScheduleId) {
+            // Nếu việc tạo bản sao lịch trình thất bại
+            return false;
+        }
+
+        // Kiểm tra và tạo bản sao của các stopPoints cho schedule mới
+        foreach ($stopPoints as $stopPoint) {
+            $newStopPointData = [
+                'schedule_id' => $newScheduleId,
+                'name' => $stopPoint['name'],
+                // Thêm số ngày chênh lệch vào arrival_time
+                'arrival_time' => (new Time($stopPoint['arrival_time']))->addDays($daysDifference)->toDateTimeString(),
+                'sequence' => $stopPoint['sequence'],
+                'is_lock' => $stopPoint['is_lock'],
+            ];
+            $inserted = $stopPointModel->insert($newStopPointData);
+
+            if (!$inserted) {
+                // Nếu bất kỳ việc tạo bản sao điểm dừng nào thất bại
+                return false;
+            }
+        }
+
+        // Nếu tất cả các bản sao được tạo thành công
+        return true;
     }
 
 

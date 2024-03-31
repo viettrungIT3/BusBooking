@@ -33,4 +33,5 @@ $routes->group('admin', ['filter' => 'sessionLogin'], static function ($routes) 
     $routes->get('manage-schedules/update-schedule/(:segment)', 'WebsiteAdmin::update_schedule/$1');
     $routes->post('manage-schedules/update-schedule/(:segment)', 'WebsiteAdmin::update_schedule/$1');
     $routes->get('manage-schedules/delete-schedule/(:num)', 'WebsiteAdmin::deleteSchedule/$1');
+    $routes->post('manage-schedules/copy-schedule', 'WebsiteAdmin::copySchedule');
 });
