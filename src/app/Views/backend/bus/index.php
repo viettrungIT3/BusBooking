@@ -34,7 +34,7 @@
 			<!-- Log on to codeastro.com for more projects -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<a href="<?= base_url('admin/manage-bus/create-bus') ?>" type="button"
+					<a href="<?= base_url('admin/bus/create') ?>" type="button"
 						class="btn btn-success pull-right">
 						Thêm xe
 					</a>
@@ -80,7 +80,7 @@
 											<td class="btn-danger">Khóa</td>
 										<?php } ?>
 										<td align="center"><a
-												href="<?= base_url('admin/manage-bus/view-bus/' . $row['id']) ?>"
+												href="<?= base_url('admin/bus/view-bus/' . $row['id']) ?>"
 												class="btn btn btn-info">View</a></a>
 										</td>
 									</tr>

@@ -35,7 +35,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/admin/manage-bus" class="nav-link">
+          <a href="/admin/bus" class="nav-link">
             <i class="nav-icon fas fa fa-bus"></i>
             <p>
               Quản lý xe buýt
@@ -43,7 +43,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/admin/manage-routes" class="nav-link">
+          <a href="/admin/routes" class="nav-link">
             <i class="nav-icon fas fa fa-compass"></i>
             <p>
               Quản lý các tuyến đường
@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/admin/manage-schedules" class="nav-link">
+          <a href="/admin/schedules" class="nav-link">
             <i class="nav-icon fas fa fa-clipboard-list"></i>
             <p>
               Quản lý lịch trình

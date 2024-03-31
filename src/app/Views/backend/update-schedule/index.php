@@ -62,7 +62,7 @@
 
             <div class="col-12">
                 <div class="card">
-                    <form action="<?= base_url() ?>admin/manage-schedules/update-schedule/<?= $schedule['id'] ?>"
+                    <form action="<?= base_url() ?>admin/schedules/update/<?= $schedule['id'] ?>"
                         method="post">
                         <div class="card-header">
                             <h2 class="card-title">

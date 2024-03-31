@@ -97,7 +97,7 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<form action="<?= base_url() ?>admin/manage-routes/create-route" method="post">
+				<form action="<?= base_url() ?>admin/routes/create" method="post">
 					<div class="form-group">
 						<div class="form-label-group">
 							<input type="text" id="origin" name="origin" class="form-control" placeholder="Điểm đi"

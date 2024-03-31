@@ -41,7 +41,7 @@ class BusController extends BaseController
             ];
             try {
                 $busModel->save($data);
-                return redirect()->to('/admin/manage-bus')->with('success', 'Thêm mới thành công');
+                return redirect()->to('/admin/bus')->with('success', 'Thêm mới thành công');
             } catch (\Exception $e) {
                 return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
             }

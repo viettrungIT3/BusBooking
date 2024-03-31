@@ -167,7 +167,7 @@ class ScheduleController extends BaseController
 
 
                     // Nếu thêm thành công, chuyển hướng đến trang manage-schedules
-                    return redirect()->to('/admin/manage-schedules')->with('success', 'Thêm mới thành công');
+                    return redirect()->to('/admin/schedules')->with('success', 'Thêm mới thành công');
                 } else {
                     // Nếu thêm thất bại, bạn có thể chuyển hướng người dùng đến trang báo lỗi hoặc hiển thị thông báo lỗi
                     // Ví dụ: hiển thị thông báo lỗi và giữ người dùng ở trang form hiện tại
@@ -279,7 +279,7 @@ class ScheduleController extends BaseController
                 }
 
                 // Nếu thêm thành công, chuyển hướng đến trang manage-schedules
-                return redirect()->to('/admin/manage-schedules')->with('success', 'Cập nhật thành công');
+                return redirect()->to('/admin/schedules')->with('success', 'Cập nhật thành công');
 
             } catch (\Exception $e) {
                 return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
@@ -304,23 +304,21 @@ class ScheduleController extends BaseController
         $scheduleModel = new \App\Models\SchedulesModel();
         $stopPointModel = new \App\Models\StopPointModel();
 
-        $db = \Config\Database::connect(); // Kết nối đến database
-        $db->transStart(); // Bắt đầu transaction
+        $db = \Config\Database::connect();
+        $db->transStart();
 
-        // Xóa các điểm dừng trước
         $stopPointModel->where('schedule_id', $id)->delete();
-
-        // Xóa lịch trình
         $deleteResult = $scheduleModel->delete($id);
 
-        $db->transComplete(); // Hoàn thành transaction
+        $db->transComplete();
+
+        // Lấy URL hiện tại cùng với các query parameters
+        $currentUrlWithQueries = previous_url(); // Lấy URL trước đó (nơi người dùng click vào 'Xóa')
 
         if ($db->transStatus() === false || !$deleteResult) {
-            // Xóa thất bại hoặc lịch trình không tồn tại
-            return redirect()->back()->with('error', 'Không thể xóa lịch trình.');
+            return redirect()->to($currentUrlWithQueries)->with('error', "Không thể xóa lịch trình có ID: $id.");
         } else {
-            // Xóa thành công
-            return redirect()->to('/admin/manage-schedules')->with('success', 'Lịch trình đã được xóa thành công.');
+            return redirect()->to($currentUrlWithQueries)->with('success', "Lịch trình có ID: $id đã được xóa thành công.");
         }
     }
 
@@ -387,7 +385,7 @@ class ScheduleController extends BaseController
             }
         }
 
-        return redirect()->to('/admin/manage-schedules')
+        return redirect()->to('/admin/schedules')
             ->with('success', "Bản sao lịch trình đã được tạo thành công. Lịch trình ID: {$scheduleId} từ {$startDate->format('Y-m-d')} đến {$endDate->format('Y-m-d')}.");
     }
 

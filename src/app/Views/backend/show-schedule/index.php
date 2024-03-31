@@ -63,12 +63,12 @@
                                 <i class="fas fa-copy"></i>
                                 Nhân bản
                             </a>
-                            <a href="<?= base_url("admin/manage-schedules/update-schedule/" . $schedule['id']) ?>"
+                            <a href="<?= base_url("admin/schedules/update/" . $schedule['id']) ?>"
                                 class="btn btn-info btn-sm" title="Sửa">
                                 <i class="fas fa-pencil-alt"></i>
                                 Sửa
                             </a>
-                            <a href="<?= base_url("admin/manage-schedules/delete-schedule/" . $schedule['id']) ?>"
+                            <a href="<?= base_url("admin/schedules/delete/" . $schedule['id']) ?>"
                                 class="btn btn-danger btn-sm" title="Xóa">
                                 <i class="fas fa-trash"></i>
                                 Xóa
@@ -174,7 +174,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form id="copyScheduleForm" action="<?= base_url('admin/manage-schedules/copy-schedule') ?>" method="post">
+            <form id="copyScheduleForm" action="<?= base_url('admin/schedules/clones') ?>" method="post">
                 <div class="modal-body">
                     <div class="callout callout-info">
                         <h5><i class="fas fa-info"></i> Lưu ý:</h5>

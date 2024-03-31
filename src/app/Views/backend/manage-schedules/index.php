@@ -119,7 +119,7 @@
 
 					</h2>
 					<div class="card-tools">
-						<a href="<?= base_url('/admin/manage-schedules/create-schedule') ?>" type="button"
+						<a href="<?= base_url('/admin/schedules/create') ?>" type="button"
 							class="btn btn-success pull-right">
 							Thêm lịch trình
 						</a>
@@ -171,17 +171,17 @@
 											<?= $row->stop_points; ?>
 										</td>
 										<td class="text-center">
-											<a href="<?= base_url('admin/manage-schedules/show-schedule/' . $row->id) ?>"
+											<a href="<?= base_url('admin/schedules/show/' . $row->id) ?>"
 												class="btn btn-primary btn-sm mb-1" title="Xem">
 												<i class="fas fa-eye"></i>
 												<span class="text-xxl-visible">Xem</span>
 											</a>
-											<a href="<?= base_url("admin/manage-schedules/update-schedule/" . $row->id) ?>"
+											<a href="<?= base_url("admin/schedules/update/" . $row->id) ?>"
 												class="btn btn-info btn-sm mb-1" title="Sửa">
 												<i class="fas fa-pencil-alt"></i>
 												<span class="text-xxl-visible">Sửa</span>
 											</a>
-											<a href="<?= base_url("admin/manage-schedules/delete-schedule/" . $row->id) ?>"
+											<a href="<?= base_url("admin/schedules/delete/" . $row->id) ?>"
 												class="btn btn-danger btn-sm mb-1" title="Xóa">
 												<i class="fas fa-trash"></i>
 												<span class="text-xxl-visible">Xóa</span>
@@ -218,7 +218,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form id="copyScheduleForm" action="<?= base_url('admin/manage-schedules/copy-schedule') ?>" method="post">
+			<form id="copyScheduleForm" action="<?= base_url('admin/schedules/clones') ?>" method="post">
 				<div class="modal-body">
 					<div class="callout callout-info">
 						<h5><i class="fas fa-info"></i> Lưu ý:</h5>

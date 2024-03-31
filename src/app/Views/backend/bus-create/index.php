@@ -20,7 +20,7 @@
     </div>
 
     <section class="content">
-        <form action="<?= base_url() ?>admin/manage-bus/create-bus" method="post">
+        <form action="<?= base_url() ?>admin/bus/create" method="post">
             <div class="row">
                 <!-- Hiển thị thông báo lỗi nếu có -->
                 <?php if (isset ($validation)): ?>

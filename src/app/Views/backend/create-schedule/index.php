@@ -52,7 +52,7 @@
 
             <div class="col-12">
                 <div class="card">
-                    <form action="<?= base_url() ?>admin/manage-schedules/create-schedule" method="post">
+                    <form action="<?= base_url() ?>admin/schedules/create" method="post">
                         <div class="card-header">
                             <h3 class="card-title">Thêm lịch trình</h3>
                         </div>
