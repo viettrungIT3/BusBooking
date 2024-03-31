@@ -122,7 +122,8 @@
 												<i class="fas fa-pencil-alt"></i>
 												<span class="text-xxl-visible">Sửa</span>
 											</a>
-											<a class="btn btn-danger btn-sm" href="#" title="Xóa">
+											<a href="<?= base_url("admin/manage-schedules/delete-schedule/" . $row->id) ?>"
+												class="btn btn-danger btn-sm" title="Xóa">
 												<i class="fas fa-trash"></i>
 												<span class="text-xxl-visible">Xóa</span>
 											</a>

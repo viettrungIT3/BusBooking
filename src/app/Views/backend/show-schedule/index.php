@@ -54,12 +54,13 @@
                             <?= '[' . $schedule['id'] . ']' ?>
                         </h3>
                         <div class="card-tools">
-                            <a class="btn btn-info btn-sm"
-                                href="<?= base_url() . "admin/manage-schedules/update-schedule/" . $schedule['id'] ?>">
+                            <a href="<?= base_url("admin/manage-schedules/update-schedule/" . $schedule['id']) ?>"
+                                class="btn btn-info btn-sm" title="Sửa">
                                 <i class="fas fa-pencil-alt"></i>
                                 Sửa
                             </a>
-                            <a class="btn btn-danger btn-sm" href="#">
+                            <a href="<?= base_url("admin/manage-schedules/delete-schedule/" . $schedule['id']) ?>"
+                                class="btn btn-danger btn-sm" title="Xóa">
                                 <i class="fas fa-trash"></i>
                                 Xóa
                             </a>

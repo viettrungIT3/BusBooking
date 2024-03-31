@@ -175,7 +175,7 @@ class WebsiteAdmin extends BaseController
 
             $scheduleModel = new \App\Models\SchedulesModel();
 
-            
+
             try {
                 // Thêm dữ liệu vào database
                 $scheduleModel->insert($data_schedule);
@@ -184,9 +184,9 @@ class WebsiteAdmin extends BaseController
 
                 // Kiểm tra xem dữ liệu có được thêm thành công không
                 if ($insertedID > 0) {
-                    
+
                     $stopPointModel = new \App\Models\StopPointModel();
-                    
+
                     // Thêm các điểm đến tuyến đường
                     $indexStopPoint = 1;
                     try {
@@ -367,4 +367,31 @@ class WebsiteAdmin extends BaseController
 
         return view('backend/update-schedule/index.php', $data);
     }
+
+    public function deleteSchedule($id)
+    {
+        $scheduleModel = new \App\Models\SchedulesModel();
+        $stopPointModel = new \App\Models\StopPointModel();
+
+        $db = \Config\Database::connect(); // Kết nối đến database
+        $db->transStart(); // Bắt đầu transaction
+
+        // Xóa các điểm dừng trước
+        $stopPointModel->where('schedule_id', $id)->delete();
+
+        // Xóa lịch trình
+        $deleteResult = $scheduleModel->delete($id);
+
+        $db->transComplete(); // Hoàn thành transaction
+
+        if ($db->transStatus() === false || !$deleteResult) {
+            // Xóa thất bại hoặc lịch trình không tồn tại
+            return redirect()->back()->with('error', 'Không thể xóa lịch trình.');
+        } else {
+            // Xóa thành công
+            return redirect()->to('/admin/manage-schedules')->with('success', 'Lịch trình đã được xóa thành công.');
+        }
+    }
+
+
 }
