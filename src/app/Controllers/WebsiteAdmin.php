@@ -95,20 +95,41 @@ class WebsiteAdmin extends BaseController
         }
     }
 
-
     public function dashboard_schedules()
     {
+        $request = \Config\Services::request(); // Lấy service request
         $db = \Config\Database::connect();
-        $builder = $db->table('schedules AS s'); // Khởi tạo query builder với bảng 'schedules'
+        $builder = $db->table('schedules AS s');
+
+        // Khởi tạo query builder
         $builder->select('s.id, s.departure_time, s.arrival_time, s.price, 
                           b.name AS bus_name, r.origin, r.destination, r.listed_price, 
-                          GROUP_CONCAT(sp.name ORDER BY sp.sequence SEPARATOR ", ") AS stop_points',
-            false
-        ); // False để cho phép sử dụng hàm trong câu lệnh SELECT
-        $builder->join('buses AS b', 's.bus_id = b.id'); // Thêm join với bảng 'buses'
-        $builder->join('routes AS r', 's.route_id = r.id'); // Thêm join với bảng 'routes'
-        $builder->join('stop_points AS sp', 's.id = sp.schedule_id', 'left'); // Thêm left join với bảng 'stop_points'
-        $builder->groupBy('s.id, s.departure_time, s.arrival_time, s.price, b.name, r.origin, r.destination, r.listed_price'); // Nhóm kết quả theo schedule
+                          GROUP_CONCAT(sp.name ORDER BY sp.sequence SEPARATOR ", ") AS stop_points', false);
+
+        $builder->join('buses AS b', 's.bus_id = b.id');
+        $builder->join('routes AS r', 's.route_id = r.id');
+        $builder->join('stop_points AS sp', 's.id = sp.schedule_id', 'left');
+        $builder->groupBy('s.id, s.departure_time, s.arrival_time, s.price, b.name, r.origin, r.destination, r.listed_price');
+
+        // Kiểm tra và lấy giá trị từ URL, hoặc gán mặc định là ngày hiện tại
+        $startDate = $request->getGet('startDate') ? new \DateTime($request->getGet('startDate')) : new \DateTime();
+        $endDate = $request->getGet('endDate') ? new \DateTime($request->getGet('endDate')) : new \DateTime();
+
+        // Format lại để phù hợp với định dạng trong database
+        $startDateFormatted = $startDate->format('Y-m-d');
+        $endDateFormatted = $endDate->format('Y-m-d');
+
+        // Lọc dữ liệu dựa trên khoảng thời gian từ startDate đến endDate
+        // startDate <= departure_time <= endDate HOẶC startDate <= arrival_time <= endDate
+        $builder->groupStart(); // Bắt đầu nhóm điều kiện
+        $builder->where('DATE(s.departure_time) >=', $startDateFormatted);
+        $builder->where('DATE(s.departure_time) <=', $endDateFormatted);
+        $builder->groupEnd(); // Kết thúc nhóm điều kiện
+
+        $builder->orGroupStart(); // Bắt đầu nhóm điều kiện OR
+        $builder->where('DATE(s.arrival_time) >=', $startDateFormatted);
+        $builder->where('DATE(s.arrival_time) <=', $endDateFormatted);
+        $builder->groupEnd(); // Kết thúc nhóm điều kiện OR
 
         $data = [
             'title' => 'Quản lý lịch trình',
@@ -116,9 +137,6 @@ class WebsiteAdmin extends BaseController
             'schedules' => $builder->get()->getResult() ?? [],
         ];
 
-        // echo '<pre>';
-        // var_dump($data);
-        // die();
         return view('backend/manage-schedules/index.php', $data);
     }
 
