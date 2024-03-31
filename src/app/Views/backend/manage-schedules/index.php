@@ -111,16 +111,20 @@
 										<td>
 											<?= $row->stop_points; ?>
 										</td>
-										<td align="center">
+										<td class="center text-nowrap">
 											<a href="<?= base_url('admin/manage-schedules/show-schedule/' . $row->id) ?>"
-												class="btn btn-primary btn-sm">
+												class="btn btn-primary btn-sm" title="Xem">
 												<i class="fas fa-eye"></i>
-												Xem
+												<span class="text-xxl-visible">Xem</span>
 											</a>
-											<a class="btn btn-info btn-sm"
-												href="<?= base_url() . "admin/manage-schedules/update-schedule/" . $row->id ?>">
+											<a href="<?= base_url("admin/manage-schedules/update-schedule/" . $row->id) ?>"
+												class="btn btn-info btn-sm" title="Sửa">
 												<i class="fas fa-pencil-alt"></i>
-												Sửa
+												<span class="text-xxl-visible">Sửa</span>
+											</a>
+											<a class="btn btn-danger btn-sm" href="#" title="Xóa">
+												<i class="fas fa-trash"></i>
+												<span class="text-xxl-visible">Xóa</span>
 											</a>
 										</td>
 									</tr>
