@@ -17,21 +17,25 @@ $routes->get('/checkout', 'WebsiteBus::checkout');
 $routes->get('/checkout/info', 'WebsiteBus::checkout_info');
 $routes->get('/checkout/cancel', 'WebsiteBus::checkout_cancel');
 
-$routes->group('admin', ['filter' => 'sessionLogin'], static function ($routes) {
-    $routes->get('', 'WebsiteAdmin::index');
-    $routes->get('dashboard', 'WebsiteAdmin::index');
-    $routes->get('manage-bus', 'WebsiteAdmin::bus');
-    $routes->get('manage-bus/create-bus', 'WebsiteAdmin::create_bus');
-    $routes->post('manage-bus/create-bus', 'WebsiteAdmin::create_bus');
-    $routes->get('manage-bus/view-bus/(:num)', 'WebsiteAdmin::view_bus');
-    $routes->get('manage-routes', 'WebsiteAdmin::dashboard_routes');
-    $routes->post('manage-routes/create-route', 'WebsiteAdmin::create_route');
-    $routes->get('manage-schedules', 'WebsiteAdmin::dashboard_schedules');
-    $routes->get('manage-schedules/show-schedule/(:segment)', 'WebsiteAdmin::show_schedule/$1');
-    $routes->get('manage-schedules/create-schedule', 'WebsiteAdmin::create_schedule');
-    $routes->post('manage-schedules/create-schedule', 'WebsiteAdmin::create_schedule');
-    $routes->get('manage-schedules/update-schedule/(:segment)', 'WebsiteAdmin::update_schedule/$1');
-    $routes->post('manage-schedules/update-schedule/(:segment)', 'WebsiteAdmin::update_schedule/$1');
-    $routes->get('manage-schedules/delete-schedule/(:num)', 'WebsiteAdmin::deleteSchedule/$1');
-    $routes->post('manage-schedules/copy-schedule', 'WebsiteAdmin::copySchedule');
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'sessionLogin'], static function ($routes) {
+    // Dashboard
+    $routes->get('', 'DashboardController::index');
+    $routes->get('dashboard', 'DashboardController::index');
+
+    // Quản lý xe buýt
+    $routes->get('bus', 'BusController::index');
+    $routes->match(['get', 'post'], 'bus/create', 'BusController::create');
+    $routes->get('bus/view/(:num)', 'BusController::view/$1');
+
+    // Quản lý tuyến đường
+    $routes->get('routes', 'RouteController::index');
+    $routes->post('routes/create', 'RouteController::create');
+
+    // Quản lý lịch trình
+    $routes->get('schedules', 'ScheduleController::index');
+    $routes->get('schedules/show/(:segment)', 'ScheduleController::show/$1');
+    $routes->match(['get', 'post'], 'schedules/create', 'ScheduleController::create');
+    $routes->match(['get', 'post'], 'schedules/update/(:segment)', 'ScheduleController::update/$1');
+    $routes->get('schedules/delete/(:num)', 'ScheduleController::delete/$1');
+    $routes->post('schedules/copy', 'ScheduleController::copy');
 });
