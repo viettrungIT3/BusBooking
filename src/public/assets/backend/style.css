@@ -1,0 +1,47 @@
+/* ------------------------------------------------------------------------- */
+/* CSS chỉ để hiển thị nội dung dựa trên kích thước màn hình */
+/* Mặc định ẩn nội dung cho tất cả các class .text-<tiền tố>-visible */
+.text-sm-visible,
+.text-md-visible,
+.text-lg-visible,
+.text-xl-visible,
+.text-xxl-visible {
+    display: none;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+    .text-sm-visible {
+        display: block;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    .text-md-visible {
+        display: block;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    .text-lg-visible {
+        display: block;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+    .text-xl-visible {
+        display: block;
+    }
+}
+
+/* Extra extra large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+    .text-xxl-visible {
+        display: block;
+    }
+}
+
+/* ------------------------------------------------------------------------- */

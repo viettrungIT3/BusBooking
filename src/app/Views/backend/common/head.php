@@ -15,6 +15,8 @@ function get_adminLTE_url($path = '')
 <link rel="stylesheet" href="<?php echo get_adminLTE_url(); ?>plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
 <!-- Theme AdminLTE-3 style -->
 <link rel="stylesheet" href="<?php echo get_adminLTE_url(); ?>dist/css/adminlte.min.css">
+<!-- Css style.css -->
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/backend/style.css">
 
 
 <!-- REQUIRED SCRIPTS -->
