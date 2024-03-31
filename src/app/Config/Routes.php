@@ -27,7 +27,7 @@ $routes->group('admin', ['filter' => 'sessionLogin'], static function ($routes) 
     $routes->get('manage-routes', 'WebsiteAdmin::dashboard_routes');
     $routes->post('manage-routes/create-route', 'WebsiteAdmin::create_route');
     $routes->get('manage-schedules', 'WebsiteAdmin::dashboard_schedules');
-    $routes->get('manage-schedules/(:segment)', 'WebsiteAdmin::show_schedule/$1');
+    $routes->get('manage-schedules/show-schedule/(:segment)', 'WebsiteAdmin::show_schedule/$1');
     $routes->get('manage-schedules/create-schedule', 'WebsiteAdmin::create_schedule');
     $routes->post('manage-schedules/create-schedule', 'WebsiteAdmin::create_schedule');
     $routes->get('manage-schedules/update-schedule/(:segment)', 'WebsiteAdmin::update_schedule/$1');
