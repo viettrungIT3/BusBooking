@@ -3,6 +3,8 @@
 <?= $this->section('content') ?>
 
 <!-- css -->
+<!-- Include Date Range Picker -->
+<link rel="stylesheet" href="<?php echo base_url('plugins/daterangepicker/daterangepicker.css') ?>">
 
 <div class="content-wrapper">
     <div class="content-header">
@@ -54,6 +56,13 @@
                             <?= '[' . $schedule['id'] . ']' ?>
                         </h3>
                         <div class="card-tools">
+
+                            <!-- Nút mở modal -->
+                            <a href="#copyScheduleModal" data-toggle="modal" data-id="<?= $schedule['id'] ?>"
+                                class="btn btn-secondary btn-sm mb-1 open-copyScheduleModal" title="Tạo bản sao">
+                                <i class="fas fa-copy"></i>
+                                Nhân bản
+                            </a>
                             <a href="<?= base_url("admin/manage-schedules/update-schedule/" . $schedule['id']) ?>"
                                 class="btn btn-info btn-sm" title="Sửa">
                                 <i class="fas fa-pencil-alt"></i>
@@ -153,5 +162,100 @@
         </div>
     </section>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="copyScheduleModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo bản sao lịch trình</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="copyScheduleForm" action="<?= base_url('admin/manage-schedules/copy-schedule') ?>" method="post">
+                <div class="modal-body">
+                    <div class="callout callout-info">
+                        <h5><i class="fas fa-info"></i> Lưu ý:</h5>
+                        <ul class="mb-0">
+                            <li>
+                                Khoảng thời gian được chọn sẽ áp dụng cho tất cả các điểm dừng và thông tin lịch trình
+                                của bản sao.
+                            </li>
+                            <li>
+                                Bản sao lịch trình sẽ được tạo với tất cả thông tin giống hệt lịch trình gốc, bao gồm cả
+                                các điểm dừng và giá vé, nhưng với khoảng thời gian mới được chỉ định.
+                            </li>
+                            <li>
+                                Hãy đảm bảo rằng khoảng thời gian mới không gây ra xung đột lịch trình với các chuyến đi
+                                khác.
+                            </li>
+                            <li>
+                                Việc tạo bản sao lịch trình nên được thực hiện một cách cẩn thận để tránh nhầm lẫn hoặc
+                                trùng lặp không cần thiết.
+                            </li>
+                        </ul>
+                    </div>
+
+                    <input type="hidden" id="scheduleId" name="scheduleId" value="">
+                    <div class="form-group">
+                        <label>Chọn khoảng thời gian:</label>
+                        <input type="text" class="form-control" id="dateRangePicker" name="dateRange" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Tạo bản sao</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- js -->
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/moment/moment.min.js"></script>
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?php echo base_url('plugins/daterangepicker/daterangepicker.js') ?>"></script>
+
+
+<!-- Page specific script -->
+<script>
+    $(function () {
+
+        // Khởi tạo Date Range Picker
+        $('#dateRangePicker').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD',
+                applyLabel: "Áp dụng",
+                cancelLabel: "Hủy bỏ",
+                customRangeLabel: "Tùy chỉnh", // Thay đổi chữ "Custom Range" thành "Tùy chỉnh"
+            },
+            startDate: moment().add(1, 'days'), // Khoảng thời gian mặc định bắt đầu từ ngày hiện tại
+            endDate: moment().add(1, 'days'), // Khoảng thời gian kết thúc sau 29 ngày
+            ranges: {
+                'Ngày mai': [moment().add(1, 'days'), moment().add(1, 'days')],
+                '3 ngày tới': [moment().add(1, 'days'), moment().add(3, 'days')],
+                '7 ngày tới': [moment().add(1, 'days'), moment().add(7, 'days')],
+                '1 tháng tới': [moment().add(1, 'days'), moment().add(1, 'month')],
+                '3 tháng tới': [moment().add(1, 'days'), moment().add(3, 'months')],
+                '6 tháng tới': [moment().add(1, 'days'), moment().add(6, 'months')],
+            }
+        }, function (start, end, label) {
+            // Có thể sử dụng callback này để xử lý khi người dùng chọn một khoảng thời gian
+            console.log("Bạn đã chọn: " + start.format('YYYY-MM-DD') + ' đến ' + end.format('YYYY-MM-DD'));
+        });
+
+
+        // Khi nút mở modal được click
+        $('.open-copyScheduleModal').click(function () {
+            var scheduleId = $(this).data('id'); // Lấy ID từ attribute data-id của nút
+            $('#scheduleId').val(scheduleId); // Gán ID vào input hidden trong form// Cập nhật tiêu đề modal
+            $('#copyScheduleModal .modal-title').text('Tạo bản sao lịch trình #' + scheduleId);
+            $('#copyScheduleModal').modal('show'); // Hiển thị modal
+        });
+    });
+
+</script>
 
 <?= $this->endSection() ?>
