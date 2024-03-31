@@ -37,5 +37,5 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
     $routes->match(['get', 'post'], 'schedules/create', 'ScheduleController::create');
     $routes->match(['get', 'post'], 'schedules/update/(:segment)', 'ScheduleController::update/$1');
     $routes->get('schedules/delete/(:num)', 'ScheduleController::delete/$1');
-    $routes->post('schedules/copy', 'ScheduleController::copy');
+    $routes->post('schedules/clones', 'ScheduleController::clones');
 });
