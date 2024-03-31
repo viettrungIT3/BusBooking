@@ -74,7 +74,7 @@
                             <div class="row">
                                 <div class="form-group col-12 col-sm-6">
                                     <label for="bus-select" class="">Chọn xe</label>
-                                    <select id="bus-select" class="form-control" name="bus_id">
+                                    <select id="bus-select" class="form-control" name="bus_id" required>
                                         <option value="" selected disabled="">-Chọn xe-</option>
                                         <?php foreach ($buses as $row) { ?>
                                             <option value="<?= $row['id'] ?>" <?= $schedule['bus_id'] == $row['id'] ? "selected" : "" ?>>
@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="form-group col-12 col-sm-6">
                                     <label for="route-select" class="">Chọn tuyến </label>
-                                    <select class="form-control" name="route_id" id="route-select">
+                                    <select class="form-control" name="route_id" id="route-select" required>
                                         <option value="" selected disabled="">-Chọn xe-</option>
                                         <?php foreach ($routes as $row) { ?>
                                             <option value="<?= $row['id'] ?>" <?= $schedule['route_id'] == $row['id'] ? "selected" : "" ?>>
@@ -229,7 +229,7 @@
 
         // run
         initializeDateTimePickers();
-        addStopPointEvent(); 
+        addStopPointEvent();
         updateRowTableStopPoints()
 
         // Khởi tạo datetimepicker, nếu cần thiết
@@ -440,6 +440,106 @@
             $('button[type="submit"]').prop('disabled', false);
         });
 
+        function validateTableInputs() {
+            var isValid = true; // Giả sử tất cả dữ liệu hợp lệ
+
+            $('#container-stop-points table tbody tr').each(function (index) {
+                var pointName = $(this).find('input[name^="points["][name$="[name]"]').val();
+                var pointTime = $(this).find('input[name^="points["][name$="[time]"]').val();
+
+                if (!pointName) {
+                    alert('Vui lòng nhập tên điểm dừng cho hàng ' + (index + 1) + '.');
+                    isValid = false;
+                    return false; // Thoát khỏi vòng lặp
+                }
+
+                if (!pointTime) {
+                    alert('Vui lòng nhập thời gian điểm dừng cho hàng ' + (index + 1) + '.');
+                    isValid = false;
+                    return false; // Thoát khỏi vòng lặp
+                }
+            });
+
+            return isValid; // Trả về kết quả kiểm tra
+        }
+
+        // Hàm kiểm tra xem các thời gian có được sắp xếp tăng dần không
+        function areTimesSorted() {
+            var timesAreSorted = true;
+            var lastDateTime = null;
+
+            $('#container-stop-points table tbody tr').each(function () {
+                var currentTimeStr = $(this).find('input[name^="points["][name$="[time]"]').val();
+                if (currentTimeStr == '') {
+                    timesAreSorted = false;
+                    return false;
+                }
+                var currentTime = new Date(currentTimeStr);
+
+                if (lastDateTime !== null && currentTime <= lastDateTime) {
+                    timesAreSorted = false;
+                    return false; // Thoát khỏi vòng lặp
+                }
+                lastDateTime = currentTime;
+
+            });
+
+            return timesAreSorted;
+        }
+
+
+        // Bắt sự kiện click của nút submit
+        $('button[type="submit"]').click(function (e) {
+            // Ngăn chặn việc submit mặc định để kiểm tra thứ tự thời gian
+            e.preventDefault();
+
+            // Lấy giá trị của các trường input và select
+            var busSelectValue = $('#bus-select').val();
+            var routeSelectValue = $('#route-select').val();
+            var departureTime = $('input[name="departure_time"]').val();
+            var arrivalTime = $('input[name="arrival_time"]').val();
+            var price = $('#price-input').val();
+
+            // Kiểm tra các select option
+            if (!busSelectValue) {
+                alert('Vui lòng chọn một lựa chọn từ bus select.');
+                return;
+            }
+            if (!routeSelectValue) {
+                alert('Vui lòng chọn một lựa chọn từ route select.');
+                return;
+            }
+
+            // Kiểm tra giờ khởi hành và giờ đến
+            if (!departureTime) {
+                alert('Vui lòng nhập giờ khởi hành.');
+                return;
+            }
+            if (!arrivalTime) {
+                alert('Vui lòng nhập giờ đến.');
+                return;
+            }
+
+            // Kiểm tra giá
+            if (!price || price <= 0) {
+                alert('Vui lòng nhập giá, và giá phải lớn hơn 0.');
+                return;
+            }
+
+            // Kiểm tra các ô input trong bảng
+            if (!validateTableInputs()) {
+                return; // Ngăn việc submit form nếu có lỗi
+            }
+
+            if (!areTimesSorted()) {
+                // Thông báo cho người dùng và ngăn việc submit nếu thời gian không tăng dần
+                alert('Thời gian không được sắp xếp theo thứ tự tăng dần. Vui lòng kiểm tra lại.');
+                return false;
+            }
+
+            // Nếu thời gian tăng dần, tiếp tục submit form hoặc thực hiện hành động tiếp theo
+            $(this).closest('form').submit();
+        });
     });
 
 
