@@ -14,7 +14,7 @@ class BusController extends BaseController
             'current_user' => $this->getAdministrator(),
             'bus' => $busModel->findAll() ?? [],
         ];
-        return view('backend/bus/index.php', $data);
+        return view('admin/bus/index.php', $data);
     }
 
 
@@ -52,7 +52,7 @@ class BusController extends BaseController
             'validation' => $this->validator
         ];
 
-        return view('backend/bus-create/index.php', $data);
+        return view('admin/bus/create.php', $data);
     }
 
 

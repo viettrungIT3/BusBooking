@@ -50,7 +50,7 @@ class ScheduleController extends BaseController
             'schedules' => $builder->get()->getResult() ?? [],
         ];
 
-        return view('backend/manage-schedules/index.php', $data);
+        return view('admin/schedules/index.php', $data);
     }
 
     public function show($id)
@@ -77,7 +77,7 @@ class ScheduleController extends BaseController
             'stop_points' => $stopPoints,
         ];
 
-        return view('backend/show-schedule/index.php', $data);
+        return view('admin/schedules/detail.php', $data);
     }
 
     public function create()
@@ -188,7 +188,7 @@ class ScheduleController extends BaseController
             'routes' => $routesModel->findAll(),
         ];
 
-        return view('backend/create-schedule/index.php', $data);
+        return view('admin/schedules/create.php', $data);
     }
 
     public function update($id)
@@ -296,7 +296,7 @@ class ScheduleController extends BaseController
             'stop_points' => $stopPoints,
         ];
 
-        return view('backend/update-schedule/index.php', $data);
+        return view('admin/schedules/update.php', $data);
     }
 
     public function delete($id)

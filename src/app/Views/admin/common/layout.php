@@ -9,7 +9,7 @@
     </title>
 
     <!-- Thêm các thẻ meta, link CSS, và script JS cần thiết -->
-    <?= $this->include('backend/common/head.php') ?>
+    <?= $this->include('admin/common/head.php') ?>
 </head>
 
 <body class="sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -22,11 +22,11 @@
         </div>
 
         <!-- Navbar -->
-        <?= $this->include('backend/common/navbar.php') ?>
+        <?= $this->include('admin/common/navbar.php') ?>
         <!-- /.navbar -->
 
         <!-- Main Sidebar Container -->
-        <?= $this->include('backend/common/sidebar.php') ?>
+        <?= $this->include('admin/common/sidebar.php') ?>
 
 
         <!-- Content -->
@@ -40,7 +40,7 @@
         <!-- /.control-sidebar -->
 
         <!-- Footer -->
-        <?= $this->include('backend/common/footer.php') ?>
+        <?= $this->include('admin/common/footer.php') ?>
         <!-- /.footer -->
         
     </div>

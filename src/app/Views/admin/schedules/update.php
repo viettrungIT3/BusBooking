@@ -1,4 +1,4 @@
-<?= $this->extend('backend/common/layout') ?>
+<?= $this->extend('admin/common/layout') ?>
 
 <?= $this->section('content') ?>
 
@@ -6,19 +6,29 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <link rel="stylesheet"
     href="<?= base_url("plugins/AdminLTE-3.2.0/") ?>plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+<!-- script -->
+<!-- InputMask -->
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/moment/moment.min.js"></script>
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- date-range-picker -->
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/daterangepicker/daterangepicker.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script
+    src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+
 
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <!-- <h1 class="m-0">Thêm lịch trình </h1> -->
+                    <!-- <h1 class="m-0">Sửa lịch trình </h1> -->
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
                         <li class="breadcrumb-item"><a href="#">Quản lý lịch trình</a></li>
-                        <li class="breadcrumb-item active">Thêm lịch trình</li>
+                        <li class="breadcrumb-item active">Sửa lịch trình</li>
                     </ol>
                 </div>
             </div>
@@ -52,9 +62,13 @@
 
             <div class="col-12">
                 <div class="card">
-                    <form action="<?= base_url() ?>admin/schedules/create" method="post">
+                    <form action="<?= base_url() ?>admin/schedules/update/<?= $schedule['id'] ?>"
+                        method="post">
                         <div class="card-header">
-                            <h3 class="card-title">Thêm lịch trình</h3>
+                            <h2 class="card-title">
+                                Sửa lịch trình
+                                <?= '[' . $schedule['id'] . ']' ?>
+                            </h2>
                         </div>
                         <div class="card-body">
                             <div class="row">
@@ -63,7 +77,7 @@
                                     <select id="bus-select" class="form-control" name="bus_id" required>
                                         <option value="" selected disabled="">-Chọn xe-</option>
                                         <?php foreach ($buses as $row) { ?>
-                                            <option value="<?= $row['id'] ?>">
+                                            <option value="<?= $row['id'] ?>" <?= $schedule['bus_id'] == $row['id'] ? "selected" : "" ?>>
                                                 <?= trim($row['name']) . " (" . trim($row['license_plate']) . ")" ?>
                                             </option>
                                         <?php } ?>
@@ -74,19 +88,119 @@
                                     <select class="form-control" name="route_id" id="route-select" required>
                                         <option value="" selected disabled="">-Chọn xe-</option>
                                         <?php foreach ($routes as $row) { ?>
-                                            <option value="<?= $row['id'] ?>">
+                                            <option value="<?= $row['id'] ?>" <?= $schedule['route_id'] == $row['id'] ? "selected" : "" ?>>
                                                 <?= trim($row['origin']) . " ---> " . trim($row['destination']) . " (" . trim(number_format((float) ($row['listed_price']), 0, ",", ".") . "VNĐ") . ")" ?>
                                             </option>
                                         <?php } ?>
                                     </select>
                                 </div>
                             </div>
-                            <div id="container-time-and-price" class="row" style="display: none;">
-                                <!-- Nội dung sẽ được thêm vào đây thông qua JavaScript/jQuery -->
+                            <div id="container-time-and-price" class="row">
+                                <div class="form-group col-12 col-sm-6">
+                                    <label for="departure_time" class="">Giờ khởi hành</label>
+                                    <div class="input-group date" id="departure_time" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input"
+                                            name="departure_time"
+                                            value="<?= date('Y-m-d H:i', strtotime($schedule['departure_time'])); ?>"
+                                            data-target="#departure_time" required="" />
+                                        <div class="input-group-append" data-target="#departure_time"
+                                            data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-12 col-sm-6">
+                                    <label for="arrival_time" class="">Giờ đến</label>
+                                    <div class="input-group date" id="arrival_time" data-target-input="nearest">
+                                        <input type="text" class="form-control datetimepicker-input" name="arrival_time"
+                                            value="<?= date('Y-m-d H:i', strtotime($schedule['arrival_time'])); ?>"
+                                            data-target="#arrival_time" required="" />
+                                        <div class="input-group-append" data-target="#arrival_time"
+                                            data-toggle="datetimepicker">
+                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-6 col-sm-3">
+                                    <label for="price-input" class="">Giá</label>
+                                    <div class="input-group mb-3">
+                                        <input type="number" id="price-input" class="form-control" name="price"
+                                            value="<?= $schedule['price'] ?>" placeholder="Giá" aria-label="Giá"
+                                            aria-describedby="price-span" required="">
+                                        <span class="input-group-text" id="price-span">VNĐ</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
-                                <div class="col-12" id="container-stop-points" style="display: none;">
-                                    <!-- Nội dung sẽ được thêm vào đây thông qua JavaScript/jQuery -->
+                                <div class="col-12" id="container-stop-points">
+                                    <label for="platbus" class="">Các điểm dừng</label>
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 10px">#</th>
+                                                <th>Điểm dừng</th>
+                                                <th>Giờ đến</th>
+                                                <th>Hành động</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i = 1;
+                                            foreach ($stop_points as $row): ?>
+                                                <tr>
+                                                    <td>
+                                                        <?= $i ?>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" name="points[][name]"
+                                                            value="<?= $row['name'] ?>" placeholder="<?= $row['name'] ?>"
+                                                            aria-label="<?= $row['name'] ?>" required="" <?= $row['is_lock'] ? "disabled" : "" ?>>
+                                                    </td>
+                                                    <td>
+                                                        <?php if ($row['is_lock']): ?>
+                                                            <input type="text" class="form-control" name="points[][time]"
+                                                                value="<?= date('Y-m-d H:i', strtotime($row['arrival_time'])); ?>"
+                                                                placeholder="Giờ đến" required="" disabled>
+                                                        <?php else: ?>
+                                                            <div class="input-group date" id="arrival_time_points_<?= $i ?>"
+                                                                data-target-input="nearest">
+                                                                <input type="text" class="form-control datetimepicker-input"
+                                                                    name="points[<?= $i ?>][time]"
+                                                                    value="<?= date('Y-m-d H:i', strtotime($row['arrival_time'])); ?>"
+                                                                    placeholder="Giờ đến"
+                                                                    data-target="#arrival_time_points_<?= $i ?>" required="" />
+                                                                <div class="input-group-append"
+                                                                    data-target="#arrival_time_points_<?= $i ?>"
+                                                                    data-toggle="datetimepicker">
+                                                                    <div class="input-group-text"><i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <script>
+                                                                $("#arrival_time_points_<?= $i ?>").datetimepicker({
+                                                                    sideBySide: true,
+                                                                    format: 'YYYY-MM-DD HH:mm',
+                                                                    icons: { time: 'far fa-clock' }
+                                                                });
+                                                            </script>
+                                                        <?php endif; ?>
+                                                    </td>
+
+                                                    <td>
+                                                        <?php if (!$row['is_lock']): ?>
+                                                            <button type="button"
+                                                                class="btn btn-danger btn-sm delete-stop-point">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                        <tfoot>
+                                            <button type="button" class="btn btn-sm btn-success float-right"
+                                                id="add-stop-point">Thêm điểm dừng</button>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -97,7 +211,7 @@
                                         Quay lại
                                     </a>
                                     <button type="submit" class="btn btn-success float-right" disabled>
-                                        Thêm lịch trình
+                                        Cập nhật thay đổi
                                     </button>
                                 </div>
                             </div>
@@ -110,17 +224,14 @@
 </div>
 
 
-<!-- InputMask -->
-<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/moment/moment.min.js"></script>
-<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/inputmask/jquery.inputmask.min.js"></script>
-<!-- date-range-picker -->
-<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/daterangepicker/daterangepicker.js"></script>
-<!-- Tempusdominus Bootstrap 4 -->
-<script
-    src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-
 <script>
     $(document).ready(function () {
+
+        // run
+        initializeDateTimePickers();
+        addStopPointEvent();
+        updateRowTableStopPoints()
+
         // Khởi tạo datetimepicker, nếu cần thiết
         // Bạn cần chắc chắn khởi tạo lại các datetimepicker sau khi thêm chúng vào DOM
         function initializeDateTimePickers() {
@@ -191,43 +302,43 @@
         // Hàm tạo và hiển thị nội dung bảng với điểm đi và điểm đến
         function createAndShowTableContent(startPoint, endPoint) {
             var tableContent = `
-            <label for="platbus" class="">Các điểm dừng</label>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Điểm dừng</th>
-                        <th>Giờ đến</th>
-                        <th>Hành động</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>
-                            <input type="text" class="form-control" name="points[][name]" value="${startPoint}" placeholder="${startPoint}" aria-label="${startPoint}" required="" disabled>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="points[][time]" placeholder="Giờ đến" required="" disabled>
-                        </td>
-                        <td></td> <!-- Không cho phép xóa điểm đi -->
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>
-                            <input type="text" class="form-control" name="points[][name]" value="${endPoint}" placeholder="${endPoint}" aria-label="${endPoint}" required="" disabled>
-                        </td>
-                        <td>
-                            <input type="text" class="form-control" name="points[][time]" placeholder="Giờ đến" required="" disabled>
-                        </td>
-                        <td></td> <!-- Không cho phép xóa điểm đến -->
-                    </tr>
-                </tbody>
-                <tfoot>
-                    <button type="button" class="btn btn-sm btn-success float-right" id="add-stop-point">Thêm điểm dừng</button>
-                </tfoot>
-            </table>
-        `;
+                <label for="platbus" class="">Các điểm dừng</label>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Điểm dừng</th>
+                            <th>Giờ đến</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <input type="text" class="form-control" name="points[][name]" value="${startPoint}" placeholder="${startPoint}" aria-label="${startPoint}" required="" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="points[][time]" placeholder="Giờ đến" required="" disabled>
+                            </td>
+                            <td></td> <!-- Không cho phép xóa điểm đi -->
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <input type="text" class="form-control" name="points[][name]" value="${endPoint}" placeholder="${endPoint}" aria-label="${endPoint}" required="" disabled>
+                            </td>
+                            <td>
+                                <input type="text" class="form-control" name="points[][time]" placeholder="Giờ đến" required="" disabled>
+                            </td>
+                            <td></td> <!-- Không cho phép xóa điểm đến -->
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <button type="button" class="btn btn-sm btn-success float-right" id="add-stop-point">Thêm điểm dừng</button>
+                    </tfoot>
+                </table>
+            `;
 
             $('#container-stop-points').html(tableContent).show();
             addStopPointEvent();
@@ -274,7 +385,6 @@
                 });
             });
         }
-
 
         function updateRowTableStopPoints() {
             // Cập nhật tên và ID cho các ô input và datetimepicker trong mỗi hàng
@@ -329,7 +439,6 @@
             // Khi có một thay đổi, bỏ trạng thái disabled của nút submit
             $('button[type="submit"]').prop('disabled', false);
         });
-        
 
         function validateTableInputs() {
             var isValid = true; // Giả sử tất cả dữ liệu hợp lệ

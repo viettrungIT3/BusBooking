@@ -1,4 +1,4 @@
-<?= $this->extend('backend/common/layout') ?>
+<?= $this->extend('admin/common/layout') ?>
 
 <?= $this->section('content') ?>
 
@@ -16,12 +16,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1 class="m-0">Quản lý các tuyến đường</h1>
+					<h1 class="m-0">Quản lý xe</h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
 						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Quản lý các tuyến đường</li>
+						<li class="breadcrumb-item active">Quản lý xe</li>
 					</ol>
 				</div>
 			</div>
@@ -34,10 +34,10 @@
 			<!-- Log on to codeastro.com for more projects -->
 			<div class="card shadow mb-4">
 				<div class="card-header py-3">
-					<button type="button" class="btn btn-success pull-right" data-toggle="modal"
-						data-target="#ModalRoutes">
-						Thêm tuyến đường
-					</button>
+					<a href="<?= base_url('admin/bus/create') ?>" type="button"
+						class="btn btn-success pull-right">
+						Thêm xe
+					</a>
 				</div>
 				<div class="card-body">
 					<div class="table-responsive">
@@ -46,15 +46,17 @@
 							<thead>
 								<tr>
 									<th>#</th>
-									<th>Mã tuyến</th>
-									<th>Điểm đi</th>
-									<th>Điểm đến</th>
-									<th>Giá niêm yết</th>
+									<th>Mã xe</th>
+									<th>Tên xe</th>
+									<th>Biển số xe </th>
+									<th>Số chỗ ngồi</th>
+									<th>Trạng thái</th>
+									<th>Hành động</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php $i = 1;
-								foreach ($routes as $row) {// die();
+								foreach ($bus as $row) {// die();
 									?>
 									<tr>
 										<td>
@@ -64,13 +66,22 @@
 											<?= $row['id']; ?>
 										</td>
 										<td>
-											<?= $row['origin'] ?? ''; ?>
+											<?= $row['name'] ?? ''; ?>
 										</td>
 										<td>
-											<?= $row['destination'] ?? ''; ?>
+											<?= $row['license_plate'] ?? ''; ?>
 										</td>
-										<td class="text-end">
-											<?= number_format((float) ($row['listed_price']), 0, ",", "."); ?> VNĐ
+										<td>
+											<?= $row['seat_number'] ?? ''; ?>
+										</td>
+										<?php if ($row['status'] == '1') { ?>
+											<td class="btn-success"> Mở</td>
+										<?php } else { ?>
+											<td class="btn-danger">Khóa</td>
+										<?php } ?>
+										<td align="center"><a
+												href="<?= base_url('admin/bus/view-bus/' . $row['id']) ?>"
+												class="btn btn btn-info">View</a></a>
 										</td>
 									</tr>
 									<?php
@@ -83,47 +94,6 @@
 		</div>
 		<!-- /.container-fluid -->
 	</section>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="ModalRoutes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-	aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Thêm tuyến đường</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<form action="<?= base_url() ?>admin/routes/create" method="post">
-					<div class="form-group">
-						<div class="form-label-group">
-							<input type="text" id="origin" name="origin" class="form-control" placeholder="Điểm đi"
-								required="required" autofocus="autofocus">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-label-group">
-							<input type="text" id="destination" name="destination" class="form-control"
-								placeholder="Điểm đến" required="required" autofocus="autofocus">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="form-label-group">
-							<input type="text" id="listed_price" name="listed_price" class="form-control"
-								placeholder="Giá niêm yết" required="required" autofocus="autofocus">
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-						<button class="btn btn-success">Add</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 </div>
 
 <!-- DataTables  & Plugins -->
@@ -150,19 +120,6 @@
 	src="<?php echo base_url() . '/plugins/AdminLTE-3.2.0/'; ?>plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
 <!-- Page specific script -->
-<script>
-	$(function () {
-		$("#table-view")
-			.DataTable({
-				responsive: true,
-				autoWidth: false,
-				buttons: ["copy", "csv", "excel", "pdf"],
-			})
-			.buttons()
-			.container()
-			.appendTo("#example1_wrapper .col-md-6:eq(0)");
-	});
-
-</script>
+<script src="<?= base_url() . '/assets/backend/bus/index.js'; ?>"></script>
 
 <?= $this->endSection() ?>

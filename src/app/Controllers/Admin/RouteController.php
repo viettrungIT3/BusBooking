@@ -14,7 +14,7 @@ class RouteController extends BaseController
             'current_user' => $this->getAdministrator(),
             'routes' => $routesModel->findAll() ?? [],
         ];
-        return view('backend/bus-routes/index.php', $data);
+        return view('admin/routes/index.php', $data);
     }
 
     public function create()

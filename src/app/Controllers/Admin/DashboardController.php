@@ -11,7 +11,7 @@ class DashboardController extends BaseController
             'title' => 'Trang chủ - Bảng điều khiển',
             'current_user' => $this->getAdministrator()
         ];
-        return view('backend/dashboard/index.php', $data);
+        return view('admin/dashboard.php', $data);
     }
 
 }
