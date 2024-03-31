@@ -137,7 +137,7 @@
                                                         <?= $row->name; ?>
                                                     </td>
                                                     <td>
-                                                        <?= date('Y-m-d H:i', strtotime($schedule['arrival_time'])); ?>
+                                                        <?= date('Y-m-d H:i', strtotime($row->arrival_time)); ?>
                                                     </td>
                                                 </tr>
                                                 <?php
