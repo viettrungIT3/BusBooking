@@ -175,20 +175,22 @@ class WebsiteAdmin extends BaseController
 
             $scheduleModel = new \App\Models\SchedulesModel();
 
-            $currentRoute = $routesModel->find($this->request->getVar('route_id'));
-
+            
             try {
                 // Thêm dữ liệu vào database
-                $insertedID = $scheduleModel->insert($data_schedule);
+                $scheduleModel->insert($data_schedule);
+                // Returns inserted row's primary key
+                $insertedID = $scheduleModel->getInsertID();
 
                 // Kiểm tra xem dữ liệu có được thêm thành công không
-                if ($insertedID) {
-
+                if ($insertedID > 0) {
+                    
                     $stopPointModel = new \App\Models\StopPointModel();
+                    
+                    // Thêm các điểm đến tuyến đường
                     $indexStopPoint = 1;
-
                     try {
-                        // Thêm các điểm đến tuyến đường
+                        $currentRoute = $routesModel->find($this->request->getVar('route_id'));
 
                         $data_stop_point = [
                             'schedule_id' => $insertedID,
@@ -200,17 +202,20 @@ class WebsiteAdmin extends BaseController
                         $stopPointModel->insert($data_stop_point);
                         $indexStopPoint++;
 
-                        foreach ($this->request->getVar('points[]') as $point) {
-                            if ($point['name'] != $currentRoute['origin'] && $point['name'] != $currentRoute['destination']) {
-                                $data_stop_point = [
-                                    'schedule_id' => $insertedID,
-                                    'name' => $point['name'],
-                                    'arrival_time' => $point['time'],
-                                    'sequence' => $indexStopPoint,
-                                    'is_lock' => 0
-                                ];
-                                $stopPointModel->insert($data_stop_point);
-                                $indexStopPoint++;
+                        if ($this->request->getVar('points') != null) {
+
+                            foreach ($this->request->getVar('points') as $point) {
+                                if ($point['name'] != $currentRoute['origin'] && $point['name'] != $currentRoute['destination']) {
+                                    $data_stop_point = [
+                                        'schedule_id' => $insertedID,
+                                        'name' => $point['name'],
+                                        'arrival_time' => $point['time'],
+                                        'sequence' => $indexStopPoint,
+                                        'is_lock' => 0
+                                    ];
+                                    $stopPointModel->insert($data_stop_point);
+                                    $indexStopPoint++;
+                                }
                             }
                         }
 
@@ -225,7 +230,8 @@ class WebsiteAdmin extends BaseController
                         $stopPointModel->insert($data_stop_point);
                         $indexStopPoint++;
                     } catch (\Throwable $th) {
-                        //throw $th;
+                        //throw $th;                    
+                        return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
                     }
 
 
@@ -289,16 +295,16 @@ class WebsiteAdmin extends BaseController
             try {
                 // Thêm dữ liệu vào database
                 $scheduleModel->update($id, $data_schedule);
-                
+
                 // Xoa các điểm đến tuyến đường da ton tai
                 $stopPointModel->where('schedule_id', $id)->delete();
-                
+
                 // Thêm các điểm đến tuyến đường
                 $indexStopPoint = 1;
                 try {
 
                     $currentRoute = $routesModel->find($this->request->getVar('route_id'));
-                    
+
                     $data_stop_point = [
                         'schedule_id' => $id,
                         'name' => $currentRoute['origin'],
