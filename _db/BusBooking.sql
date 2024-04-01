@@ -176,7 +176,7 @@ CREATE TABLE `schedules` (
   KEY `route_id` (`route_id`),
   CONSTRAINT `schedules_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`),
   CONSTRAINT `schedules_ibfk_2` FOREIGN KEY (`route_id`) REFERENCES `routes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -185,7 +185,7 @@ CREATE TABLE `schedules` (
 
 LOCK TABLES `schedules` WRITE;
 /*!40000 ALTER TABLE `schedules` DISABLE KEYS */;
-INSERT INTO `schedules` VALUES (1,1,1,'2024-03-20 06:00:00','2024-03-20 09:00:00',140000),(2,2,2,'2024-03-20 07:00:00','2024-03-20 10:30:00',140000),(3,1,1,'2024-03-30 13:37:00','2024-03-30 13:55:00',140000),(4,1,3,'2024-03-30 14:11:00','2024-03-30 14:55:00',120000),(5,3,2,'2024-03-30 14:00:00','2024-03-30 15:00:00',120000),(6,3,2,'2024-03-30 14:00:00','2024-03-30 15:00:00',120000);
+INSERT INTO `schedules` VALUES (12,4,2,'2024-03-31 16:00:00','2024-03-31 18:00:00',140000),(13,4,2,'2024-04-01 16:00:00','2024-04-01 18:00:00',140000),(14,4,2,'2024-04-02 16:00:00','2024-04-02 18:00:00',140000),(15,4,2,'2024-04-03 16:00:00','2024-04-03 18:00:00',140000),(16,4,2,'2024-04-04 16:00:00','2024-04-04 18:00:00',140000),(17,4,2,'2024-04-05 16:00:00','2024-04-05 18:00:00',140000),(18,4,2,'2024-04-06 16:00:00','2024-04-06 18:00:00',140000),(19,4,2,'2024-04-07 16:00:00','2024-04-07 18:00:00',140000),(25,4,2,'2024-04-06 16:00:00','2024-04-06 18:00:00',140000),(27,4,2,'2024-04-08 16:00:00','2024-04-08 18:00:00',140000);
 /*!40000 ALTER TABLE `schedules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -206,7 +206,7 @@ CREATE TABLE `stop_points` (
   PRIMARY KEY (`id`),
   KEY `schedule_id` (`schedule_id`),
   CONSTRAINT `stop_points_ibfk_1` FOREIGN KEY (`schedule_id`) REFERENCES `schedules` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +215,7 @@ CREATE TABLE `stop_points` (
 
 LOCK TABLES `stop_points` WRITE;
 /*!40000 ALTER TABLE `stop_points` DISABLE KEYS */;
-INSERT INTO `stop_points` VALUES (1,1,'Điểm dừng 1','2024-03-20 07:00:00',1,0),(2,1,'Điểm dừng 2','2024-03-20 07:05:00',2,0),(3,1,'Điểm dừng 3','2024-03-20 07:10:00',3,0),(4,1,'Điểm dừng 4','2024-03-20 07:15:00',4,0),(5,6,'Thái Nguyên','2024-03-30 14:00:00',1,0),(6,6,'Sông Công','2024-03-30 14:20:00',2,0),(7,6,'Nội Bài','2024-03-30 14:40:00',3,0),(8,6,'Hà Nội','2024-03-30 15:00:00',4,0);
+INSERT INTO `stop_points` VALUES (33,12,'Thái Nguyên','2024-03-31 16:00:00',1,1),(34,12,'Sông Công','2024-03-31 16:20:00',2,0),(35,12,'Hà Nội','2024-03-31 18:00:00',3,1),(39,14,'Thái Nguyên','2024-04-02 16:00:00',1,1),(40,14,'Sông Công','2024-04-02 16:20:00',2,0),(41,14,'Hà Nội','2024-04-02 18:00:00',3,1),(42,15,'Thái Nguyên','2024-04-03 16:00:00',1,1),(43,15,'Sông Công','2024-04-03 16:20:00',2,0),(44,15,'Hà Nội','2024-04-03 18:00:00',3,1),(45,16,'Thái Nguyên','2024-04-04 16:00:00',1,1),(46,16,'Sông Công','2024-04-04 16:20:00',2,0),(47,16,'Hà Nội','2024-04-04 18:00:00',3,1),(48,17,'Thái Nguyên','2024-04-05 16:00:00',1,1),(49,17,'Sông Công','2024-04-05 16:20:00',2,0),(50,17,'Hà Nội','2024-04-05 18:00:00',3,1),(51,18,'Thái Nguyên','2024-04-06 16:00:00',1,1),(52,18,'Sông Công','2024-04-06 16:20:00',2,0),(53,18,'Hà Nội','2024-04-06 18:00:00',3,1),(54,19,'Thái Nguyên','2024-04-07 16:00:00',1,1),(55,19,'Sông Công','2024-04-07 16:20:00',2,0),(56,19,'Hà Nội','2024-04-07 18:00:00',3,1),(72,25,'Thái Nguyên','2024-04-06 16:00:00',1,1),(73,25,'Sông Công','2024-04-06 16:20:00',2,0),(74,25,'Hà Nội','2024-04-06 18:00:00',3,1),(78,27,'Thái Nguyên','2024-04-08 16:00:00',1,1),(79,27,'Sông Công','2024-04-08 16:20:00',2,0),(80,27,'Hà Nội','2024-04-08 18:00:00',3,1),(85,13,'Thái Nguyên','2024-04-01 16:00:00',1,1),(86,13,'Sông Công','2024-04-01 16:20:00',2,0),(87,13,'Nội bài','2024-04-01 17:00:00',3,0),(88,13,'Hà Nội','2024-04-01 18:00:00',4,1);
 /*!40000 ALTER TABLE `stop_points` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-30 11:17:26
+-- Dump completed on 2024-04-01  1:42:46
