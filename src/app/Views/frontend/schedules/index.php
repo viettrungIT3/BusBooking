@@ -46,47 +46,67 @@
         </div>
 
         <div class="row mt-5">
+            <!-- filters -->
             <div class="container-filters col-lg-3">
                 <div id="filters" style="padding: 10px; border: 1px #ddd solid; background: #fff;">
                     <div class="head">
                         <h3>Bộ lọc tìm kiếm</h3>
                     </div>
                     <hr>
-                    <div class="mx-2">
-                        <?php foreach ($filters as $groupKey => $filter): ?>
-                            <?php if ($filter['is_show']): ?>
-                                <div class="criteria-item mb-2">
-                                    <h5>
-                                        <?= esc($filter['label']) ?>
-                                    </h5>
-                                    <div class="form-controller px-2">
-                                        <?php foreach ($filter['options'] as $optionKey => $option): ?>
-                                            <?php if ($option['is_show']): ?>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="<?= esc($optionKey) ?>"
-                                                        id="<?= $groupKey . '_' . urlencode($optionKey) ?>"
-                                                        name="<?= $groupKey . '[]' ?>" <?= $option['checked'] ? 'checked' : '' ?>>
-                                                    <label class="form-check-label"
-                                                        for="<?= $groupKey . '_' . urlencode($optionKey) ?>">
-                                                        <?= esc($option['label']) ?>
-                                                    </label>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </div>
-                                </div>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </div>
-                    <div class="foot d-flex justify-content-end">
-                        <button class="btn btn-success">
-                            Áp dụng <span class="fa fa-filter" aria-hidden="true"></span>
-                        </button>
-                    </div>
+                    <form action="/path-to-your-search-handler" method="get" class="mx-2">
+                        <!-- Nơi đi -->
+                        <div class="form-group">
+                            <label for="origin">Nơi đi:</label>
+                            <select class="form-control" id="origin" name="origin">
+                                <option value="">Chọn nơi đi</option>
+                                <?php foreach ($filters['uniqueOrigins'] as $origin): ?>
+                                    <option value="<?= htmlspecialchars($origin->origin); ?>">
+                                        <?= htmlspecialchars($origin->origin); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <!-- Nơi đến -->
+                        <div class="form-group">
+                            <label for="destination">Nơi đến:</label>
+                            <select class="form-control" id="destination" name="destination">
+                                <option value="">Chọn nơi đến</option>
+                                <?php foreach ($filters['uniqueDestinations'] as $destination): ?>
+                                    <option value="<?= htmlspecialchars($destination->destination); ?>">
+                                        <?= htmlspecialchars($destination->destination); ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <!-- Ngày khởi hành -->
+                        <div class="form-group">
+                            <label for="departureDate">Ngày khởi hành:</label>
+                            <input type="date" class="form-control" id="departureDate" name="departureDate">
+                        </div>
+                        <!-- Loại ghế -->
+                        <div class="form-group">
+                            <label for="seatType">Loại ghế:</label>
+                            <select class="form-control" id="seatType" name="seatType">
+                                <option value="">Chọn loại ghế</option>
+                                <?php foreach ($filters['uniqueSeatTypes'] as $seatType): ?>
+                                    <option value="<?= htmlspecialchars($seatType->seat_number); ?>">
+                                        <?= htmlspecialchars($seatType->seat_number); ?> ghế
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <!-- Khoảng giá vé -->
+                        <!-- Lưu ý: Tùy vào cách bạn muốn người dùng chọn khoảng giá, có thể dùng slider, input hai giá trị min và max, v.v... -->
+
+                        <div class="foot d-flex justify-content-end mt-4">
+                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        </div>
+                    </form>
                 </div>
-
-
             </div>
+
+
+            <!-- list schedules -->
             <div class="col-lg-9">
                 <?php foreach ($schedules as $schedule): ?>
                     <div class="row mb-5" id="container-schedules">
