@@ -6,7 +6,7 @@ use CodeIgniter\Controller;
 use App\Models\UserModel;
 use App\Models\AdministratorsModel;
 
-class User extends Controller
+class AuthController extends Controller
 {
     public function login()
     {
