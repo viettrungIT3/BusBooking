@@ -99,7 +99,7 @@
             if ($currentTime > $thresholdTime):
                 ?>
                 <div class="alert alert-danger mb-3" role="alert">
-                    <h4 class="alert-heading">Liên hệ!</h4>
+                    <h5 class="alert-heading">Liên hệ!</h5>
                     <p>
                         Chuyến xe đã gần hết vé/hết giờ đặt<br>Quý khách vui lòng liên hệ tổng đài để đặt vé.
                     </p>
@@ -125,22 +125,22 @@
             <?php else: ?>
 
                 <div class="alert alert-warning" role="alert">
-                    <h4 class="alert-heading">Đặt vé</h4>
+                    <h5 class="alert-heading">Đặt vé</h5>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>Số vé: </h6>
                         <div class="input-group" style="max-width: 100px;">
-                            <input type="number" class="form-control" placeholder="0" min="0">
+                            <input id="num-ticket-<?= $p_id ?>" type="number" class="form-control" placeholder="0" min="0">
                             <span class="input-group-text">vé</span>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>Tổng tiền: </h6>
-                        <span id="total-price" class="price">0đ</span>
+                        <span id="total-price-<?= $p_id ?>" class="price">0đ</span>
                     </div>
                     <hr>
                     <div class="d-flex justify-content-end align-items-center">
-                        <button class="btn btn-warning float-right">
+                        <button id="btn-continue-<?= $p_id ?>" class="btn btn-warning float-right">
                             Tiếp tục
                         </button>
                     </div>
@@ -152,14 +152,26 @@
 </div>
 
 <script>
-    // $(document).ready(function () {
-    //     $("#<?= $p_id ?>-btn").click(function () {
-    //         $(this).text($(this).text() === 'Đóng' ? 'Liên hệ / Đặt vé' : 'Đóng');
-    //         $("#<?= $p_id ?>").collapse('toggle'); // toggle collapse
-    //     });
-    // });
-
     $(document).ready(function () {
+
+        $('#btn-continue-<?= $p_id ?>').prop('disabled', true);
+
+        $('#num-ticket-<?= $p_id ?>').change(function () {
+            let num = $('#num-ticket-<?= $p_id ?>').val();
+            let price = <?= $schedule->price; ?>;
+            let total = (num * price).toLocaleString('vi', { style: 'currency', currency: 'VND' });;
+            $('#total-price-<?= $p_id ?>').text(total);
+
+            if (num > 0) {
+                $('#btn-continue-<?= $p_id ?>').prop('disabled', false);
+            } else
+                $('#btn-continue-<?= $p_id ?>').prop('disabled', true);
+        });
+
+        $('#btn-continue-<?= $p_id ?>').click(function () {
+            console.log(1);
+        })
+
         // Sự kiện click cho các nút có thể mở/đóng các phần tử collapse
         $("#<?= $p_id ?>-btn").click(function () {
             // Đóng tất cả các phần tử collapse
@@ -167,7 +179,7 @@
 
             // Cập nhật lại văn bản của nút dựa trên trạng thái mới
             $(this).text($(this).text() === 'Đóng' ? 'Liên hệ / Đặt vé' : 'Đóng');
-            
+
             // toggle collapse
             $("#<?= $p_id ?>").collapse('toggle');
         });

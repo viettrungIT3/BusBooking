@@ -1,19 +1,13 @@
 <div class="container" id="<?= $p_id ?>">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title">
+            <h4 class="card-title">
                 <?= trim($schedule->route['origin']) . ' <i class="fa-solid fa-arrow-right"></i> ' . trim($schedule->route['destination']) ?>
-            </h5>
+            </h4>
             <div class="card-subtitle mb-2 text-body-secondary d-flex justify-content-between">
-                <div>
-                    <?php echo $schedule->bus['name'] 
-                        // . view('frontend/partials/star_rating.php', [
-                        //     'name' => 'rating-3',
-                        //     'value' => '5',
-                        //     'is_disabled' => true
-                        // ]);
-                    ?>
-                </div>
+                <h5>
+                    <?php echo $schedule->bus['name'] ?>
+                </h5>
 
                 <div class="price-wrapper">
                     <span class="price">
