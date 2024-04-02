@@ -1,3 +1,10 @@
+<?php
+
+// echo '<pre>';
+// var_dump($schedules);
+// die();
+?>
+
 <?= $this->extend('frontend/common/layout') ?>
 
 <?= $this->section('content') ?>
@@ -80,15 +87,17 @@
 
             </div>
             <div class="col-lg-9">
+                <?php foreach ($schedules as $schedule): ?>
                 <div class="row mb-5">
-                    <?php echo view('frontend/tickets/widgets/ticket.php', ["p_id" => "ticket-1"]); ?>
+                    <?php echo view('frontend/schedules/widgets/schedule.php', ["p_id" => "ticket-1"]); ?>
+                </div>
+                <!-- <div class="row mb-5">
+                    <?php echo view('frontend/schedules/widgets/schedule.php', ["p_id" => "ticket-2"]); ?>
                 </div>
                 <div class="row mb-5">
-                    <?php echo view('frontend/tickets/widgets/ticket.php', ["p_id" => "ticket-2"]); ?>
-                </div>
-                <div class="row mb-5">
-                    <?php echo view('frontend/tickets/widgets/ticket.php', ["p_id" => "ticket-3"]); ?>
-                </div>
+                    <?php echo view('frontend/schedules/widgets/schedule.php', ["p_id" => "ticket-3"]); ?>
+                </div> -->
+                <?php endforeach; ?>
             </div>
         </div>
 

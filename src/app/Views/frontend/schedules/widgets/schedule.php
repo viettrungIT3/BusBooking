@@ -51,7 +51,7 @@
                 </button>
             </div>
             <hr>
-            <?php echo view('frontend/tickets/widgets/collapse-book-ticket.php', [
+            <?php echo view('frontend/schedules/widgets/schedule-detail.php', [
                 'p_id' => "collapseBookTicket-" . $p_id,
                 // 'data_list_trip' => $data_list_trip
             ]);
