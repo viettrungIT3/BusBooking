@@ -2,48 +2,79 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">
-                Đức Phúc Limousine
+                <?= trim($schedule->route['origin']) . ' <i class="fa-solid fa-arrow-right"></i> ' . trim($schedule->route['destination']) ?>
             </h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary d-flex justify-content-between">
-                <?php echo
-                    view('frontend/partials/star_rating.php', [
-                        'name' => 'rating-3',
-                        'value' => '5',
-                        'is_disabled' => true
-                    ]);
-                ?>
+            <div class="card-subtitle mb-2 text-body-secondary d-flex justify-content-between">
+                <div>
+                    <?php echo $schedule->bus['name'] 
+                        // . view('frontend/partials/star_rating.php', [
+                        //     'name' => 'rating-3',
+                        //     'value' => '5',
+                        //     'is_disabled' => true
+                        // ]);
+                    ?>
+                </div>
 
                 <div class="price-wrapper">
-                    <span class="price">160.000 đ</span>
-                    &nbsp;
-                    <s class="original-price" style>200.000 đ</s>
+                    <span class="price">
+                        <?= number_format((float) ($schedule->price), 0, ",", "."); ?> VNĐ
+                    </span>
+                    <?php if ($schedule->price != $schedule->route['listed_price']): ?>
+                        &nbsp;
+                        <s class="original-price" style>
+                            <?= number_format((float) ($schedule->route['listed_price']), 0, ",", "."); ?> VNĐ
+                        </s>
+                    <?php endif; ?>
                 </div>
-            </h6>
-            <div class="card-text  mb-2  d-flex justify-content-between">
-                <p>
-                    Limousine VIP 9 ghế
-                </p>
-                <div class="numbus"><i class="glyphicon glyphicon-time"></i> 17 chuyến/ngày</div>
             </div>
-            <div class=" mb-2 ">
-                <i class="fa-solid fa-location-arrow"></i>
-                <b>Đón 09 quận Nội Thành</b> &nbsp;
-                <i class="fa-solid fa-circle-info" style="font-size: 0.66rem;" data-toggle="tooltip"
-                    data-placement="bottom"
-                    title="Đón trả tận nơi miễn phí 09 quận Nội thành (Hoàn Kiếm, Ba Đình, Tây Hồ, Đống Đa, Mỹ Đình, Cầu Giấy, Thanh Xuân, Hoàng Mai, Hai Bà Trưng, Long Biên)"></i>
-            </div>
-            <div class="mb-2">
-                <i class="fa-solid fa-ellipsis-vertical"></i>
-                <span id="schedule_duration10282">2h0'</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-2 ">
+            <div class="card-text  mb-1  d-flex justify-content-between">
                 <div>
-                    <i class="fa-solid fa-map-marker-alt"></i>
-                    <b> Trả tận nơi Thái Nguyên</b> &nbsp;
-                    <i class="fa-solid fa-circle-info" style="font-size: 0.66rem;" data-toggle="tooltip"
-                        data-placement="bottom" title="Đón trả tận nơi thành phố Thái Nguyên"></i>
+                    Limousine VIP
+                    <?= $schedule->bus['seat_number']; ?> ghế
                 </div>
+                <!-- <div class="numbus"><i class="glyphicon glyphicon-time"></i> 17 chuyến/ngày</div> -->
             </div>
+            <div class="mb-1">
+                Thời gian đi:
+                <b>
+                    <?= date('H:i d/m/Y', strtotime($schedule->departure_time)); ?>
+                </b>
+            </div>
+            <div class="mb-1">
+                Thời gian đến:
+                <b>
+                    <?= date('H:i d/m/Y', strtotime($schedule->arrival_time)); ?>
+                </b>
+            </div>
+            <table class="table table-bordered table-hover mb-1">
+                <thead>
+                    <tr>
+                        <th style="width: 10px">#</th>
+                        <th>Trạm</th>
+                        <th>Thời gian đến</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <?php $i = 1;
+                    foreach ($schedule->stop_points as $row) {
+                        $row = (object) $row;
+                        ?>
+                        <tr>
+                            <td>
+                                <?= $i++; ?>
+                            </td>
+                            <td>
+                                <?= $row->name; ?>
+                            </td>
+                            <td>
+                                <?= date('H:i d/m/Y', strtotime($row->arrival_time)); ?>
+                            </td>
+                        </tr>
+                        <?php
+                    } ?>
+                </tbody>
+            </table>
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-warning" id="<?= "collapseBookTicket-" . $p_id ?>-btn"
                     data-toggle="collapse" data-target="#toggle-example">

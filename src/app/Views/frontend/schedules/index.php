@@ -14,7 +14,8 @@
 
 <!-- banner -->
 <div class="ct-banner">
-    <div class="ct-banner_background parallax-window" style="background-image: url('<?php echo base_url() ?>/images/banner_bus_detail.jpg')">
+    <div class="ct-banner_background parallax-window"
+        style="background-image: url('<?php echo base_url() ?>/images/banner_bus_detail.jpg')">
     </div>
     <!-- <div class="ct-banner_content">
         <div class="ct-banner_title">about us</div>
@@ -24,14 +25,14 @@
 <section class="content-header">
     <div class="container">
         <div class="row mb-3 mt-3">
-            <div class="col-12">
+            <!-- <div class="col-12">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                     <li class="breadcrumb-item"><a href="#">Xe khách</a></li>
                     <li class="breadcrumb-item"><a href="#">Đức Phúc Limousine</a></li>
-                    <li class="breadcrumb-item active">Đặt vé</li>
+                    <li class="breadcrumb-item active">Đặt lịch</li>
                 </ol>
-            </div>
+            </div> -->
         </div>
     </div>
 </section>
@@ -88,15 +89,12 @@
             </div>
             <div class="col-lg-9">
                 <?php foreach ($schedules as $schedule): ?>
-                <div class="row mb-5">
-                    <?php echo view('frontend/schedules/widgets/schedule.php', ["p_id" => "ticket-1"]); ?>
-                </div>
-                <!-- <div class="row mb-5">
-                    <?php echo view('frontend/schedules/widgets/schedule.php', ["p_id" => "ticket-2"]); ?>
-                </div>
-                <div class="row mb-5">
-                    <?php echo view('frontend/schedules/widgets/schedule.php', ["p_id" => "ticket-3"]); ?>
-                </div> -->
+                    <div class="row mb-5" id="container-schedules">
+                        <?php echo view('frontend/schedules/widgets/schedule.php', [
+                            "p_id" => "ticket-" . $schedule->id,
+                            "schedule" => $schedule
+                        ]); ?>
+                    </div>
                 <?php endforeach; ?>
             </div>
         </div>

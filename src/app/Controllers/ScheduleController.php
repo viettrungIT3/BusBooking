@@ -8,14 +8,61 @@ class ScheduleController extends Controller
 {
     public function index()
     {
-        // Logic để lấy thông tin chi tiết Lịch trình từ CSDL
-        $schedule = []; // Thay thế này với dữ liệu thực tế từ CSDL
+        $request = \Config\Services::request();
+        $busModel = new \App\Models\BusModel();
+    $routesModel = new \App\Models\RoutesModel();
+    $stopPointModel = new \App\Models\StopPointModel();
+        $db = \Config\Database::connect();
+    
+        // Lấy và xử lý tham số truyền vào
+        $origin = $request->getGet('origin');
+        $destination = $request->getGet('destination');
+        $departureTime = $request->getGet('departureTime');
+    
+        // Xử lý giá trị mặc định cho thời gian đi
+        $now = new \DateTime();
+        $endDate = $departureTime ? (new \DateTime($departureTime))->modify('+7 days') : (new \DateTime())->modify('+7 days');
+        $departureTimeFormatted = $departureTime ? (new \DateTime($departureTime))->format('Y-m-d H:i:s') : $now->format('Y-m-d H:i:s');
+        $endDateFormatted = $endDate->format('Y-m-d H:i:s');
+    
+        // Khởi tạo query builder
+        $builder = $db->table('schedules AS s');
+        $builder->select('s.*');
+        $builder->join('buses AS b', 's.bus_id = b.id');
+        $builder->join('routes AS r', 's.route_id = r.id');
+        $builder->where('b.status', 1);
+        
+        // Áp dụng điều kiện lọc dựa trên tham số truyền vào
+        if ($origin) {
+            $builder->where('r.origin', $origin);
+        }
+        if ($destination) {
+            $builder->where('r.destination', $destination);
+        }
+        $builder->where('s.departure_time >=', $departureTimeFormatted);
+        $builder->where('s.departure_time <=', $endDateFormatted);
+    
+        // Thực hiện truy vấn để lấy lịch trình
+        $schedules = $builder->get()->getResult();
+    
+        // Lấy thông tin điểm dừng cho mỗi lịch trình
+        foreach ($schedules as &$schedule) {
+            $spBuilder = $db->table('stop_points');
+            $spBuilder->select('*');
+            $spBuilder->where('schedule_id', $schedule->id);
+            $spBuilder->orderBy('sequence', 'ASC');
+            $schedule->bus = $busModel->find($schedule->bus_id);
+            $schedule->route = $routesModel->find($schedule->route_id);
+            $schedule->stop_points = $spBuilder->get()->getResult();
+        }
 
-        // Truyền dữ liệu tới view
         $data = [
-            'title' => 'Lịch trình - Đức Phúc Limousine',
-            'schedule' => $schedule,
+            'title' => 'Lịch Trình - Đức Phúc Limousine',
+            'schedules' => $schedules,
         ];
+
+        //     return view('frontend/tickets/tickets', $data);
+        // }
 
         // Dữ liệu filter
         $data['filters'] = [
@@ -226,6 +273,6 @@ class ScheduleController extends Controller
             ]
         ];
 
-        return view('frontend/tickets/tickets', $data);
+        return view('frontend/schedules/index', $data);
     }
 }

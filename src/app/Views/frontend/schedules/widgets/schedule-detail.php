@@ -1,120 +1,17 @@
-<?php
-$data_list_trip = [
-    [
-        'id' => 1,
-        'departure_time' => '05:00',
-        'destination_time' => '06:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 2,
-        'departure_time' => '06:00',
-        'destination_time' => '07:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 3,
-        'departure_time' => '07:00',
-        'destination_time' => '08:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 4,
-        'departure_time' => '08:00',
-        'destination_time' => '09:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 5,
-        'departure_time' => '09:00',
-        'destination_time' => '10:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 6,
-        'departure_time' => '10:00',
-        'destination_time' => '11:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 7,
-        'departure_time' => '11:00',
-        'destination_time' => '12:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 8,
-        'departure_time' => '12:00',
-        'destination_time' => '13:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 9,
-        'departure_time' => '13:00',
-        'destination_time' => '14:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 10,
-        'departure_time' => '14:00',
-        'destination_time' => '15:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 11,
-        'departure_time' => '15:00',
-        'destination_time' => '16:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 12,
-        'departure_time' => '16:00',
-        'destination_time' => '17:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 13,
-        'departure_time' => '17:00',
-        'destination_time' => '18:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 14,
-        'departure_time' => '18:00',
-        'destination_time' => '19:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 15,
-        'departure_time' => '19:00',
-        'destination_time' => '20:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 16,
-        'departure_time' => '20:00',
-        'destination_time' => '21:30',
-        'duration' => '1h30'
-    ],
-    [
-        'id' => 17,
-        'departure_time' => '21:00',
-        'destination_time' => '22:30',
-        'duration' => '1h30'
-    ]
-];
-?>
-
 <div class="collapse" id="<?= $p_id ?>">
     <div class="card card-body">
         <div class="info">
 
             <!-- Images -->
             <div class="mb-3 d-flex justify-content-center align-items-center">
-                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg" style="height: 100px; margin: 0 4px;" alt="">
-                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg" style="height: 100px; margin: 0 4px;" alt="">
-                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg" style="height: 100px; margin: 0 4px;" alt="">
-                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg" style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg"
+                    style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg"
+                    style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg"
+                    style="height: 100px; margin: 0 4px;" alt="">
+                <img src="<?php echo base_url() ?>/images/xe-duc-phuc-limousine-thai-nguyen/1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg"
+                    style="height: 100px; margin: 0 4px;" alt="">
                 <a href="#" class="card-link" data-bs-toggle="modal" data-bs-target="#showImagesModal">Xem thêm</a>
             </div>
 
@@ -151,7 +48,7 @@ $data_list_trip = [
             </div>
 
             <!-- Tiện nghi -->
-            <div class="card mb-3">
+            <div class="alert alert-success mb-3">
                 <div class="d-flex justify-content-center align-items-center benefit">
                     <div class="mx-1 my-2 p-2 text-center">
                         <span class="fas fa-wifi" title="Wifi"></span>
@@ -184,139 +81,96 @@ $data_list_trip = [
                 </div>
             </div>
 
-            <!-- Thông tin vé -->
-
-            <div class="mb-3">
-                <h5>Giá vé: </h5>
-                <div class="price-wrapper">
-                    Giá vé:
-                    <span class="price"> 160.000 đ/vé</span>
-                </div>
-            </div>
-            <div class="mb-3">
-                <h5>Chính sách vé: </h5>
-                <ul type="">
+            <div class="alert alert-info mb-3">
+                <h4>Chính sách vé: </h4>
+                <ul type="circle">
                     <li> - Đón trả tận nơi Phú Bình phụ thu 40.000đ </li>
                 </ul>
             </div>
-            <div class="mb-3">
-                <h5>Ngày đi: </h5>
-                <div class="price-wrapper">
-                    <span class="price"> Thứ Bẩy, 02-03-2024</span>
+
+            <?php
+            // Chuyển đổi thời gian khởi hành sang timestamp và trừ đi 3 tiếng (10800 giây)
+            $thresholdTime = strtotime($schedule->departure_time) - 10800;
+
+            // Lấy thời gian hiện tại dưới dạng timestamp
+            $currentTime = time();
+
+            // So sánh thời gian
+            if ($currentTime > $thresholdTime):
+                ?>
+                <div class="alert alert-danger mb-3" role="alert">
+                    <h4 class="alert-heading">Liên hệ!</h4>
+                    <p>
+                        Chuyến xe đã gần hết vé/hết giờ đặt<br>Quý khách vui lòng liên hệ tổng đài để đặt vé.
+                    </p>
+                    <hr>
+                    <p>
+                        <label>(07h-22h)</label> </span>
+                        <b>
+                            <a href="tel:0903223030">090 322 3030</a>
+                        </b>
+                        <br>
+                        <label>(07h-22h)</label>
+                        <b>
+                            <a href="tel:02471002020">024 7100 2020</a>
+                        </b>
+                        <br>
+                        <label>(07h-22h)</label>
+                        <b>
+                            <a href="tel:0898558000">089 855 8000</a>
+                        </b>
+                    </p>
                 </div>
-            </div>
 
-            <div class="container">
-                <div class="tab-content">
-                    <ul class="nav nav-tabs nav-pills nav-fill" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="home-tab" data-bs-toggle="tab"
-                                data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                                aria-selected="true">Chọn chuyến</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                data-bs-target="#profile-tab-pane" type="button" role="tab"
-                                aria-controls="profile-tab-pane" aria-selected="false">Địa
-                                điểm đón trả</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel"
-                            aria-labelledby="home-tab" tabindex="0">
+            <?php else: ?>
 
-                            <div class="col-sm-12">
-                                <div class="panel panel-default">
-                                    <table id="table-list-trip"
-                                        class="table table-responsive table-hover table-borderless accordion">
-                                        <thead>
-                                            <tr>
-                                                <th>Giờ đi</th>
-                                                <th>Giờ đến</th>
-                                                <th>Thời gian đi</th>
-                                                <th></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php foreach ($data_list_trip as $trip): ?>
-                                                <tr class="border border-bottom-0">
-                                                    <td>
-                                                        <?php echo $trip['departure_time'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $trip['destination_time'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <?php echo $trip['duration'] ?>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-warning"
-                                                            id="collapseTrip<?= $trip['id'] ?>-btn" data-toggle="collapse"
-                                                            data-target="#toggle-example">
-                                                            Chọn vé
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr class="collapse border-start border-end"
-                                                    id="collapseTrip<?= $trip['id'] ?>">
-                                                    <td colspan="999">
-                                                        <h5>Chọn số lượng vé</h5>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <h6>Số vé: </h6>
-                                                            <div class="input-group" style="max-width: 100px;">
-                                                                <input type="number" class="form-control" placeholder="0"
-                                                                    min="0">
-                                                                <span class="input-group-text">vé</span>
-                                                            </div>
-                                                        </div>
-                                                        <div class="d-flex justify-content-between align-items-center">
-                                                            <h6>Tổng tiền: </h6>
-                                                            <span id="total-price" class="price">0đ</span>
-                                                        </div>
-                                                        <div class="d-flex justify-content-end align-items-center">
-                                                            <button class="btn btn-warning float-right">
-                                                                Tiếp tục
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Đặt vé</h4>
 
-                                                <script>
-                                                    $(document).ready(function () {
-                                                        $("#collapseTrip<?= $trip['id'] ?>-btn").click(function () {
-                                                            $(this).text($(this).text() === 'Đóng' ? 'Chọn vé' : 'Đóng');
-                                                            $("#collapseTrip<?= $trip['id'] ?>").collapse('toggle'); // toggle collapse
-                                                        });
-                                                    });
-                                                </script>
-                                            <?php endforeach ?>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6>Số vé: </h6>
+                        <div class="input-group" style="max-width: 100px;">
+                            <input type="number" class="form-control" placeholder="0" min="0">
+                            <span class="input-group-text">vé</span>
                         </div>
-                        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-                            tabindex="0">...</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6>Tổng tiền: </h6>
+                        <span id="total-price" class="price">0đ</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-end align-items-center">
+                        <button class="btn btn-warning float-right">
+                            Tiếp tục
+                        </button>
                     </div>
                 </div>
-            </div>
-            <script>
-                function toggleTab(e) {
-                    var hrefVal = $(e).attr('href');
-                    $('.nav-tabs li').removeClass('active');
-                    $('.nav-tabs li[data-active="' + hrefVal + '"]').addClass('active');
-                }
-            </script>
+            <?php endif; ?>
         </div>
     </div>
 
 </div>
 
 <script>
+    // $(document).ready(function () {
+    //     $("#<?= $p_id ?>-btn").click(function () {
+    //         $(this).text($(this).text() === 'Đóng' ? 'Liên hệ / Đặt vé' : 'Đóng');
+    //         $("#<?= $p_id ?>").collapse('toggle'); // toggle collapse
+    //     });
+    // });
+
     $(document).ready(function () {
+        // Sự kiện click cho các nút có thể mở/đóng các phần tử collapse
         $("#<?= $p_id ?>-btn").click(function () {
+            // Đóng tất cả các phần tử collapse
+            $("#container-schedules .collapse:not(#<?= $p_id ?>").collapse('hide');
+
+            // Cập nhật lại văn bản của nút dựa trên trạng thái mới
             $(this).text($(this).text() === 'Đóng' ? 'Liên hệ / Đặt vé' : 'Đóng');
-            $("#<?= $p_id ?>").collapse('toggle'); // toggle collapse
+            
+            // toggle collapse
+            $("#<?= $p_id ?>").collapse('toggle');
         });
     });
+
 </script>
