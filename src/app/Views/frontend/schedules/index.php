@@ -53,38 +53,39 @@
                         <h3>Bộ lọc tìm kiếm</h3>
                     </div>
                     <hr>
-                    <form action="/path-to-your-search-handler" method="get" class="mx-2">
+                    <div>
                         <!-- Nơi đi -->
-                        <div class="form-group">
+                        <div class="form-group mb-2">
                             <label for="origin">Nơi đi:</label>
                             <select class="form-control" id="origin" name="origin">
                                 <option value="">Chọn nơi đi</option>
                                 <?php foreach ($filters['uniqueOrigins'] as $origin): ?>
-                                    <option value="<?= htmlspecialchars($origin->origin); ?>">
+                                    <option value="<?= htmlspecialchars($origin->origin); ?>"
+                                        <?= isset($_GET["origin"]) && htmlspecialchars($origin->origin) == $_GET["origin"] ? "selected" : ""; ?>>
                                         <?= htmlspecialchars($origin->origin); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <!-- Nơi đến -->
-                        <div class="form-group">
+                        <div class="form-group mb-2">
                             <label for="destination">Nơi đến:</label>
                             <select class="form-control" id="destination" name="destination">
                                 <option value="">Chọn nơi đến</option>
                                 <?php foreach ($filters['uniqueDestinations'] as $destination): ?>
-                                    <option value="<?= htmlspecialchars($destination->destination); ?>">
+                                    <option value="<?= htmlspecialchars($destination->destination); ?>"
+                                        <?= isset($_GET["destination"]) && htmlspecialchars($destination->destination) == $_GET["destination"] ? "selected" : ""; ?>>
                                         <?= htmlspecialchars($destination->destination); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <!-- Ngày khởi hành -->
-                        <div class="form-group">
-                            <label for="departureDate">Ngày khởi hành:</label>
-                            <input type="date" class="form-control" id="departureDate" name="departureDate">
+                        <div class="form-group mb-2">Thời gian đi:</label>
+                            <input type="date" class="form-control" id="departureTime" name="departureTime" value="<?= isset($_GET["departureTime"]) ? $_GET["departureTime"] : ""; ?>">
                         </div>
                         <!-- Loại ghế -->
-                        <div class="form-group">
+                        <div class="form-group mb-2">
                             <label for="seatType">Loại ghế:</label>
                             <select class="form-control" id="seatType" name="seatType">
                                 <option value="">Chọn loại ghế</option>
@@ -95,13 +96,11 @@
                                 <?php endforeach; ?>
                             </select>
                         </div>
-                        <!-- Khoảng giá vé -->
-                        <!-- Lưu ý: Tùy vào cách bạn muốn người dùng chọn khoảng giá, có thể dùng slider, input hai giá trị min và max, v.v... -->
 
-                        <div class="foot d-flex justify-content-end mt-4">
-                            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                        <div class="d-flex justify-content-end mt-4">
+                            <button id="searchButton" class="btn btn-primary">Tìm kiếm</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
 
@@ -163,6 +162,43 @@
             </div>
         </div>
 </section>
+
+<script>
+    $(document).ready(function () {
+        function updateURL() {
+            var origin = $('#origin').val();
+            var destination = $('#destination').val();
+            var departureTime = $('#departureTime').val();
+            var seatType = $('#seatType').val();
+
+            var searchParams = new URLSearchParams(window.location.search);
+
+            // Cập nhật các tham số tìm kiếm dựa trên lựa chọn của người dùng
+            searchParams.set('origin', origin);
+            searchParams.set('destination', destination);
+            searchParams.set('departureTime', departureTime);
+            searchParams.set('seatType', seatType);
+
+            // Xóa các tham số không được chọn
+            if (!origin) searchParams.delete('origin');
+            if (!destination) searchParams.delete('destination');
+            if (!departureTime) searchParams.delete('departureTime');
+            if (!seatType) searchParams.delete('seatType');
+
+            // Cập nhật URL mà không tải lại trang
+            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
+            return newUrl;
+        }
+
+        // Gắn sự kiện click cho nút Tìm kiếm
+        $('#searchButton').on('click', function (e) {
+            e.preventDefault();
+            // Chuyển đến URL mới với các tham số đã cập nhật
+            window.location.href = updateURL();
+        });
+    });
+</script>
+
 
 <!-- Contact -->
 <?= $this->include('frontend/partials/contact.php') ?>

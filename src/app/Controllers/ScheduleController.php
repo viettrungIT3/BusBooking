@@ -18,10 +18,11 @@ class ScheduleController extends Controller
         $origin = $request->getGet('origin');
         $destination = $request->getGet('destination');
         $departureTime = $request->getGet('departureTime');
+        // $seatNumber = $request->getGet('seatNumber');
 
         // Xử lý giá trị mặc định cho thời gian đi
         $now = new \DateTime();
-        $endDate = $departureTime ? (new \DateTime($departureTime))->modify('+7 days') : (new \DateTime())->modify('+7 days');
+        $endDate = $departureTime ? (new \DateTime($departureTime))->modify('+1 days') : (new \DateTime())->modify('+7 days');
         $departureTimeFormatted = $departureTime ? (new \DateTime($departureTime))->format('Y-m-d H:i:s') : $now->format('Y-m-d H:i:s');
         $endDateFormatted = $endDate->format('Y-m-d H:i:s');
 
@@ -39,6 +40,9 @@ class ScheduleController extends Controller
         if ($destination) {
             $builder->where('r.destination', $destination);
         }
+        // if ($seatNumber) {
+        //     $builder->where('b.seat_number', $seatNumber);
+        // }
         $builder->where('s.departure_time >=', $departureTimeFormatted);
         $builder->where('s.departure_time <=', $endDateFormatted);
 
