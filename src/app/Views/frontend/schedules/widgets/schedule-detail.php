@@ -81,8 +81,41 @@
                 </div>
             </div>
 
+            <div class="alert alert-light border mb-3">
+                <h6><b>Các điểm dừng:</b></h6>
+
+                <table class="table table-bordered mb-1">
+                    <thead>
+                        <tr>
+                            <th style="width: 10px">#</th>
+                            <th>Trạm</th>
+                            <th>Thời gian đến</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <?php $i = 1;
+                        foreach ($schedule->stop_points as $row) {
+                            $row = (object) $row;
+                            ?>
+                            <tr>
+                                <td>
+                                    <?= $i++; ?>
+                                </td>
+                                <td>
+                                    <?= $row->name; ?>
+                                </td>
+                                <td>
+                                    <?= date('H:i d/m/Y', strtotime($row->arrival_time)); ?>
+                                </td>
+                            </tr>
+                            <?php
+                        } ?>
+                    </tbody>
+                </table>
+            </div>
             <div class="alert alert-info mb-3">
-                <h4>Chính sách vé: </h4>
+                <h6><b>Chính sách vé: </b></h6>
                 <ul type="circle">
                     <li> - Đón trả tận nơi Phú Bình phụ thu 40.000đ </li>
                 </ul>
@@ -99,7 +132,7 @@
             if ($currentTime > $thresholdTime):
                 ?>
                 <div class="alert alert-danger mb-3" role="alert">
-                    <h5 class="alert-heading">Liên hệ!</h5>
+                    <h6 class="alert-heading">Liên hệ!</h6>
                     <p>
                         Chuyến xe đã gần hết vé/hết giờ đặt<br>Quý khách vui lòng liên hệ tổng đài để đặt vé.
                     </p>
@@ -125,7 +158,7 @@
             <?php else: ?>
 
                 <div class="alert alert-warning" role="alert">
-                    <h5 class="alert-heading">Đặt vé</h5>
+                    <h6 class="alert-heading"><b>Đặt vé</b></h6>
 
                     <div class="d-flex justify-content-between align-items-center">
                         <h6>Số vé: </h6>

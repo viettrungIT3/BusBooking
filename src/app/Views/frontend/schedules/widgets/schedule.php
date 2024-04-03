@@ -40,35 +40,16 @@
                     <?= date('H:i d/m/Y', strtotime($schedule->arrival_time)); ?>
                 </b>
             </div>
-            <table class="table table-bordered table-hover mb-1">
-                <thead>
-                    <tr>
-                        <th style="width: 10px">#</th>
-                        <th>Trạm</th>
-                        <th>Thời gian đến</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                    <?php $i = 1;
-                    foreach ($schedule->stop_points as $row) {
-                        $row = (object) $row;
-                        ?>
-                        <tr>
-                            <td>
-                                <?= $i++; ?>
-                            </td>
-                            <td>
-                                <?= $row->name; ?>
-                            </td>
-                            <td>
-                                <?= date('H:i d/m/Y', strtotime($row->arrival_time)); ?>
-                            </td>
-                        </tr>
-                        <?php
-                    } ?>
-                </tbody>
-            </table>
+            <div class="mb-1">
+                Các trạm đến:
+                <b>
+                    <?php
+                    $stop_names = array_column($schedule->stop_points, 'name');
+                    $stop_names_string = implode(' <i class="fa-solid fa-arrow-right"></i> ', $stop_names);
+                    echo $stop_names_string;
+                    ?>
+                </b>
+            </div>
             <div class="d-flex justify-content-end">
                 <button type="button" class="btn btn-warning" id="<?= "collapseBookTicket-" . $p_id ?>-btn"
                     data-toggle="collapse" data-target="#toggle-example">
