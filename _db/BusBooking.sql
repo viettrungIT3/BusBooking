@@ -76,6 +76,32 @@ LOCK TABLES `bookings` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bus_utilities`
+--
+
+DROP TABLE IF EXISTS `bus_utilities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bus_utilities` (
+  `bus_id` int NOT NULL,
+  `utility_id` int NOT NULL,
+  PRIMARY KEY (`bus_id`,`utility_id`),
+  KEY `utility_id` (`utility_id`),
+  CONSTRAINT `bus_utilities_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`),
+  CONSTRAINT `bus_utilities_ibfk_2` FOREIGN KEY (`utility_id`) REFERENCES `utilities` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bus_utilities`
+--
+
+LOCK TABLES `bus_utilities` WRITE;
+/*!40000 ALTER TABLE `bus_utilities` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bus_utilities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `buses`
 --
 
@@ -87,10 +113,11 @@ CREATE TABLE `buses` (
   `name` varchar(100) NOT NULL,
   `license_plate` varchar(20) NOT NULL,
   `seat_number` int NOT NULL,
-  `type_bus` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `utilities` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `status` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `vehicle_type_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `vehicle_type_id` (`vehicle_type_id`),
+  CONSTRAINT `buses_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_types` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -100,7 +127,7 @@ CREATE TABLE `buses` (
 
 LOCK TABLES `buses` WRITE;
 /*!40000 ALTER TABLE `buses` DISABLE KEYS */;
-INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,'',NULL,1);
+INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,NULL);
 /*!40000 ALTER TABLE `buses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,6 +305,58 @@ LOCK TABLES `users` WRITE;
 INSERT INTO `users` VALUES (1,'Trung Nguyen','viettrungcntt03@gmail.com','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','',NULL),(2,'Việt Trung','a@gmail.com','$2y$10$v/XTJCO6dKRc0fzwxF3ZNenKxRSqgiPN4Sdbv1m1eujxdJQhBQrtG','',NULL),(3,'Trung Nguyen','a1@gmail.com','$2y$10$EfBW7.KPPwoQqF20iJl17.PUQJEV5ZwWpsNnS3HwFGg9dqlGb8z96','',NULL),(4,'Trung Nguyen','34627xuantran@gmail.com','$2y$10$YSLBJXm5GSg44zH.S8eXzeGTy3mXL1QmL0UZ29TGBX2ef5vOuM3BO','',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `utilities`
+--
+
+DROP TABLE IF EXISTS `utilities`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `utilities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `utilities`
+--
+
+LOCK TABLES `utilities` WRITE;
+/*!40000 ALTER TABLE `utilities` DISABLE KEYS */;
+INSERT INTO `utilities` VALUES (1,'Wifi','Cung cấp dịch vụ Wifi miễn phí cho hành khách'),(2,'Cổng sạc USB','Cổng sạc USB cho phép hành khách sạc thiết bị điện tử'),(3,'LCD','Màn hình LCD để phát các chương trình giải trí'),(4,'Nước uống','Cung cấp nước uống miễn phí cho hành khách'),(5,'Khăn lạnh','Cung cấp khăn lạnh cho hành khách để làm mát'),(6,'Điều hòa','Hệ thống điều hòa nhiệt độ để đảm bảo sự thoải mái cho hành khách'),(7,'Chăn đắp','Cung cấp chăn đắp cho hành khách trong suốt hành trình');
+/*!40000 ALTER TABLE `utilities` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `vehicle_types`
+--
+
+DROP TABLE IF EXISTS `vehicle_types`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `vehicle_types` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `type_name` varchar(255) NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `type_name` (`type_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `vehicle_types`
+--
+
+LOCK TABLES `vehicle_types` WRITE;
+/*!40000 ALTER TABLE `vehicle_types` DISABLE KEYS */;
+INSERT INTO `vehicle_types` VALUES (1,'Xe khách','Xe chở khách với cấu hình ghế tiêu chuẩn, phù hợp cho các chuyến đi ngắn.'),(2,'Xe bus','Xe bus lớn, thường được sử dụng cho các tuyến đường dài và có khả năng chứa nhiều hành khách.'),(3,'Xe limousine','Xe cao cấp với các tiện nghi nâng cao, cung cấp trải nghiệm thoải mái và sang trọng nhất.');
+/*!40000 ALTER TABLE `vehicle_types` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -288,4 +367,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-03 10:55:56
+-- Dump completed on 2024-04-03 13:22:42
