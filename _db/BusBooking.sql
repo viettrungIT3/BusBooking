@@ -76,6 +76,112 @@ LOCK TABLES `bookings` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `bus_details`
+--
+
+DROP TABLE IF EXISTS `bus_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bus_details` (
+  `bus_id` int NOT NULL,
+  `description` text,
+  `detailed_info` text,
+  `notes` text,
+  PRIMARY KEY (`bus_id`),
+  CONSTRAINT `bus_details_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bus_details`
+--
+
+LOCK TABLES `bus_details` WRITE;
+/*!40000 ALTER TABLE `bus_details` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bus_details` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bus_offices`
+--
+
+DROP TABLE IF EXISTS `bus_offices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bus_offices` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `bus_id` int NOT NULL,
+  `office_address` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bus_id` (`bus_id`),
+  CONSTRAINT `bus_offices_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bus_offices`
+--
+
+LOCK TABLES `bus_offices` WRITE;
+/*!40000 ALTER TABLE `bus_offices` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bus_offices` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bus_phones`
+--
+
+DROP TABLE IF EXISTS `bus_phones`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bus_phones` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `bus_id` int NOT NULL,
+  `phone_number` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `bus_id` (`bus_id`),
+  CONSTRAINT `bus_phones_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bus_phones`
+--
+
+LOCK TABLES `bus_phones` WRITE;
+/*!40000 ALTER TABLE `bus_phones` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bus_phones` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bus_slides`
+--
+
+DROP TABLE IF EXISTS `bus_slides`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `bus_slides` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `bus_id` int NOT NULL,
+  `slide_url` varchar(255) NOT NULL,
+  `slide_type` enum('image','video') NOT NULL,
+  `description` text,
+  PRIMARY KEY (`id`),
+  KEY `bus_id` (`bus_id`),
+  CONSTRAINT `bus_slides_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bus_slides`
+--
+
+LOCK TABLES `bus_slides` WRITE;
+/*!40000 ALTER TABLE `bus_slides` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bus_slides` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bus_utilities`
 --
 
@@ -118,7 +224,7 @@ CREATE TABLE `buses` (
   PRIMARY KEY (`id`),
   KEY `vehicle_type_id` (`vehicle_type_id`),
   CONSTRAINT `buses_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +233,7 @@ CREATE TABLE `buses` (
 
 LOCK TABLES `buses` WRITE;
 /*!40000 ALTER TABLE `buses` DISABLE KEYS */;
-INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,NULL);
+INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,3),(5,'Đức Phúc Limousine ','20G - 00027',16,1,3);
 /*!40000 ALTER TABLE `buses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -367,4 +473,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-03 13:22:42
+-- Dump completed on 2024-04-03 14:53:43
