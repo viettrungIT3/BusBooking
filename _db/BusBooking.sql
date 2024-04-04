@@ -76,31 +76,6 @@ LOCK TABLES `bookings` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `bus_details`
---
-
-DROP TABLE IF EXISTS `bus_details`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `bus_details` (
-  `id` int NOT NULL,
-  `description` text,
-  `notes` text,
-  PRIMARY KEY (`id`),
-  CONSTRAINT `bus_details_ibfk_1` FOREIGN KEY (`id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bus_details`
---
-
-LOCK TABLES `bus_details` WRITE;
-/*!40000 ALTER TABLE `bus_details` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bus_details` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `bus_offices`
 --
 
@@ -220,10 +195,12 @@ CREATE TABLE `buses` (
   `seat_number` int NOT NULL,
   `status` int DEFAULT NULL,
   `vehicle_type_id` int DEFAULT NULL,
+  `description` text,
+  `notes` text,
   PRIMARY KEY (`id`),
   KEY `vehicle_type_id` (`vehicle_type_id`),
   CONSTRAINT `buses_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +209,7 @@ CREATE TABLE `buses` (
 
 LOCK TABLES `buses` WRITE;
 /*!40000 ALTER TABLE `buses` DISABLE KEYS */;
-INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,3),(5,'Đức Phúc Limousine ','20G - 00027',16,1,3),(6,'Đức Phúc Limousine ','20G - 0002',16,NULL,NULL),(7,'Đức Phúc Limousine ','20G - 00030',16,NULL,NULL),(8,'Đức Phúc Limousine ','20G - 00031',16,NULL,NULL),(9,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL),(10,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL);
+INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,3,NULL,NULL),(5,'Đức Phúc Limousine ','20G - 00027',16,1,3,NULL,NULL),(6,'Đức Phúc Limousine ','20G - 0002',16,NULL,NULL,NULL,NULL),(7,'Đức Phúc Limousine ','20G - 00030',16,NULL,NULL,NULL,NULL),(8,'Đức Phúc Limousine ','20G - 00031',16,NULL,NULL,NULL,NULL),(9,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(10,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(11,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(12,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(13,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(14,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(15,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(16,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(17,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(18,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(19,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(20,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(21,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(22,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(23,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(24,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(25,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(26,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(27,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(28,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(29,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(30,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(31,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(32,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(33,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(34,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(35,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(36,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(37,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(38,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(39,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(40,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(41,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `buses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,4 +449,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-04 19:49:52
+-- Dump completed on 2024-04-04 20:24:05
