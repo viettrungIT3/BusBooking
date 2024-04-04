@@ -6,6 +6,11 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
+$routes->group('api/v1', ['namespace' => 'App\Controllers\Api'], function ($routes) {
+    $routes->post('upload', 'FileController::upload');
+});
+
+
 //  Đăng Nhập và Đăng Ký
 $routes->get('/login', 'AuthController::login');
 $routes->post('/login', 'AuthController::login');
