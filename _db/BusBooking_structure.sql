@@ -64,12 +64,11 @@ DROP TABLE IF EXISTS `bus_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `bus_details` (
-  `bus_id` int NOT NULL,
+  `id` int NOT NULL,
   `description` text,
-  `detailed_info` text,
   `notes` text,
-  PRIMARY KEY (`bus_id`),
-  CONSTRAINT `bus_details_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
+  PRIMARY KEY (`id`),
+  CONSTRAINT `bus_details_ibfk_1` FOREIGN KEY (`id`) REFERENCES `buses` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -160,7 +159,7 @@ CREATE TABLE `buses` (
   PRIMARY KEY (`id`),
   KEY `vehicle_type_id` (`vehicle_type_id`),
   CONSTRAINT `buses_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -321,4 +320,4 @@ CREATE TABLE `vehicle_types` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-03 14:53:33
+-- Dump completed on 2024-04-04 19:49:55
