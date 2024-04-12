@@ -89,7 +89,7 @@ CREATE TABLE `bus_offices` (
   PRIMARY KEY (`id`),
   KEY `bus_id` (`bus_id`),
   CONSTRAINT `bus_offices_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,6 +98,7 @@ CREATE TABLE `bus_offices` (
 
 LOCK TABLES `bus_offices` WRITE;
 /*!40000 ALTER TABLE `bus_offices` DISABLE KEYS */;
+INSERT INTO `bus_offices` VALUES (1,4,'Vp Thống Nhất: 266 Thống Nhất, Thái Nguyên.'),(2,4,'Vp Chùa Hàng: Tổ 8, Chùa Hàng, Thái Nguyên.'),(3,4,'Vp Túc Duyên: Tổ 13, Túc Duyên, Thái Nguyên.');
 /*!40000 ALTER TABLE `bus_offices` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +116,7 @@ CREATE TABLE `bus_phones` (
   PRIMARY KEY (`id`),
   KEY `bus_id` (`bus_id`),
   CONSTRAINT `bus_phones_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +125,7 @@ CREATE TABLE `bus_phones` (
 
 LOCK TABLES `bus_phones` WRITE;
 /*!40000 ALTER TABLE `bus_phones` DISABLE KEYS */;
+INSERT INTO `bus_phones` VALUES (1,4,'02439900333'),(2,4,'0902252200');
 /*!40000 ALTER TABLE `bus_phones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +145,7 @@ CREATE TABLE `bus_slides` (
   PRIMARY KEY (`id`),
   KEY `bus_id` (`bus_id`),
   CONSTRAINT `bus_slides_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,6 +154,7 @@ CREATE TABLE `bus_slides` (
 
 LOCK TABLES `bus_slides` WRITE;
 /*!40000 ALTER TABLE `bus_slides` DISABLE KEYS */;
+INSERT INTO `bus_slides` VALUES (1,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-01.jpg','image',NULL),(2,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-02.jpg','image',NULL),(3,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-03.jpg','image',NULL),(4,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-04.jpg','image',NULL),(5,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-05.jpg','image',NULL),(6,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-06.jpg','image',NULL),(7,4,'1709783165_xe-duc-phuc-limousine-thai-nguyen-07.jpg','image',NULL);
 /*!40000 ALTER TABLE `bus_slides` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,6 +181,7 @@ CREATE TABLE `bus_utilities` (
 
 LOCK TABLES `bus_utilities` WRITE;
 /*!40000 ALTER TABLE `bus_utilities` DISABLE KEYS */;
+INSERT INTO `bus_utilities` VALUES (4,1),(4,2),(4,3),(4,4),(4,5),(4,6);
 /*!40000 ALTER TABLE `bus_utilities` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -200,7 +204,7 @@ CREATE TABLE `buses` (
   PRIMARY KEY (`id`),
   KEY `vehicle_type_id` (`vehicle_type_id`),
   CONSTRAINT `buses_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -209,7 +213,7 @@ CREATE TABLE `buses` (
 
 LOCK TABLES `buses` WRITE;
 /*!40000 ALTER TABLE `buses` DISABLE KEYS */;
-INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,3,NULL,NULL),(5,'Đức Phúc Limousine ','20G - 00027',16,1,3,NULL,NULL),(6,'Đức Phúc Limousine ','20G - 0002',16,NULL,NULL,NULL,NULL),(7,'Đức Phúc Limousine ','20G - 00030',16,NULL,NULL,NULL,NULL),(8,'Đức Phúc Limousine ','20G - 00031',16,NULL,NULL,NULL,NULL),(9,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(10,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(11,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(12,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(13,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(14,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(15,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(16,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(17,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(18,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(19,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(20,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(21,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(22,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(23,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(24,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(25,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(26,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(27,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(28,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(29,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(30,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(31,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(32,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(33,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(34,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(35,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(36,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(37,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(38,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(39,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(40,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL),(41,'Đức Phúc Limousine ','20G - 00032',16,NULL,NULL,NULL,NULL);
+INSERT INTO `buses` VALUES (4,'Đức Phúc Limousine ','20G - 00028',9,1,3,'<p style=\"margin-right: 0px; margin-bottom: 10px; margin-left: 0px; color: rgb(51, 51, 51); font-family: helveticaneue, sans-serif, Arial; font-size: 14px; text-align: justify; user-select: text !important;\"><strong style=\"font-weight: bold; user-select: text !important;\">Hãng xe Đức Phúc Limousine</strong>&nbsp;thuộc Công ty TNHH vận tải du lịch Đức Phúc. Xe Đức Phúc Limousine, tiền thân là hãng xe NewStar Limousine, là một trong những hãng xe Limousine đầu tiên trên tuyến Hà Nội - Thái Nguyên, Nội Bài - Thái Nguyên. Với đội ngũ nhân viên nhiệt tình, hệ thông xe chất lượng, xe Đức Phúc Limousine đã và luôn&nbsp;được nhiều khách hàng tin tưởng, chọn lựa.</p><p style=\"margin-right: 0px; margin-bottom: 10px; margin-left: 0px; color: rgb(51, 51, 51); font-family: helveticaneue, sans-serif, Arial; font-size: 14px; text-align: justify; user-select: text !important;\"><strong style=\"font-weight: bold; user-select: text !important;\">Xe Đức Phúc Limousine&nbsp;</strong>sử dụng dòng xe&nbsp;Limousine Dcar VIP 9 chỗ được thiết kế từ xe Transit 16 chỗ thông thường, cho không gian sử dụng rộng rãi,&nbsp;đảm bảo sự thư giãn, thoải mái tối đa. Xe có 9 ghế bọc da cao cấp&nbsp;với 2 ghế đầu xe và 7 ghế hạng thương gia&nbsp;ở khoang sau.<strong style=\"font-weight: bold; user-select: text !important;\">&nbsp;</strong>Các ghế đều được bọc da toàn bộ, êm ái, sạch sẽ.</p><p style=\"margin-right: 0px; margin-bottom: 10px; margin-left: 0px; color: rgb(51, 51, 51); font-family: helveticaneue, sans-serif, Arial; font-size: 14px; text-align: justify; user-select: text !important;\">Trên xe cũng trang bị đầy đủ tiện nghi như: Wifi tốc độ cao, cổng sạc USB mỗi ghế, màn hình Led cỡ lớn 32 inch, chăn đắp và nước&nbsp;uống&nbsp;miễn phí. Nội thất xe còn được trang trí hệ thống đèn LED giọt nước, đèn bầu trời sao mang lại sự thư giãn, thoải mái tối đa cho hành khách.</p><p style=\"margin-right: 0px; margin-bottom: 10px; margin-left: 0px; color: rgb(51, 51, 51); font-family: helveticaneue, sans-serif, Arial; font-size: 14px; text-align: center; user-select: text !important;\"><img src=\"https://saodieu.vn/media/Anh%20Hang%20Xe%20-%20Dong%20Dau/xe-duc-phuc-limousine-thai-nguyen.jpg\" alt=\"\" width=\"800\" height=\"436\" style=\"border-width: initial; border-color: initial; border-image: initial; max-width: 100%; height: auto; user-select: text !important;\"></p>','<ul style=\"margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding: 0px; list-style: inside; color: rgb(51, 51, 51); font-family: helveticaneue, sans-serif, Arial; font-size: 14px; text-align: justify; user-select: text !important;\"><li style=\"list-style: inside disc; text-align: justify; user-select: text !important;\"><em style=\"user-select: text !important;\">Giá vé áp dụng cho tất cả các ghế. Vị trí chỗ ngồi sẽ do lái xe sắp xếp khi khách lên xe.</em></li><li style=\"list-style: inside disc; text-align: justify; user-select: text !important;\"><em style=\"user-select: text !important;\">Đón trả tận nơi 09 quận nội thành Hà Nội (Hoàn Kiếm, Ba Đình, Tây Hồ, Đống Đa, Mỹ Đình, Cầu Giấy, Hai Bà Trưng, Long Biên) và Sảnh sân bay Nội Bài phụ thu&nbsp;<span style=\"color: rgb(255, 102, 0); user-select: text !important;\">20.000 đ/vé.</span></em></li><li style=\"list-style: inside disc; text-align: justify; user-select: text !important;\"><em style=\"user-select: text !important;\">Đón trả tận nơi Tp Phổ Yên, Tp Sông Công phụ thu&nbsp;<span style=\"color: rgb(255, 102, 0); user-select: text !important;\">20k/vé.</span></em></li><li style=\"list-style: inside disc; text-align: justify; user-select: text !important;\"><em style=\"user-select: text !important;\">Đón trả tận nơi&nbsp;Phú Bình&nbsp;phụ thu&nbsp;<span style=\"color: rgb(255, 102, 0); user-select: text !important;\">40k/vé.</span></em></li><li style=\"list-style: inside disc; text-align: justify; user-select: text !important;\"><em style=\"user-select: text !important;\">Xe đón trả tận nơi có thể là xe Limousine hoặc xe trung chuyển.</em></li><li style=\"list-style: inside disc; text-align: justify; user-select: text !important;\"><em style=\"user-select: text !important;\">Thời gian đón, trả khách tận nơi có thể xê dịch phụ thuộc vào vị trí đón, trả và tình trạng giao thông thực tế.</em></li></ul>');
 /*!40000 ALTER TABLE `buses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,7 +388,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Trung Nguyen','viettrungcntt03@gmail.com','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','',NULL),(2,'Việt Trung','a@gmail.com','$2y$10$v/XTJCO6dKRc0fzwxF3ZNenKxRSqgiPN4Sdbv1m1eujxdJQhBQrtG','',NULL),(3,'Trung Nguyen','a1@gmail.com','$2y$10$EfBW7.KPPwoQqF20iJl17.PUQJEV5ZwWpsNnS3HwFGg9dqlGb8z96','',NULL),(4,'Trung Nguyen','34627xuantran@gmail.com','$2y$10$YSLBJXm5GSg44zH.S8eXzeGTy3mXL1QmL0UZ29TGBX2ef5vOuM3BO','',NULL);
+INSERT INTO `users` VALUES (1,'Trung Nguyen','viettrungcntt03@gmail.com','$2y$10$VJJzVr8Hjb0R0gFl4DgTp.hHgofZvwnKnA6cY8CwoFGblAz.Y7pDm','',NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -449,4 +453,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-04 20:24:05
+-- Dump completed on 2024-04-12 12:36:15

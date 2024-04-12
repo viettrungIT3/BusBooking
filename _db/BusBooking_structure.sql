@@ -70,7 +70,7 @@ CREATE TABLE `bus_offices` (
   PRIMARY KEY (`id`),
   KEY `bus_id` (`bus_id`),
   CONSTRAINT `bus_offices_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `bus_phones` (
   PRIMARY KEY (`id`),
   KEY `bus_id` (`bus_id`),
   CONSTRAINT `bus_phones_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,7 +106,7 @@ CREATE TABLE `bus_slides` (
   PRIMARY KEY (`id`),
   KEY `bus_id` (`bus_id`),
   CONSTRAINT `bus_slides_ibfk_1` FOREIGN KEY (`bus_id`) REFERENCES `buses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,7 +145,7 @@ CREATE TABLE `buses` (
   PRIMARY KEY (`id`),
   KEY `vehicle_type_id` (`vehicle_type_id`),
   CONSTRAINT `buses_ibfk_1` FOREIGN KEY (`vehicle_type_id`) REFERENCES `vehicle_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -306,4 +306,4 @@ CREATE TABLE `vehicle_types` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-04 20:23:58
+-- Dump completed on 2024-04-12 12:36:51
