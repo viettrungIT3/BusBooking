@@ -1,2 +1,4 @@
 db_data/*
 apache_log/*
+
+src/public/assets/.sass-cache

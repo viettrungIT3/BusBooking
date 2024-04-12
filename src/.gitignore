@@ -128,3 +128,8 @@ nb-configuration.xml
 
 # session
 */writable/session/*
+
+*/uploads/*
+*/!uploads/index.html
+
+*/.sass-cache/*
