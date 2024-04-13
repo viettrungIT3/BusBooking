@@ -3,6 +3,11 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\BusModel;
+use App\Models\BusOfficeModel;
+use App\Models\BusPhoneModel;
+use App\Models\BusSlideModel;
+use App\Models\BusUtilityModel;
 
 class BusController extends Controller
 {
@@ -16,15 +21,14 @@ class BusController extends Controller
 
     public function view($id)
     {
-        // Logic để lấy thông tin chi tiết xe khách từ CSDL
-        $busData = []; // Thay thế này với dữ liệu thực tế từ CSDL
-
-        // Truyền dữ liệu tới view
+        $busModel = new BusModel();
+        
         $data = [
             'title' => 'Chi tiết xe khách',
-            'busData' => $busData,
+            'bus' => $busModel->getCompleteBusDetails($id) ?? []
         ];
 
         return view('frontend/bus-detail', $data);
     }
+
 }

@@ -2,6 +2,12 @@
 
 <?= $this->section('content') ?>
 
+<?php
+// echo '<pre>';
+// var_dump($bus);
+// die();
+?>
+
 <!-- Link css -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/frontend/css/bus-detail.css">
 
@@ -22,7 +28,7 @@
 				<ol class="breadcrumb float-sm-right">
 					<li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
 					<li class="breadcrumb-item"><a href="#">Xe khách</a></li>
-					<li class="breadcrumb-item active">Đức Phúc Limousine</li>
+					<li class="breadcrumb-item active"><?= $bus['name'] ?></li>
 				</ol>
 			</div>
 		</div>
@@ -33,18 +39,22 @@
 	<div class="container">
 		<div class="row mt-5 flex-lg-row-reverse">
 			<div class="info-container col-lg-4">
-				<h1 class="title">Đức Phúc Limousine</h1>
+				<h1 class="title"><?= $bus['name'] ?></h1>
 				<div class="info">
-					<p style="text-align: justify;"><strong>*&nbsp;Điện thoại đặt vé xe Đức Phúc Limousine:</strong></p>
-					<p>&nbsp;&nbsp;<span style="color: #ff6600;"><strong><a href="tel:0243 9900 333"
-									style="color: #ff6600;">0243 9900 333</a></strong></span>&nbsp;(07:00 -&nbsp;22:00)
-					</p>
-					<p>&nbsp;&nbsp;<span style="color: #ff6600;"><strong><a href="tel:090 225 22 00"
-									style="color: #ff6600;">090 225 22 00</a></strong></span>&nbsp;(07:00 - 22:00)</p>
-					<p style="text-align: justify;"><strong>* Địa chỉ văn phòng hãng xe Đức Phúc Limousine:</strong></p>
-					<p style="text-align: justify;">&nbsp;+ Vp&nbsp;Thống Nhất: 266 Thống Nhất, Thái Nguyên</p>
-					<p style="text-align: justify;">&nbsp;+ Vp Chùa Hàng: Tổ 8, Chùa Hàng, Thái Nguyên</p>
-					<p style="text-align: justify;">&nbsp;+ Vp Túc Duyên: Tổ 13, Túc Duyên, Thái Nguyên</p>
+					<p style="text-align: justify;"><strong>*&nbsp;Điện thoại đặt vé xe:</strong></p>
+					<?php foreach ($bus['phones'] as $phone): ?>
+						<p style="color: #ff6600;">
+							<strong>
+								<a href="tel:<?= $phone['phone_number'] ?>" style="color: #ff6600;">
+									<?= $phone['phone_number'] ?>
+								</a>
+							</strong>
+						</p>
+					<?php endforeach; ?>
+					<p style="text-align: justify;"><strong>* Địa chỉ văn phòng:</strong></p>
+					<?php foreach ($bus['offices'] as $office): ?>
+					<p style="text-align: justify;"><?= $office['office_address'] ?></p>
+					<?php endforeach; ?>
 					<p style="text-align: justify;"><strong>* Các&nbsp;chuyến&nbsp;xe phổ biến:</strong></p>
 					<p style="text-align: justify;"><span style="color: #0000ff;"><span
 								style="color: #000000;">+</span></span><strong><span

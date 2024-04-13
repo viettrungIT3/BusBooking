@@ -8,6 +8,8 @@
         "FE",
         "BE",
         "plugins",
-        "api"
+        "api",
+        "resources",
+        "PENDING"
     ]
 }
