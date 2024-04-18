@@ -22,10 +22,15 @@ class BusController extends Controller
     public function view($id)
     {
         $busModel = new BusModel();
-        
+        $busData = $busModel->getCompleteBusDetails($id);
+        if (!$busData) {
+            return redirect()->back()->with('error', 'Không tìm thấy thông tin xe khách.');
+        }
+
         $data = [
             'title' => 'Chi tiết xe khách',
-            'bus' => $busModel->getCompleteBusDetails($id) ?? []
+            'bus' => $busModel->getCompleteBusDetails($id),
+            'routes' => $busModel->getRoutesByBusId($id)
         ];
 
         return view('frontend/bus-detail', $data);

@@ -57,4 +57,19 @@ class BusModel extends Model
         return $busData;
     }
 
+    public function getRoutesByBusId($bus_id)
+    {
+        $builder = $this->db->table('schedules s');
+        $builder->select('r.origin, r.destination, r.listed_price, COUNT(*) as count'); 
+        $builder->join('routes r', 's.route_id = r.id', 'inner');
+        $builder->where('s.bus_id', $bus_id);
+        $builder->groupBy('r.origin, r.destination, r.listed_price'); 
+        $builder->orderBy('count', 'DESC');
+        $routes = $builder->get()->getResult();
+    
+        return $routes;
+    }
+    
+
+
 }
