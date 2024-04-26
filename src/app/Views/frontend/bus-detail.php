@@ -4,14 +4,6 @@
 
 <!-- Link css -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/frontend/css/bus-detail.css">
-<!-- Include Date Range Picker -->
-<link rel="stylesheet" href="<?php echo base_url('plugins/daterangepicker/daterangepicker.css') ?>">
-
-<!-- js -->
-<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/moment/moment.min.js"></script>
-<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/inputmask/jquery.inputmask.min.js"></script>
-<script src="<?php echo base_url('plugins/daterangepicker/daterangepicker.js') ?>"></script>
-
 
 <!-- banner -->
 <div class="ct-banner">
@@ -130,29 +122,29 @@
 			</div>
 			<div class="col-lg-4">
 				<h2>Đặt vé</h2>
-				<form action="" method="post">
+				<div>
 					<div class="input-group mb-3">
-						<label class="input-group-text" for="select-route-origin">
+						<label class="input-group-text" for="select-origin">
 							<i class="fa-solid fa-location-arrow"></i>
 						</label>
-						<select class="form-select" id="select-route-origin">
+						<select class="form-select" id="select-origin">
 							<option selected disabled>Chọn nơi đi...</option>
-							<?php foreach ($routes as $route): ?>
-								<option>
-									<?= $route->origin ?>
+							<?php foreach ($stopPoints as $row): ?>
+								<option value="<?= htmlspecialchars($row->name); ?>" <?= isset($_GET["origin"]) && htmlspecialchars($row->name) == $_GET["origin"] ? "selected" : ""; ?>>
+									<?= htmlspecialchars($row->name); ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
 					</div>
 					<div class="input-group mb-3">
-						<label class="input-group-text" for="select-route-destination">
+						<label class="input-group-text" for="select-destination">
 							<i class="fa-solid fa-map-marker-alt"></i>
 						</label>
-						<select class="form-select" id="select-route-destination">
+						<select class="form-select" id="select-destination">
 							<option selected disabled>Chọn nơi đến...</option>
-							<?php foreach ($routes as $route): ?>
-								<option>
-									<?= $route->destination ?>
+							<?php foreach ($stopPoints as $row): ?>
+								<option value="<?= htmlspecialchars($row->name); ?>" <?= isset($_GET["destination"]) && htmlspecialchars($row->name) == $_GET["destination"] ? "selected" : ""; ?>>
+									<?= htmlspecialchars($row->name); ?>
 								</option>
 							<?php endforeach; ?>
 						</select>
@@ -161,34 +153,14 @@
 						<span class="input-group-text" for="input-date">
 							<i class="fa-solid fa-calendar-days"></i>
 						</span>
-						<input type="text" id="input-date" class="form-control" name="datefilter" value="" placeholder="Chọn ngày đi"
-							aria-label="Chọn ngày đi" aria-describedby="input-date">
-
-						<script type="text/javascript">
-							$(function () {
-
-								$('input#input-date').daterangepicker({
-									autoUpdateInput: false,
-									locale: {
-										cancelLabel: 'Clear'
-									}
-								});
-
-								$('input#input-date').on('apply.daterangepicker', function (ev, picker) {
-									$(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-								});
-
-								$('input#input-date').on('cancel.daterangepicker', function (ev, picker) {
-									$(this).val('');
-								});
-
-							});
-						</script>
+						<input type="date" class="form-control" id="departureTime" name="departureTime"
+							value="<?= isset($_GET["departureTime"]) ? $_GET["departureTime"] : ""; ?>" min="<?= date('Y-m-d'); ?>">
 					</div>
 					<div class="input-group mb-3">
-						<button type="button" class="form-control rounded btn btn-warning">Tìm vé xe</button>
+						<button id="searchButton" type="button" class="form-control rounded btn btn-warning">Tìm vé
+							xe</button>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 		<hr>
@@ -306,6 +278,38 @@
 		</div>
 	</div>
 </section>
+
+<script>
+	$(document).ready(function () {
+		function getNewUrlToSearch() {
+			var origin = $('#select-origin').val();
+			var destination = $('#select-destination').val();
+			var departureTime = $('#departureTime').val();
+
+			var searchParams = new URLSearchParams(window.location.search);
+
+			// Cập nhật các tham số tìm kiếm dựa trên lựa chọn của người dùng
+			searchParams.set('origin', origin);
+			searchParams.set('destination', destination);
+			searchParams.set('departureTime', departureTime);
+
+			// Xóa các tham số không được chọn
+			if (!origin) searchParams.delete('origin');
+			if (!destination) searchParams.delete('destination');
+			if (!departureTime) searchParams.delete('departureTime');
+
+			var newUrl = window.location.protocol + "//" + window.location.host + '/schedules?' + searchParams.toString();
+			return newUrl;
+		}
+
+		// Gắn sự kiện click cho nút Tìm kiếm
+		$('#searchButton').on('click', function (e) {
+			e.preventDefault();
+			// Chuyển đến URL mới với các tham số đã cập nhật
+			window.location.href = getNewUrlToSearch();
+		});
+	});
+</script>
 
 <!-- Contact -->
 <?= $this->include('frontend/partials/contact.php') ?>

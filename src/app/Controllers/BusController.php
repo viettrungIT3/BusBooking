@@ -27,13 +27,21 @@ class BusController extends Controller
             return redirect()->back()->with('error', 'Không tìm thấy thông tin xe khách.');
         }
 
+        $stopPoints = $busModel->getUniqueStopPointsName($id);
+
         $data = [
             'title' => 'Chi tiết xe khách',
             'bus' => $busModel->getCompleteBusDetails($id),
-            'routes' => $busModel->getRoutesByBusId($id)
+            'routes' => $busModel->getRoutesByBusId($id),
+            'stopPoints' => $stopPoints
         ];
+
+        //         echo '<pre>';
+        // var_dump($data);
+        // die();
 
         return view('frontend/bus-detail', $data);
     }
+
 
 }
