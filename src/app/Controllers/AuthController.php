@@ -21,8 +21,19 @@ class AuthController extends Controller
         }
 
         $rules = [
-            'identity' => 'required',
-            'password' => 'required|min_length[6]'
+            'identity' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tên đăng nhập là bắt buộc'
+                ]
+            ],
+            'password' => [
+                'rules' => 'required|min_length[6]',
+                'errors' => [
+                    'required' => 'Mật khẩu là bắt buộc',
+                    'min_length' => 'Mật khẩu phải có ít nhất {param} ký tự.'
+                ]
+            ],
         ];
 
         if ($this->validate($rules)) {
