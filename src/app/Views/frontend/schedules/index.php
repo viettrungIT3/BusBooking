@@ -12,6 +12,12 @@
 <!-- Link css -->
 <!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/frontend/css/tickets.css"> -->
 
+<!-- Include Date Range Picker -->
+<link rel="stylesheet" href="<?php echo base_url('plugins/daterangepicker/daterangepicker.css') ?>">
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/moment/moment.min.js"></script>
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?php echo base_url('plugins/daterangepicker/daterangepicker.js') ?>"></script>
+
 <!-- banner -->
 <div class="ct-banner">
     <div class="ct-banner_background parallax-window"
@@ -59,10 +65,9 @@
                             <label for="origin">Nơi đi:</label>
                             <select class="form-control" id="origin" name="origin">
                                 <option value="">Chọn nơi đi</option>
-                                <?php foreach ($filters['uniqueOrigins'] as $origin): ?>
-                                    <option value="<?= htmlspecialchars($origin->origin); ?>"
-                                        <?= isset($_GET["origin"]) && htmlspecialchars($origin->origin) == $_GET["origin"] ? "selected" : ""; ?>>
-                                        <?= htmlspecialchars($origin->origin); ?>
+                                <?php foreach ($filters['uniqueOrigins'] as $row): ?>
+                                    <option value="<?= htmlspecialchars($row->name); ?>" <?= isset($_GET["origin"]) && htmlspecialchars($row->name) == $_GET["origin"] ? "selected" : ""; ?>>
+                                        <?= htmlspecialchars($row->name); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
@@ -72,20 +77,20 @@
                             <label for="destination">Nơi đến:</label>
                             <select class="form-control" id="destination" name="destination">
                                 <option value="">Chọn nơi đến</option>
-                                <?php foreach ($filters['uniqueDestinations'] as $destination): ?>
-                                    <option value="<?= htmlspecialchars($destination->destination); ?>"
-                                        <?= isset($_GET["destination"]) && htmlspecialchars($destination->destination) == $_GET["destination"] ? "selected" : ""; ?>>
-                                        <?= htmlspecialchars($destination->destination); ?>
+                                <?php foreach ($filters['uniqueDestinations'] as $row): ?>
+                                    <option value="<?= htmlspecialchars($row->name); ?>" <?= isset($_GET["destination"]) && htmlspecialchars($row->name) == $_GET["destination"] ? "selected" : ""; ?>>
+                                        <?= htmlspecialchars($row->name); ?>
                                     </option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <!-- Ngày khởi hành -->
                         <div class="form-group mb-2">Thời gian đi:</label>
-                            <input type="date" class="form-control" id="departureTime" name="departureTime" value="<?= isset($_GET["departureTime"]) ? $_GET["departureTime"] : ""; ?>">
+                            <input type="text" class="form-control" id="departureTime" name="departureTime"
+                                value="<?= isset($_GET["departureTime"]) ? $_GET["departureTime"] : ""; ?>">
                         </div>
                         <!-- Loại ghế -->
-                        <div class="form-group mb-2">
+                        <!-- <div class="form-group mb-2">
                             <label for="seatType">Loại ghế:</label>
                             <select class="form-control" id="seatType" name="seatType">
                                 <option value="">Chọn loại ghế</option>
@@ -95,7 +100,7 @@
                                     </option>
                                 <?php endforeach; ?>
                             </select>
-                        </div>
+                        </div> -->
 
                         <div class="d-flex justify-content-end mt-4">
                             <button id="searchButton" class="btn btn-primary">Tìm kiếm</button>
@@ -107,14 +112,30 @@
 
             <!-- list schedules -->
             <div class="col-lg-9">
-                <?php foreach ($schedules as $schedule): ?>
-                    <div class="row mb-5" id="container-schedules">
-                        <?php echo view('frontend/schedules/widgets/schedule.php', [
-                            "p_id" => "ticket-" . $schedule->id,
-                            "schedule" => $schedule
-                        ]); ?>
+                <?php
+                if (isset($schedules) && count($schedules) > 0):
+                    foreach ($schedules as $schedule): ?>
+                        <div class="row mb-5" id="container-schedules">
+                            <?php echo view('frontend/schedules/widgets/schedule.php', [
+                                "p_id" => "ticket-" . $schedule->id,
+                                "schedule" => $schedule
+                            ]); ?>
+                        </div>
+                    <?php endforeach;
+
+                    echo '<div class="d-flex justify-content-center">
+                            <a class="btn btn-outline-danger" href="javascript:history.back()">Quay lại</a>
+                            <span class="mx-2"></span>
+                            <a class="btn btn-outline-info" href="#" id="nextPage">Xem thêm</a>
+                        </div>';
+                else: ?>
+                    <div class="alert alert-danger" role="alert">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>Không tìm thấy kết quả!</strong>
+                            <a class="btn btn-danger" href="javascript:history.back()">Quay lại</a>
+                        </div>
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
 
@@ -165,36 +186,83 @@
 
 <script>
     $(document).ready(function () {
+        const currentUrlParams = new URLSearchParams(window.location.search);
+
+        $('#nextPage').click(function (e) {
+            e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+
+            var currentUrl = new URL(window.location.href); // Lấy URL hiện tại
+            var currentPage = parseInt(currentUrl.searchParams.get('page')) || 1; // Lấy giá trị hiện tại của tham số 'page', mặc định là 1 nếu không tồn tại
+
+            currentUrl.searchParams.set('page', currentPage + 1); // Tăng giá trị của 'page' lên 1
+
+            window.location.href = currentUrl.href; // Chuyển hướng trình duyệt đến URL mới
+        });
+
         function updateURL() {
             var origin = $('#origin').val();
             var destination = $('#destination').val();
-            var departureTime = $('#departureTime').val();
             var seatType = $('#seatType').val();
 
+            if (origin.trim() == destination.trim()) {
+                alert('Địa điểm đi phải khác địa điểm đến!');
+                return false;
+            }
+
             var searchParams = new URLSearchParams(window.location.search);
+            if (origin != searchParams.get('origin') || destination != searchParams.get('destination') || seatType != searchParams.get('seatType')) {
+                searchParams.set('page', 1);
+            }
 
             // Cập nhật các tham số tìm kiếm dựa trên lựa chọn của người dùng
             searchParams.set('origin', origin);
             searchParams.set('destination', destination);
-            searchParams.set('departureTime', departureTime);
             searchParams.set('seatType', seatType);
 
             // Xóa các tham số không được chọn
             if (!origin) searchParams.delete('origin');
             if (!destination) searchParams.delete('destination');
-            if (!departureTime) searchParams.delete('departureTime');
             if (!seatType) searchParams.delete('seatType');
 
             // Cập nhật URL mà không tải lại trang
-            var newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + searchParams.toString();
-            return newUrl;
+            window.history.replaceState(null, null, "?" + searchParams.toString());
+            return true;
         }
 
         // Gắn sự kiện click cho nút Tìm kiếm
         $('#searchButton').on('click', function (e) {
             e.preventDefault();
-            // Chuyển đến URL mới với các tham số đã cập nhật
-            window.location.href = updateURL();
+            if (updateURL())
+                window.location.search = new URLSearchParams(window.location.search).toString();
+        });
+
+        // Khởi tạo Date Range Picker
+        $('#departureTime').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD',
+                applyLabel: "Áp dụng",
+                cancelLabel: "Hủy bỏ",
+                customRangeLabel: "Tùy chỉnh",
+            },
+            startDate: currentUrlParams.has('departureTimeFrom') ? moment(currentUrlParams.get('departureTimeFrom')) : moment(),
+            endDate: currentUrlParams.has('departureTimeTo') ? moment(currentUrlParams.get('departureTimeTo')) : moment().add(6, 'days'),
+            ranges: {
+                'Hôm nay': [moment(), moment()],
+                'Ngày mai': [moment().add(1, 'days'), moment().add(1, 'days')],
+                '3 ngày tới': [moment().add(1, 'days'), moment().add(3, 'days')],
+                '7 ngày tới': [moment().add(1, 'days'), moment().add(7, 'days')],
+                '1 tháng tới': [moment().add(1, 'days'), moment().add(1, 'month')],
+            }
+        }, function (start, end, label) {
+            // Có thể sử dụng callback này để xử lý khi người dùng chọn một khoảng thời gian
+            console.log("Bạn đã chọn: " + start.format('YYYY-MM-DD') + ' đến ' + end.format('YYYY-MM-DD'));
+
+            var searchParams = new URLSearchParams(window.location.search);
+            searchParams.set('departureTimeFrom', start.format('YYYY-MM-DD'));
+            searchParams.set('departureTimeTo', end.format('YYYY-MM-DD'));
+
+            // Cập nhật URL mà không tải lại trang
+            window.history.replaceState(null, null, "?" + searchParams.toString());
         });
     });
 </script>

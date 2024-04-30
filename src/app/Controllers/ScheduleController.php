@@ -3,113 +3,102 @@
 namespace App\Controllers;
 
 use CodeIgniter\Controller;
+use App\Models\{SchedulesModel, BusModel, RoutesModel, StopPointModel};
 
 class ScheduleController extends Controller
 {
+    protected $schedulesModel;
+    protected $busModel;
+    protected $routesModel;
+    protected $stopPointModel;
+
+    public function __construct()
+    {
+        $this->schedulesModel = new SchedulesModel();
+        $this->busModel = new BusModel();
+        $this->routesModel = new RoutesModel();
+        $this->stopPointModel = new StopPointModel();
+    }
+
     public function index()
     {
         $request = \Config\Services::request();
-        $busModel = new \App\Models\BusModel();
-        $routesModel = new \App\Models\RoutesModel();
-        $stopPointModel = new \App\Models\StopPointModel();
-        $db = \Config\Database::connect();
 
-        // Lấy và xử lý tham số truyền vào
+        // Lấy tất cả các tham số GET hiện có
+        $queryParams = $request->getGet();
+
+        // Thiết lập giá trị mặc định cho departureTimeFrom và departureTimeTo nếu chúng không tồn tại
+        if (!isset($queryParams['page'])) {
+            $queryParams['page'] = 1;
+        }
+        if (!isset($queryParams['departureTimeFrom'])) {
+            $queryParams['departureTimeFrom'] = (new \DateTime())->format('Y-m-d');
+        }
+        if (!isset($queryParams['departureTimeTo'])) {
+            $queryParams['departureTimeTo'] = (new \DateTime())->modify('+6 days')->format('Y-m-d');
+        }
+
+        // Kiểm tra xem có cần chuyển hướng không
+        if ($request->getGet('page') === null ||$request->getGet('departureTimeFrom') === null || $request->getGet('departureTimeTo') === null) {
+            // Xây dựng URL mới với tất cả tham số
+            $redirectUrl = current_url() . '?' . http_build_query($queryParams);
+
+            // Chuyển hướng đến URL mới
+            return redirect()->to($redirectUrl);
+        }
+
+        $page = $request->getGet('page') ?: 1;
         $origin = $request->getGet('origin');
         $destination = $request->getGet('destination');
-        $departureTime = $request->getGet('departureTime');
-        // $seatNumber = $request->getGet('seatNumber');
+        $departureTimeFrom = $request->getGet('departureTimeFrom') ?: (new \DateTime())->format('Y-m-d H:i:s');
+        $departureTimeTo = $request->getGet('departureTimeTo') ?: (new \DateTime())->modify('+7 days')->format('Y-m-d H:i:s');
 
-        // Xử lý giá trị mặc định cho thời gian đi
-        $now = new \DateTime();
-        $endDate = $departureTime ? (new \DateTime($departureTime))->modify('+1 days') : (new \DateTime())->modify('+7 days');
-        $departureTimeFormatted = $departureTime ? (new \DateTime($departureTime))->format('Y-m-d H:i:s') : $now->format('Y-m-d H:i:s');
-        $endDateFormatted = $endDate->format('Y-m-d H:i:s');
+        $schedules = $this->schedulesModel->getSchedules(NULL, $origin, $destination, $departureTimeFrom, $departureTimeTo, 10, $page);
+        $this->appendBus($schedules);
+        $this->appendRoute($schedules);
+        $this->appendStopPoints($schedules);
 
-        // Khởi tạo query builder
-        $builder = $db->table('schedules AS s');
-        $builder->select('s.*');
-        $builder->join('buses AS b', 's.bus_id = b.id');
-        $builder->join('routes AS r', 's.route_id = r.id');
-        $builder->where('b.status', 1);
-
-        // Áp dụng điều kiện lọc dựa trên tham số truyền vào
-        if ($origin) {
-            $builder->where('r.origin', $origin);
-        }
-        if ($destination) {
-            $builder->where('r.destination', $destination);
-        }
-        // if ($seatNumber) {
-        //     $builder->where('b.seat_number', $seatNumber);
-        // }
-        $builder->where('s.departure_time >=', $departureTimeFormatted);
-        $builder->where('s.departure_time <=', $endDateFormatted);
-
-        // Sort
-        $builder->orderBy('s.departure_time', 'ASC'); // Sắp xếp lịch trình theo thời gian khởi hành tăng dần
-
-        // Thực hiện truy vấn để lấy lịch trình
-        $schedules = $builder->get()->getResult();
-
-        // Lấy thông tin điểm dừng cho mỗi lịch trình
-        foreach ($schedules as &$schedule) {
-            $spBuilder = $db->table('stop_points');
-            $spBuilder->select('*');
-            $spBuilder->where('schedule_id', $schedule->id);
-            $spBuilder->orderBy('sequence', 'ASC');
-            $schedule->bus = $busModel->find($schedule->bus_id);
-            $schedule->route = $routesModel->find($schedule->route_id);
-            $schedule->stop_points = $spBuilder->get()->getResult();
-        }
-
-        // Gọi hàm searchFilters để lấy dữ liệu bộ lọc
-        $filters = $this->searchFilters();
-
-        // Chuẩn bị dữ liệu để gửi tới view
         $data = [
             'title' => 'Lịch Trình - Đức Phúc Limousine',
             'schedules' => $schedules,
-            'filters' => $filters // Gửi dữ liệu bộ lọc đến view
+            'filters' => $this->searchFilters()
         ];
 
-        // echo '<pre>';
-        // var_dump($data);
-        // die();
 
+        // echo '<pre>';
+        // var_dump($data['schedules']);
+        // die();
 
         return view('frontend/schedules/index', $data);
     }
 
-    public function searchFilters()
+    protected function appendBus(&$schedules)
     {
-        $db = \Config\Database::connect();
-
-        // Lấy danh sách nơi đi và nơi đến duy nhất
-        $routesBuilder = $db->table('routes');
-        $uniqueOrigins = $routesBuilder->select('origin')->distinct()->get()->getResult();
-        $uniqueDestinations = $routesBuilder->select('destination')->distinct()->get()->getResult();
-
-        // Lấy danh sách loại ghế (số lượng ghế) duy nhất
-        $busesBuilder = $db->table('buses');
-        $uniqueSeatTypes = $busesBuilder->select('seat_number')->distinct()->get()->getResult();
-
-        // Lấy khoảng giá vé
-        $schedulesBuilder = $db->table('schedules');
-        $priceRange = $schedulesBuilder->select('MIN(price) AS minPrice, MAX(price) AS maxPrice')->get()->getRow();
-
-        // Lấy thông tin để hiển thị lịch trình
-        // Đây là một phần của logic hiển thị mà bạn có thể muốn thực hiện sau khi đã xác định các bộ lọc
-        // ...
-
-        // Chuẩn bị dữ liệu để gửi tới view
-        return [
-            'uniqueOrigins' => $uniqueOrigins,
-            'uniqueDestinations' => $uniqueDestinations,
-            'uniqueSeatTypes' => $uniqueSeatTypes,
-            'priceRange' => $priceRange,
-            // Các dữ liệu khác cần thiết cho view có thể được thêm vào đây
-        ];
+        foreach ($schedules as &$schedule) {
+            $schedule->bus = $this->busModel->find($schedule->bus_id);
+        }
     }
 
+    protected function appendRoute(&$schedules)
+    {
+        foreach ($schedules as &$schedule) {
+            $schedule->route = $this->routesModel->find($schedule->route_id);
+        }
+    }
+
+    protected function appendStopPoints(&$schedules)
+    {
+        foreach ($schedules as &$schedule) {
+            $schedule->stop_points = $this->stopPointModel->where('schedule_id', $schedule->id)->orderBy('sequence', 'ASC')->findAll();
+        }
+    }
+
+    public function searchFilters()
+    {
+        return [
+            'uniqueOrigins' => $this->stopPointModel->getUniqueName(),
+            'uniqueDestinations' => $this->stopPointModel->getUniqueName(),
+            'uniqueSeatTypes' => $this->busModel->getUniqueSeatTypes(),
+        ];
+    }
 }
