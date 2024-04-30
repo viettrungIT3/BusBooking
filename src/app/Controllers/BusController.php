@@ -4,13 +4,20 @@ namespace App\Controllers;
 
 use CodeIgniter\Controller;
 use App\Models\BusModel;
-use App\Models\BusOfficeModel;
-use App\Models\BusPhoneModel;
-use App\Models\BusSlideModel;
-use App\Models\BusUtilityModel;
+use App\Models\StopPointModel;
 
 class BusController extends Controller
 {
+
+    
+    protected $busModel;
+    protected $stopPointModel;
+
+    public function __construct()
+    {
+        $this->busModel = new BusModel();
+        $this->stopPointModel = new StopPointModel();
+    }
     public function index()
     {
         $data = [
@@ -21,27 +28,28 @@ class BusController extends Controller
 
     public function view($id)
     {
-        $busModel = new BusModel();
-        $busData = $busModel->getCompleteBusDetails($id);
+        $busData = $this->busModel->getCompleteBusDetails($id);
         if (!$busData) {
             return redirect()->back()->with('error', 'Không tìm thấy thông tin xe khách.');
         }
 
-        $stopPoints = $busModel->getUniqueStopPointsName($id);
-
         $data = [
             'title' => 'Chi tiết xe khách',
-            'bus' => $busModel->getCompleteBusDetails($id),
-            'routes' => $busModel->getRoutesByBusId($id),
-            'stopPoints' => $stopPoints
+            'bus' => $this->busModel->getCompleteBusDetails($id),
+            'routes' => $this->busModel->getRoutesByBusId($id),
+            'filters' => $this->searchFilters()
         ];
-
-        //         echo '<pre>';
-        // var_dump($data);
-        // die();
 
         return view('frontend/bus-detail', $data);
     }
 
+    public function searchFilters()
+    {
+        return [
+            'uniqueOrigins' => $this->stopPointModel->getUniqueName(),
+            'uniqueDestinations' => $this->stopPointModel->getUniqueName(),
+            'uniqueSeatTypes' => $this->busModel->getUniqueSeatTypes(),
+        ];
+    }
 
 }

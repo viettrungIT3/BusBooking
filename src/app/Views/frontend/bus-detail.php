@@ -5,6 +5,12 @@
 <!-- Link css -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>/assets/frontend/css/bus-detail.css">
 
+<!-- Include Date Range Picker -->
+<link rel="stylesheet" href="<?php echo base_url('plugins/daterangepicker/daterangepicker.css') ?>">
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/moment/moment.min.js"></script>
+<script src="<?= base_url("/plugins/AdminLTE-3.2.0/") ?>plugins/inputmask/jquery.inputmask.min.js"></script>
+<script src="<?php echo base_url('plugins/daterangepicker/daterangepicker.js') ?>"></script>
+
 <!-- banner -->
 <div class="ct-banner">
 	<div class="ct-banner_background parallax-window"
@@ -124,12 +130,12 @@
 				<h2>Đặt vé</h2>
 				<div>
 					<div class="input-group mb-3">
-						<label class="input-group-text" for="select-origin">
+						<label class="input-group-text" for="origin">
 							<i class="fa-solid fa-location-arrow"></i>
 						</label>
-						<select class="form-select" id="select-origin">
+						<select class="form-select" id="origin" required>
 							<option selected disabled>Chọn nơi đi...</option>
-							<?php foreach ($stopPoints as $row): ?>
+                                <?php foreach ($filters['uniqueOrigins'] as $row): ?>
 								<option value="<?= htmlspecialchars($row->name); ?>" <?= isset($_GET["origin"]) && htmlspecialchars($row->name) == $_GET["origin"] ? "selected" : ""; ?>>
 									<?= htmlspecialchars($row->name); ?>
 								</option>
@@ -137,12 +143,12 @@
 						</select>
 					</div>
 					<div class="input-group mb-3">
-						<label class="input-group-text" for="select-destination">
+						<label class="input-group-text" for="destination">
 							<i class="fa-solid fa-map-marker-alt"></i>
 						</label>
-						<select class="form-select" id="select-destination">
+						<select class="form-select" id="destination" required>
 							<option selected disabled>Chọn nơi đến...</option>
-							<?php foreach ($stopPoints as $row): ?>
+                                <?php foreach ($filters['uniqueDestinations'] as $row): ?>
 								<option value="<?= htmlspecialchars($row->name); ?>" <?= isset($_GET["destination"]) && htmlspecialchars($row->name) == $_GET["destination"] ? "selected" : ""; ?>>
 									<?= htmlspecialchars($row->name); ?>
 								</option>
@@ -153,8 +159,8 @@
 						<span class="input-group-text" for="input-date">
 							<i class="fa-solid fa-calendar-days"></i>
 						</span>
-						<input type="date" class="form-control" id="departureTime" name="departureTime"
-							value="<?= isset($_GET["departureTime"]) ? $_GET["departureTime"] : ""; ?>" min="<?= date('Y-m-d'); ?>">
+						<input type="text" class="form-control" id="departureTime" name="departureTime"
+							value="<?= isset($_GET["departureTime"]) ? $_GET["departureTime"] : ""; ?>" min="<?= date('Y-m-d'); ?>" required>
 					</div>
 					<div class="input-group mb-3">
 						<button id="searchButton" type="button" class="form-control rounded btn btn-warning">Tìm vé
@@ -280,35 +286,75 @@
 </section>
 
 <script>
-	$(document).ready(function () {
-		function getNewUrlToSearch() {
-			var origin = $('#select-origin').val();
-			var destination = $('#select-destination').val();
-			var departureTime = $('#departureTime').val();
+    $(document).ready(function () {
+        const currentUrlParams = new URLSearchParams(window.location.search);
 
-			var searchParams = new URLSearchParams(window.location.search);
+        function goToSearch() {
+            var origin = $('#origin').val();
+            var destination = $('#destination').val();
 
-			// Cập nhật các tham số tìm kiếm dựa trên lựa chọn của người dùng
-			searchParams.set('origin', origin);
-			searchParams.set('destination', destination);
-			searchParams.set('departureTime', departureTime);
+			if (!origin || !destination) {
+				alert('Vui lòng không để trống');
+				return false;
+			}
 
-			// Xóa các tham số không được chọn
-			if (!origin) searchParams.delete('origin');
-			if (!destination) searchParams.delete('destination');
-			if (!departureTime) searchParams.delete('departureTime');
+            if (origin.trim() == destination.trim()) {
+                alert('Địa điểm đi phải khác địa điểm đến!');
+                return false;
+            }
+
+            var searchParams = new URLSearchParams(window.location.search);
+            if (origin != searchParams.get('origin') || destination != searchParams.get('destination')) {
+                searchParams.set('page', 1);
+            }
+
+            // Cập nhật các tham số tìm kiếm dựa trên lựa chọn của người dùng
+            searchParams.set('origin', origin);
+            searchParams.set('destination', destination);
+
+            // Xóa các tham số không được chọn
+            if (!origin) searchParams.delete('origin');
+            if (!destination) searchParams.delete('destination');
 
 			var newUrl = window.location.protocol + "//" + window.location.host + '/schedules?' + searchParams.toString();
-			return newUrl;
-		}
+			window.location.href = newUrl;
+        }
 
-		// Gắn sự kiện click cho nút Tìm kiếm
-		$('#searchButton').on('click', function (e) {
-			e.preventDefault();
-			// Chuyển đến URL mới với các tham số đã cập nhật
-			window.location.href = getNewUrlToSearch();
-		});
-	});
+        // Gắn sự kiện click cho nút Tìm kiếm
+        $('#searchButton').on('click', function (e) {
+            e.preventDefault();
+            goToSearch();
+        });
+
+        // Khởi tạo Date Range Picker
+        $('#departureTime').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD',
+                applyLabel: "Áp dụng",
+                cancelLabel: "Hủy bỏ",
+                customRangeLabel: "Tùy chỉnh",
+            },
+            startDate: currentUrlParams.has('departureTimeFrom') ? moment(currentUrlParams.get('departureTimeFrom')) : moment(),
+            endDate: currentUrlParams.has('departureTimeTo') ? moment(currentUrlParams.get('departureTimeTo')) : moment(),
+            ranges: {
+                'Hôm nay': [moment(), moment()],
+                'Ngày mai': [moment().add(1, 'days'), moment().add(1, 'days')],
+                '3 ngày tới': [moment().add(1, 'days'), moment().add(3, 'days')],
+                '7 ngày tới': [moment().add(1, 'days'), moment().add(7, 'days')],
+                '1 tháng tới': [moment().add(1, 'days'), moment().add(1, 'month')],
+            }
+        }, function (start, end, label) {
+            // Có thể sử dụng callback này để xử lý khi người dùng chọn một khoảng thời gian
+            console.log("Bạn đã chọn: " + start.format('YYYY-MM-DD') + ' đến ' + end.format('YYYY-MM-DD'));
+
+            var searchParams = new URLSearchParams(window.location.search);
+            searchParams.set('departureTimeFrom', start.format('YYYY-MM-DD'));
+            searchParams.set('departureTimeTo', end.format('YYYY-MM-DD'));
+
+            // Cập nhật URL mà không tải lại trang
+            window.history.replaceState(null, null, "?" + searchParams.toString());
+        });
+    });
 </script>
 
 <!-- Contact -->
