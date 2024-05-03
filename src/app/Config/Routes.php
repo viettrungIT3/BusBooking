@@ -13,6 +13,7 @@ $routes->group('api/v1', ['namespace' => 'App\Controllers\Api'], function ($rout
 
 //  Đăng Nhập và Đăng Ký
 $routes->get('/login', 'AuthController::login');
+$routes->get('/login-with-google', 'AuthController::loginWithGoogle');
 $routes->post('/login', 'AuthController::login');
 $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::register');

@@ -73,9 +73,7 @@
                 </form>
 
                 <div class="social-auth-links text-center mt-2 mb-3">
-                    <a href="#" class="btn btn-block btn-danger">
-                        <i class="fab fa-google-plus mr-2"></i> Hoặc đăng nhập bằng Google+
-                    </a>
+                    <?php echo $googleButton; ?>
                 </div>
                 <!-- /.social-auth-links -->
 

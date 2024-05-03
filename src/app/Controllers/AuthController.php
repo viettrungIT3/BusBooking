@@ -2,12 +2,29 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
-use App\Models\UserModel;
-use App\Models\AdministratorsModel;
+require_once COMPOSER_PATH;
 
-class AuthController extends Controller
+use App\Models\AdministratorsModel;
+use App\Models\UserModel;
+use Google_Service_Oauth2;
+
+class AuthController extends BaseController
 {
+    private $userModel = NULL;
+    private $googleClient = NULL;
+    function __construct()
+    {
+        ini_set('memory_limit', '-1');
+        $this->userModel = new UserModel();
+        $this->googleClient = new \Google_Client();
+        $this->googleClient->setClientId(env('GOOGLE_CLIENT_ID'));
+        $this->googleClient->setClientSecret(env('GOOGLE_CLIENT_SECRET'));
+        $this->googleClient->setRedirectUri(base_url('/login-with-google'));
+        $this->googleClient->addScope("email");
+        $this->googleClient->addScope("profile");
+    }
+
+
     public function login()
     {
 
@@ -78,8 +95,53 @@ class AuthController extends Controller
         } else {
             $data['validation'] = $this->validator;
             $data['title'] = 'Đăng nhập';
+            $data['googleButton'] = '<a href="' . $this->googleClient->createAuthUrl() . '" class="btn btn-block btn-danger"><i class="fab fa-google-plus mr-2"></i> Hoặc đăng nhập bằng Google+</a>';
             return view('login', $data);
         }
+    }
+
+    public function loginWithGoogle()
+    {
+
+        $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+        if (!isset($token['error'])) {
+            $this->googleClient->setAccessToken($token['access_token']);
+            session()->set("AccessToken", $token['access_token']);
+
+            $googleService = new Google_Service_Oauth2($this->googleClient);
+            $data = $googleService->userinfo->get();
+            $currentDateTime = date("Y-m-d H:i:s");
+
+            $userdata = array();
+            if ($this->userModel->isAlreadyRegister($data['id'])) {
+                //User ALready Login and want to Login Again
+                $userdata = [
+                    'name' => $data['givenName'] . " " . $data['familyName'],
+                    'email' => $data['email'],
+                    'profile_img' => $data['picture'],
+                    'updated_at' => $currentDateTime
+                ];
+                $this->userModel->updateUserData($userdata, $data['id']);
+            } else {
+                //new User want to Login
+                $userdata = [
+                    'oauth_id' => $data['id'],
+                    'name' => $data['givenName'] . " " . $data['familyName'],
+                    'email' => $data['email'],
+                    'profile_img' => $data['picture'],
+                    'created_at' => $currentDateTime
+                ];
+                $this->userModel->insertUserData($userdata);
+            }
+            session()->set("LoggedUserData", $userdata);
+
+        } else {
+            session()->setFlashData("Error", "Something went Wrong");
+            return redirect()->to(base_url());
+        }
+        //Successfull Login
+        return redirect()->to(base_url());
+
     }
 
     public function register()
