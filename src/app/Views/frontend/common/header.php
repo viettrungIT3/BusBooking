@@ -17,9 +17,25 @@
                         </ul>
                     </div>
                     <div class="user_box ml-auto ms-auto">
-                        <div class="user_box_login user_box_link"><a href="/login">đăng nhập</a></div>
-                        <div class="user_box_register user_box_link"><a href="/register">đăng ký</a></div>
+                        <?php if (session()->has('logged_in') && session()->get('logged_in') === true): ?>
+                            <!-- Người dùng đã đăng nhập -->
+                            <div class="user_box_login user_box_link">
+                                <a href="/profile" title="Thông tin cá nhân"><?= esc(session()->get('current_user')['name']) ?></a>
+                            </div>
+                            <div class="user_box_logout user_box_link">
+                                <a href="/logout">Đăng xuất</a>
+                            </div>
+                        <?php else: ?>
+                            <!-- Người dùng chưa đăng nhập -->
+                            <div class="user_box_login user_box_link">
+                                <a href="/login">đăng nhập</a>
+                            </div>
+                            <div class="user_box_register user_box_link">
+                                <a href="/register">đăng ký</a>
+                            </div>
+                        <?php endif; ?>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -31,7 +47,8 @@
             <div class="row">
                 <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
                     <div class="logo_container">
-                        <div class="logo"><a href="#"><img src="<?php echo base_url() ?>/images/logo.png" alt="">Bus Booking</a></div>
+                        <div class="logo"><a href="#"><img src="<?php echo base_url() ?>/images/logo.png" alt="">Bus
+                                Booking</a></div>
                     </div>
                     <div class="main_nav_container ml-auto">
                         <ul class="main_nav_list">
