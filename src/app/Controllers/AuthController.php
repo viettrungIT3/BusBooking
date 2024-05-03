@@ -66,7 +66,7 @@ class AuthController extends BaseController
 
             if ($user && password_verify($password, $user['password'])) {
                 $ses_data = [
-                    'current_user_id' => $user['id'],
+                    'current_user' => $user,
                     'logged_in' => true,
                     'lastActivity' => time()
                 ];
@@ -133,7 +133,14 @@ class AuthController extends BaseController
                 ];
                 $this->userModel->insertUserData($userdata);
             }
-            session()->set("LoggedUserData", $userdata);
+            $current_user = $this->userModel->getByEmail($data['email']);
+
+            $ses_data = [
+                'current_user' => $current_user,
+                'logged_in' => true,
+                'lastActivity' => time()
+            ];
+            session()->set($ses_data);
 
         } else {
             session()->setFlashData("Error", "Something went Wrong");
