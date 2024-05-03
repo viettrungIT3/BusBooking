@@ -187,6 +187,7 @@ class AuthController extends BaseController
         } else {
             $data['validation'] = $this->validator;
             $data['title'] = 'Đăng ký';
+            $data['googleButton'] = '<a href="' . $this->googleClient->createAuthUrl() . '" class="btn btn-block btn-danger"><i class="fab fa-google-plus mr-2"></i> Hoặc đăng nhập bằng Google+</a>';
             return view('register', $data);
         }
     }
