@@ -158,11 +158,44 @@ class AuthController extends BaseController
         $session->destroy();
 
         $rules = [
-            'name' => 'required|min_length[3]|max_length[30]',
-            'email' => 'valid_email|is_unique[users.email]',
-            'phone' => 'regex_match[/^[0-9]{8,15}$/]|is_unique[users.phone]',
-            'password' => 'required|min_length[6]'
+            'name' => [
+                'rules' => 'required|min_length[3]|max_length[30]',
+                'errors' => [
+                    'required' => 'Tên là bắt buộc.',
+                    'min_length' => 'Tên phải có ít nhất {param} ký tự.',
+                    'max_length' => 'Tên không được vượt quá {param} ký tự.'
+                ]
+            ],
+            'email' => [
+                'rules' => 'valid_email|is_unique[users.email]',
+                'errors' => [
+                    'valid_email' => 'Địa chỉ email phải hợp lệ.',
+                    'is_unique' => 'Email này đã được đăng ký. Vui lòng sử dụng email khác.'
+                ]
+            ],
+            'phone' => [
+                'rules' => 'regex_match[/^[0-9]{8,15}$/]|is_unique[users.phone]',
+                'errors' => [
+                    'regex_match' => 'Số điện thoại phải từ 8 đến 15 chữ số.',
+                    'is_unique' => 'Số điện thoại này đã được đăng ký. Vui lòng sử dụng số khác.'
+                ]
+            ],
+            'password' => [
+                'rules' => 'required|min_length[6]',
+                'errors' => [
+                    'required' => 'Mật khẩu là bắt buộc.',
+                    'min_length' => 'Mật khẩu phải có ít nhất {param} ký tự.'
+                ]
+            ],
+            'password2' => [
+                'rules' => 'required|matches[password]',
+                'errors' => [
+                    'required' => 'Bạn phải nhập lại mật khẩu.',
+                    'matches' => 'Mật khẩu nhập lại không khớp.'
+                ]
+            ],
         ];
+
 
         if ($this->validate($rules)) {
             $userModel = new UserModel();
