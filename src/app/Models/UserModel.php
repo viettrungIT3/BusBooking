@@ -31,6 +31,10 @@ class UserModel extends Model
         return $this->where('email', $email)->first() !== null;
     }
 
+    public function getByEmail($email) {
+        return $this->where('email', $email)->first();
+    }
+
     /**
      * Check if a user is already registered with a given OAuth ID.
      *
