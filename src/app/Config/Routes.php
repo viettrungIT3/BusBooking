@@ -19,9 +19,6 @@ $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::register');
 $routes->get('/logout', 'AuthController::logout');
 
-// User
-$routes->get('/profile', 'AuthController::profile');
-
 // Trang chủ, giới thiệu, liên hệ
 $routes->get('/', 'HomeController::index');
 $routes->get('/about', 'AboutController::index');
@@ -43,9 +40,9 @@ $routes->get('bookings/cancel/(:num)', 'BookingController::cancel/$1');
 $routes->post('bookings/store', 'BookingController::store');
 
 
-$routes->group('user', ['filter' => 'auth'], function ($routes) {
+$routes->group('user', ['filter' => 'sessionLogin'], function ($routes) {
     // Hồ sơ người dùng và cập nhật hồ sơ
-    $routes->get('profile', 'User\ProfileController::index');
+    $routes->get('profile', 'AuthController::profile');
     $routes->post('profile/update', 'User\ProfileController::update');
 
     // Thanh toán
