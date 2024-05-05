@@ -225,6 +225,11 @@ class AuthController extends BaseController
         }
     }
 
+    public function profile() {
+        $data['title'] = 'Thông tin cá nhân';
+        return view('frontend/users/profile.php', $data);
+    }
+
 
     public function logout()
     {

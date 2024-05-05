@@ -19,6 +19,9 @@ $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::register');
 $routes->get('/logout', 'AuthController::logout');
 
+// User
+$routes->get('/profile', 'AuthController::profile');
+
 // Trang chủ, giới thiệu, liên hệ
 $routes->get('/', 'HomeController::index');
 $routes->get('/about', 'AboutController::index');
