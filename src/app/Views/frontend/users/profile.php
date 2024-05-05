@@ -57,23 +57,25 @@
                             </div>
                             <div class="col-md-8 col-12">
                                 <div class="form-group">
-                                    <label for="fullName">Tên</label>
-                                    <input type="text" class="form-control" id="fullName">
+                                    <label for="name">Tên</label>
+                                    <input type="text" class="form-control" name="name"
+                                        value="<?= esc(session()->get('current_user')['name']) ?>" id="name" disabled>
                                 </div>
                                 <div class="form-group">
                                     <label for="eMail">Email</label>
-                                    <input type="email" class="form-control" id="eMail">
+                                    <input type="email" class="form-control" name="email"
+                                        value="<?= esc(session()->get('current_user')['email']) ?>" id="eMail" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4 col-12">
                                 <div class="avatar-upload">
                                     <div class="avatar-edit">
-                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />
-                                        <label for="imageUpload"></label>
+                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" disabled />
+                                        <label for="imageUpload" id="imageLabel" style="display: none;"></label>
                                     </div>
                                     <div class="avatar-preview">
                                         <div id="imagePreview"
-                                            style="background-image: url(http://i.pravatar.cc/500?img=7);">
+                                            style="background-image: url(<?= esc(session()->get('current_user')['profile_img']) ?>);">
                                         </div>
                                     </div>
                                 </div>
@@ -85,12 +87,19 @@
                                 <h6 class="mt-3 mb-2 text-primary">Thông tin liên hệ</h6>
                             </div>
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group"> <label for="phone">Số điện thoại</label> <input type="text"
-                                        class="form-control" id="phone"></div>
+                                <div class="form-group">
+                                    <label for="phone">Số điện thoại</label>
+                                    <input type="text" class="form-control" name="phone"
+                                        value="<?= esc(session()->get('current_user')['phone']) ?>" id="phone" disabled>
+                                </div>
                             </div>
                             <div class="col-12">
-                                <div class="form-group"> <label for="Street">Địa chỉ</label> <input type="name"
-                                        class="form-control" id="Street"></div>
+                                <div class="form-group">
+                                    <label for="Street">Địa chỉ</label>
+                                    <input type="name" class="form-control" name="address"
+                                        value="<?= esc(session()->get('current_user')['address']) ?>" id="Street"
+                                        disabled>
+                                </div>
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -280,6 +289,17 @@
 </div>
 <script src="<?= base_url() ?>/plugins/AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript">
+    const input = document.getElementById('imageUpload');
+    const label = document.getElementById('imageLabel');
+
+    input.addEventListener('change', function () {
+        if (this.disabled) {
+            label.style.display = 'none';
+        } else {
+            label.style.display = 'inline-block';
+        }
+    });
+
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
