@@ -1,3 +1,5 @@
+<?php $isLoginGG = session()->get('current_user')['oauth_id'] != NULL ? true : false; ?>
+
 <?= $this->extend('frontend/common/layout') ?>
 
 <?= $this->section('content') ?>
@@ -51,67 +53,79 @@
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="account-general">
                     <div class="card-body">
-                        <div class="row mb-2">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h6 class="mb-2 text-primary">Thông tin cơ bản </h6>
-                            </div>
-                            <div class="col-md-8 col-12">
-                                <div class="form-group">
-                                    <label for="name">Tên</label>
-                                    <input type="text" class="form-control" name="name"
-                                        value="<?= esc(session()->get('current_user')['name']) ?>" id="name" disabled>
+                        <form action="/user/profile/edit<?= session()->get('current_user')['id'] ?>" method="post"
+                            id="form-profile">
+                            <div class="row mb-2">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h6 class="mb-2 text-primary">Thông tin cơ bản </h6>
+                                    <?php if ($isLoginGG)
+                                        echo '<font color="red">Tài khoản được liên kết với Google(nên thông tin cơ bản không thể thay đổi)</font>';
+                                    ?>
                                 </div>
-                                <div class="form-group">
-                                    <label for="eMail">Email</label>
-                                    <input type="email" class="form-control" name="email"
-                                        value="<?= esc(session()->get('current_user')['email']) ?>" id="eMail" disabled>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-12">
-                                <div class="avatar-upload">
-                                    <div class="avatar-edit">
-                                        <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" disabled />
-                                        <label for="imageUpload" id="imageLabel" style="display: none;"></label>
+                                <div class="col-md-8 col-12">
+                                    <div class="form-group">
+                                        <label for="name">Tên</label>
+                                        <input type="text" class="form-control" name="name"
+                                            value="<?= esc(session()->get('current_user')['name']) ?>" id="name"
+                                            disabled>
                                     </div>
-                                    <div class="avatar-preview">
-                                        <div id="imagePreview"
-                                            style="background-image: url(<?= esc(session()->get('current_user')['profile_img']) ?>);">
+                                    <div class="form-group">
+                                        <label for="eMail">Email</label>
+                                        <input type="email" class="form-control" name="email"
+                                            value="<?= esc(session()->get('current_user')['email']) ?>" id="eMail"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="avatar-upload">
+                                        <div class="avatar-edit">
+                                            <input type='file' id="imageUpload" name="profile_img" accept=".png, .jpg, .jpeg" disabled />
+                                            <label for="imageUpload" id="imageLabel" style="display: none;"></label>
+                                        </div>
+                                        <div class="avatar-preview">
+                                            <div id="imagePreview"
+                                                style="background-image: url(<?= esc(session()->get('current_user')['profile_img']) ?>);">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mb-2">
+                            <div class="row mb-2">
 
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <h6 class="mt-3 mb-2 text-primary">Thông tin liên hệ</h6>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <label for="phone">Số điện thoại</label>
-                                    <input type="text" class="form-control" name="phone"
-                                        value="<?= esc(session()->get('current_user')['phone']) ?>" id="phone" disabled>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <h6 class="mt-3 mb-2 text-primary">Thông tin liên hệ</h6>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                    <div class="form-group">
+                                        <label for="phone">Số điện thoại</label>
+                                        <input type="text" class="form-control" name="phone"
+                                            value="<?= esc(session()->get('current_user')['phone']) ?>" id="phone"
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="Street">Địa chỉ</label>
+                                        <input type="name" class="form-control" name="address"
+                                            value="<?= esc(session()->get('current_user')['address']) ?>" id="Street"
+                                            disabled>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="Street">Địa chỉ</label>
-                                    <input type="name" class="form-control" name="address"
-                                        value="<?= esc(session()->get('current_user')['address']) ?>" id="Street"
-                                        disabled>
+                            <div class="row mt-3">
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                    <div class="float-end">
+                                        <button type="button" id="btn-edit-profile" class="btn btn-secondary">Chỉnh
+                                            sửa</button>
+                                        <button type="reset" id="btn-cancel-edit-profile"
+                                            class="btn btn-secondary">Hủy</button>
+                                        <button type="submit" id="btn-update-profile" name="submit"
+                                            class="btn btn-primary">Cập
+                                            nhật</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row mt-3">
-                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                                <div class="float-end">
-                                    <button type="button" id="submit" name="submit"
-                                        class="btn btn-secondary">Hủy</button>
-                                    <button type="button" id="submit" name="submit" class="btn btn-primary">Cập
-                                        nhật</button>
-                                </div>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
                 <div class="tab-pane fade" id="account-change-password">
@@ -287,33 +301,12 @@
         </div>
     </div>
 </div>
-<script src="<?= base_url() ?>/plugins/AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript">
-    const input = document.getElementById('imageUpload');
-    const label = document.getElementById('imageLabel');
-
-    input.addEventListener('change', function () {
-        if (this.disabled) {
-            label.style.display = 'none';
-        } else {
-            label.style.display = 'inline-block';
-        }
-    });
-
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $('#imagePreview').css('background-image', 'url(' + e.target.result + ')');
-                $('#imagePreview').hide();
-                $('#imagePreview').fadeIn(650);
-            }
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-    $("#imageUpload").change(function () {
-        readURL(this);
-    });
+<script>
+    // Kiểm tra xem người dùng đã đăng nhập bằng Google hay không
+    var isLoginGG = <?= $isLoginGG; ?>;
 </script>
+<script src="<?= base_url() ?>/plugins/AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="<?= base_url() ?>/assets/js/image-preview.js"></script>
+<script src="<?= base_url() ?>/assets/js/frontend/users/profile.js"></script>
 
 <?= $this->endSection() ?>
