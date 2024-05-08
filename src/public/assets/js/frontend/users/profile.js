@@ -11,14 +11,15 @@ $(document).ready(function () {
   function checkURL() {
     var currentURL = window.location.pathname;
 
-    if (currentURL == "/user/profile") {
-      disableForm();
-      $("#btn-cancel-edit-profile, #btn-update-profile").hide();
-      $("#btn-edit-profile").show();
-    } else if (currentURL == "/user/profile/edit") {
+    if (currentURL == "/user/profile/edit") {
       enableForm();
       $("#btn-cancel-edit-profile, #btn-update-profile").show();
       $("#btn-edit-profile").hide();
+    } else if (currentURL.includes("/user/profile")) {
+      window.history.pushState("", "", "/user/profile");
+      disableForm();
+      $("#btn-cancel-edit-profile, #btn-update-profile").hide();
+      $("#btn-edit-profile").show();
     }
   }
 
@@ -55,6 +56,6 @@ $(document).ready(function () {
   }
 
   function resetForm() {
-    $('#form-profile')[0].reset();
+    $("#form-profile")[0].reset();
   }
 });

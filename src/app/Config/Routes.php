@@ -42,8 +42,9 @@ $routes->post('bookings/store', 'BookingController::store');
 
 $routes->group('user', ['filter' => 'sessionLogin'], function ($routes) {
     // Hồ sơ người dùng và cập nhật hồ sơ
-    $routes->get('profile', 'AuthController::profile');
     $routes->post('profile/update', 'User\ProfileController::update');
+    $routes->get('profile', 'AuthController::profile');
+    $routes->get('profile/(:any)', 'AuthController::profile');
 
     // Thanh toán
     $routes->get('payments/(:num)', 'User\PaymentController::paymentForm/$1');
