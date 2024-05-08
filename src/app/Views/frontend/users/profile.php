@@ -65,13 +65,15 @@
                                 <div class="col-md-8 col-12">
                                     <div class="form-group">
                                         <label for="name">Tên</label>
-                                        <input type="text" class="form-control" name="name"
+                                        <input type="text" class="form-control"
+                                            name="name-<?= $isLoginGG ? 'gg' : '' ?>"
                                             value="<?= esc(session()->get('current_user')['name']) ?>" id="name"
                                             disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="eMail">Email</label>
-                                        <input type="email" class="form-control" name="email"
+                                        <input type="email" class="form-control"
+                                            name="email'-<?= $isLoginGG ? 'gg' : '' ?>"
                                             value="<?= esc(session()->get('current_user')['email']) ?>" id="eMail"
                                             disabled>
                                     </div>
@@ -79,7 +81,8 @@
                                 <div class="col-md-4 col-12">
                                     <div class="avatar-upload">
                                         <div class="avatar-edit">
-                                            <input type='file' id="imageUpload" name="profile_img" accept=".png, .jpg, .jpeg" disabled />
+                                            <input type='file' id="imageUpload" name="profile_img"
+                                                accept=".png, .jpg, .jpeg" disabled />
                                             <label for="imageUpload" id="imageLabel" style="display: none;"></label>
                                         </div>
                                         <div class="avatar-preview">
@@ -304,6 +307,7 @@
 <script>
     // Kiểm tra xem người dùng đã đăng nhập bằng Google hay không
     var isLoginGG = <?= $isLoginGG; ?>;
+    console.log(isLoginGG);
 </script>
 <script src="<?= base_url() ?>/plugins/AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="<?= base_url() ?>/assets/js/image-preview.js"></script>

@@ -46,6 +46,12 @@ $(document).ready(function () {
 
   function enableForm() {
     $("#form-profile input").prop("disabled", false);
+    // Nếu đăng nhập bằng Google, loại bỏ thuộc tính disabled cho các trường thông tin liên hệ
+    if (isLoginGG) {
+      $("#form-profile input[name*='name']").prop("disabled", true);
+      $("#form-profile input[name*='email']").prop("disabled", true);
+      $("#form-profile input[name*='profile_img']").prop("disabled", true);
+    }
   }
 
   function resetForm() {
