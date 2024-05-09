@@ -42,7 +42,7 @@ $routes->post('bookings/store', 'BookingController::store');
 
 $routes->group('user', ['filter' => 'sessionLogin'], function ($routes) {
     // Hồ sơ người dùng và cập nhật hồ sơ
-    $routes->post('profile/update', 'User\ProfileController::update');
+    $routes->post('profile/update/(:num)', 'AuthController::update/$1');
     $routes->get('profile', 'AuthController::profile');
     $routes->get('profile/(:any)', 'AuthController::profile');
 
