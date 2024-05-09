@@ -32,6 +32,21 @@
     </div>
 </section>
 
+
+<div class="container light-style flex-grow-1 container-p-y">
+    <div class="row no-gutters row-bordered row-border-light">
+        <?php if (isset($error)): ?>
+            <div class="alert alert-danger">
+                <?= $error ?>
+            </div>
+        <?php elseif (session('error')): ?>
+            <div class="alert alert-danger">
+                <?= session('error') ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
 <div class="container light-style flex-grow-1 container-p-y">
     <div class="row no-gutters row-bordered row-border-light">
         <div class=" card col-md-3 p-0">
@@ -53,7 +68,7 @@
             <div class="tab-content">
                 <div class="tab-pane fade active show" id="account-general">
                     <div class="card-body">
-                        <form action="/user/profile/edit<?= session()->get('current_user')['id'] ?>" method="post"
+                        <form action="/user/profile/update/<?= session()->get('current_user')['id'] ?>" method="post"
                             id="form-profile">
                             <div class="row mb-2">
                                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -66,14 +81,14 @@
                                     <div class="form-group">
                                         <label for="name">Tên</label>
                                         <input type="text" class="form-control"
-                                            name="name-<?= $isLoginGG ? 'gg' : '' ?>"
+                                            name="name<?= $isLoginGG ? '-gg' : '' ?>"
                                             value="<?= esc(session()->get('current_user')['name']) ?>" id="name"
                                             disabled>
                                     </div>
                                     <div class="form-group">
                                         <label for="eMail">Email</label>
                                         <input type="email" class="form-control"
-                                            name="email'-<?= $isLoginGG ? 'gg' : '' ?>"
+                                            name="email'<?= $isLoginGG ? '-gg' : '' ?>"
                                             value="<?= esc(session()->get('current_user')['email']) ?>" id="eMail"
                                             disabled>
                                     </div>
