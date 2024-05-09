@@ -225,7 +225,60 @@ class AuthController extends BaseController
         }
     }
 
-    public function profile() {
+    public function update($id)
+    {
+        helper(['form']);
+
+        $rules = [
+            'phone' => [
+                'rules' => 'regex_match[/^[0-9]{8,15}$/]',
+                'errors' => [
+                    'regex_match' => 'Số điện thoại phải từ 8 đến 15 chữ số.'
+                ]
+            ],
+            'address' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Địa chỉ là bắt buộc.'
+                ]
+            ]
+        ];
+
+        if ($this->validate($rules)) {
+            $userModel = new UserModel();
+
+            $name = $this->request->getVar('name');
+            $phone = $this->request->getVar('phone');
+            $address = $this->request->getVar('address');
+
+            $users_by_phone = $userModel->where('phone', $phone)->findAll();
+            foreach ($users_by_phone as $user) {
+                if ($user['phone'] == $phone && $user['id'] != $id) {
+                    return redirect()->back()->withInput()->with('error', "Số điện thoại {{$phone}} đã được đăng ký. Vui lòng sử dụng số khác.");
+                }
+            }
+
+            $data = [
+                'id' => $id,
+                'name' => $name,
+                'phone' => $phone,
+                'address' => $address,
+                'updated_at' => date("Y-m-d H:i:s")
+            ];
+
+            try {
+                $userModel->save($data);
+                return redirect()->to('/')->with('success', 'Cập nhật thành công.');
+            } catch (\Exception $e) {
+                // Xử lý lỗi khi lưu dữ liệu vào cơ sở dữ liệu
+                return redirect()->back()->withInput()->with('error', 'Có lỗi cập nhật dữ liệu. Vui lòng thử lại.');
+            }
+        }
+        return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+    }
+
+    public function profile()
+    {
         $data['title'] = 'Thông tin cá nhân';
         return view('frontend/users/profile.php', $data);
     }
