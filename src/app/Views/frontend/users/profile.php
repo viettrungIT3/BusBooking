@@ -1,4 +1,4 @@
-<?php $isLoginGG = session()->get('current_user')['oauth_id'] != NULL ? true : false; ?>
+<?php $isLoginGG = session()->get('current_user')['oauth_id'] != NULL; ?>
 
 <?= $this->extend('frontend/common/layout') ?>
 
@@ -83,7 +83,7 @@
                                         <div class="avatar-edit">
                                             <input type='file' id="imageUpload" name="profile_img"
                                                 accept=".png, .jpg, .jpeg" disabled />
-                                            <label for="imageUpload" id="imageLabel" style="display: none;"></label>
+                                            <label for="imageUpload" id="imageLabel"></label>
                                         </div>
                                         <div class="avatar-preview">
                                             <div id="imagePreview"
@@ -306,7 +306,8 @@
 </div>
 <script>
     // Kiểm tra xem người dùng đã đăng nhập bằng Google hay không
-    var isLoginGG = <?= $isLoginGG; ?>;
+    var isLoginGG = <?php echo(session('current_user')["oauth_id"] != NULL); ?>
+
     console.log(isLoginGG);
 </script>
 <script src="<?= base_url() ?>/plugins/AdminLTE-3.2.0/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>

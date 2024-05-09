@@ -1,20 +1,21 @@
-const input = document.getElementById("imageUpload");
-const label = document.getElementById("imageLabel");
-
-input.addEventListener("change", function () {
-  label.style.display = this.disabled ? "none" : "inline-block";
-});
-
 $(document).ready(function () {
   checkURL();
 
   function checkURL() {
+    document.getElementById("imageLabel").style.display = "none";
+
     var currentURL = window.location.pathname;
 
     if (currentURL == "/user/profile/edit") {
       enableForm();
       $("#btn-cancel-edit-profile, #btn-update-profile").show();
       $("#btn-edit-profile").hide();
+      if (isLoginGG || isLoginGG == 1) {
+        console.log("isLoginGG", isLoginGG);
+        document.getElementById("imageLabel").style.display = "none";
+      } else {
+        document.getElementById("imageLabel").style.display = "inline-block";
+      }
     } else if (currentURL.includes("/user/profile")) {
       window.history.pushState("", "", "/user/profile");
       disableForm();
@@ -47,10 +48,10 @@ $(document).ready(function () {
 
   function enableForm() {
     $("#form-profile input").prop("disabled", false);
+    $("#form-profile input[name*='email']").prop("disabled", true);
     // Nếu đăng nhập bằng Google, loại bỏ thuộc tính disabled cho các trường thông tin liên hệ
     if (isLoginGG) {
       $("#form-profile input[name*='name']").prop("disabled", true);
-      $("#form-profile input[name*='email']").prop("disabled", true);
       $("#form-profile input[name*='profile_img']").prop("disabled", true);
     }
   }
