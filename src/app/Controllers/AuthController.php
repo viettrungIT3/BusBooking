@@ -27,12 +27,15 @@ class AuthController extends BaseController
 
     public function login()
     {
-
-        helper(['form']);    // Kiểm tra session
+        helper(['form']);
         $session = session();
+
+        // Kiểm tra xem người dùng đã đăng nhập chưa, nếu có thì chuyển hướng đến trang chính
         if ($session->get('logged_in')) {
             return redirect()->to('/');
         }
+
+        // Kiểm tra xem người dùng đã đăng nhập là admin chưa, nếu có thì chuyển hướng đến trang quản trị
         if ($session->get('admin_logged_in')) {
             return redirect()->to('/admin/dashboard');
         }
@@ -55,43 +58,49 @@ class AuthController extends BaseController
 
         if ($this->validate($rules)) {
             $userModel = new UserModel();
-
             $identity = $this->request->getVar('identity');
             $password = $this->request->getVar('password');
 
-            // Kiểm tra xem đăng nhập bằng email hay phone
-            $user = $this->isEmail($identity) ?
-                $userModel->where('email', $identity)->first() :
-                $userModel->where('phone', $identity)->first();
+            // Kiểm tra đăng nhập bằng email hoặc số điện thoại
+            $user = $userModel->where('email', $identity)->orWhere('phone', $identity)->first();
 
             if ($user && password_verify($password, $user['password'])) {
-                $ses_data = [
+                // Lưu thông tin đăng nhập vào session
+                $session->set([
                     'current_user' => $user,
                     'logged_in' => true,
                     'lastActivity' => time()
-                ];
-                $session->set($ses_data);
+                ]);
+
+                // Kiểm tra xem có URL trước đó trong session không
+                $redirect_url = $session->get('redirect_url');
+                if ($redirect_url) {
+                    // Xóa URL đã lưu trong session
+                    $session->remove('redirect_url');
+                    // Chuyển hướng người dùng đến URL trước đó
+                    if ($user['phone'] && $user['address']) 
+                        return redirect()->to($redirect_url . '/edit')->with('error', "Bạn cần đầy đủ điền thông tin cơ bản bên dưới.");
+                    return redirect()->to($redirect_url);
+                }
 
                 return redirect()->to('');
             }
 
-            // Kiểm tra xem đăng nhập voi admin khong
+            // Kiểm tra đăng nhập với tài khoản admin
             $adminModel = new AdministratorsModel();
-            $user = $adminModel->where('user_name', $identity)->first();
+            $admin = $adminModel->where('user_name', $identity)->first();
 
-            if ($user && password_verify($password, $user['password'])) {
-                $ses_data = [
-                    'current_admin_id' => $user['id'],
+            if ($admin && password_verify($password, $admin['password'])) {
+                $session->set([
+                    'current_admin_id' => $admin['id'],
                     'admin_logged_in' => true,
                     'lastActivity' => time()
-                ];
-                $session->set($ses_data);
+                ]);
 
                 return redirect()->to('/admin/dashboard');
             }
 
             return redirect()->to('/login')->with('error', 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
-
         } else {
             $data['validation'] = $this->validator;
             $data['title'] = 'Đăng nhập';
@@ -100,10 +109,12 @@ class AuthController extends BaseController
         }
     }
 
+
     public function loginWithGoogle()
     {
-
+        // Xác thực mã thông báo từ Google và lấy thông tin người dùng
         $token = $this->googleClient->fetchAccessTokenWithAuthCode($this->request->getVar('code'));
+
         if (!isset($token['error'])) {
             $this->googleClient->setAccessToken($token['access_token']);
             session()->set("AccessToken", $token['access_token']);
@@ -112,9 +123,9 @@ class AuthController extends BaseController
             $data = $googleService->userinfo->get();
             $currentDateTime = date("Y-m-d H:i:s");
 
-            $userdata = array();
+            $userdata = [];
             if ($this->userModel->isAlreadyRegister($data['id'])) {
-                //User ALready Login and want to Login Again
+                // Người dùng đã đăng nhập và muốn đăng nhập lại
                 $userdata = [
                     'name' => $data['givenName'] . " " . $data['familyName'],
                     'email' => $data['email'],
@@ -123,7 +134,7 @@ class AuthController extends BaseController
                 ];
                 $this->userModel->updateUserData($userdata, $data['id']);
             } else {
-                //new User want to Login
+                // Người dùng mới muốn đăng nhập
                 $userdata = [
                     'oauth_id' => $data['id'],
                     'name' => $data['givenName'] . " " . $data['familyName'],
@@ -135,21 +146,29 @@ class AuthController extends BaseController
             }
             $current_user = $this->userModel->getByEmail($data['email']);
 
+            // Lưu thông tin đăng nhập vào session
             $ses_data = [
                 'current_user' => $current_user,
                 'logged_in' => true,
                 'lastActivity' => time()
             ];
             session()->set($ses_data);
-
         } else {
-            session()->setFlashData("Error", "Something went Wrong");
-            return redirect()->to(base_url());
+            // Xử lý khi xảy ra lỗi
+            return redirect()->to('/login')->with('error', 'Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin đăng nhập.');
         }
-        //Successfull Login
-        return redirect()->to(base_url());
 
+        // Chuyển hướng sau khi đăng nhập thành công
+        $redirect_url = session()->get('redirect_url');
+        if ($redirect_url) {
+            // Xóa URL đã lưu trong session
+            session()->remove('redirect_url');
+            // Chuyển hướng người dùng đến URL trước đó
+            return redirect()->to($redirect_url);
+        }
+        return redirect()->to(base_url());
     }
+
 
     public function register()
     {

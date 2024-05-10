@@ -25,11 +25,13 @@ class SessionLogin implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
-
         $session = session();
 
         if (($session->get('logged_in') == NULL || $session->get('admin_logged_in') == NULL) && (time() - $session->get('lastActivity') > 7200)) {
-            $session->destroy();
+            $session->remove('logged_in');
+            $session->remove('admin_logged_in');
+            // Lưu URL hiện tại vào session trước khi chuyển hướng đến trang đăng nhập
+            $session->set('redirect_url', '/' . uri_string());
             return redirect()->to('/login');
         }
 
@@ -38,6 +40,15 @@ class SessionLogin implements FilterInterface
         }
         if ($session->get('logged_in')) {
             $session->set('lastActivity', time());
+
+            // Kiểm tra xem có URL trước đó trong session không
+            $redirect_url = $session->get('redirect_url');
+            if ($redirect_url) {
+                // Xóa URL đã lưu trong session
+                $session->remove('redirect_url');
+                // Chuyển hướng người dùng đến URL trước đó
+                return redirect()->to($redirect_url);
+            }
         }
     }
 
