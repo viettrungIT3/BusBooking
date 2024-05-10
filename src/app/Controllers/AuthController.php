@@ -221,12 +221,15 @@ class AuthController extends BaseController
 
             $name = $this->request->getVar('name');
             $email = $this->request->getVar('email');
+            $phone = $this->request->getVar('phone');
             $password = $this->request->getVar('password');
 
             $data = [
                 'name' => $name,
                 'email' => $email,
-                'password' => password_hash($password, PASSWORD_DEFAULT)
+                'phone' => $phone,
+                'password' => password_hash($password, PASSWORD_DEFAULT),
+                'created_at' => date("Y-m-d H:i:s")
             ];
 
             try {
