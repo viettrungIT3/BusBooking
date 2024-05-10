@@ -53,8 +53,10 @@
             <div class="list-group list-group-flush account-settings-links">
                 <a class="list-group-item list-group-item-action active" data-toggle="list"
                     href="#account-general">Thông tin cá nhân</a>
-                <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Đổi
-                    mật khẩu</a>
+                <?php if (!$isLoginGG): ?>
+                    <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-change-password">Đổi
+                        mật khẩu</a>
+                <?php endif; ?>
                 <!-- <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-info">Info</a>
                 <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-social-links">Social
                     links</a>
@@ -321,7 +323,7 @@
 </div>
 <script>
     // Kiểm tra xem người dùng đã đăng nhập bằng Google hay không
-    var isLoginGG = <?php echo(session('current_user')["oauth_id"] != NULL); ?>
+    var isLoginGG = <?php echo (session('current_user')["oauth_id"] != NULL); ?>
 
     console.log(isLoginGG);
 </script>
