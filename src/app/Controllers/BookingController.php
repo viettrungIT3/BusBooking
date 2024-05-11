@@ -3,6 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\BookingModel;
+use App\Models\SchedulesModel;
+use App\Models\BusModel;
+use App\Models\RoutesModel;
+use App\Models\StopPointModel;
 
 class BookingController extends BaseController
 {
@@ -14,12 +18,24 @@ class BookingController extends BaseController
         $this->bookingModel = new BookingModel();
     }
 
-    public function index(): string
+    public function check(): string
     {
+        $scheduleModel = new SchedulesModel();
+        $busModel = new BusModel();
+        $routesModel = new RoutesModel();
+        $stopPointModel = new StopPointModel();
+
+        $dataSchedule = $scheduleModel->find(session('bookings')['schedule_id']);
+        $dataSchedule['stop_points'] = $stopPointModel->where('schedule_id', $dataSchedule['id'])->orderBy('sequence', 'ASC')->findAll();
+        $dataSchedule['bus'] = $busModel->select('id, name, license_plate, seat_number')->find($dataSchedule['bus_id']);
+        $dataSchedule['route'] = $routesModel->find($dataSchedule['route_id']);
+
         $data = [
-            'title' => 'Giỏ hàng & Thanh toán',
+            'title' => 'Đặt chỗ',
+            'schedule' => $dataSchedule,
         ];
-        return view('frontend/checkout/checkout', $data);
+        
+        return view('frontend/bookings/check.php', $data);
     }
 
     public function addCard($schedule_id)
@@ -36,7 +52,7 @@ class BookingController extends BaseController
         $dataCard[] = $data;
         session()->set('bookings', $data);
         session()->set('cards', $dataCard);
-        return redirect()->to('/bookings');
+        return redirect()->to('/bookings/check');
     }
 
     public function details($id)
