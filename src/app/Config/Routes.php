@@ -37,7 +37,7 @@ $routes->group('bookings', ['filter' => 'sessionLogin'], function ($routes) {
     $routes->get('check', 'BookingController::check');
     $routes->get('(:num)', 'BookingController::details/$1');
     $routes->post('(:num)', 'BookingController::addCard/$1');
-    $routes->post('create/(:num)', 'BookingController::create/$1');
+    $routes->post('create', 'BookingController::create');
     $routes->get('cancel/(:num)', 'BookingController::cancel/$1');
     $routes->post('store', 'BookingController::store');
 });
