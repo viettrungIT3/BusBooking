@@ -10,6 +10,7 @@
         "plugins",
         "api",
         "resources",
-        "PENDING"
+        "PENDING",
+        "BookingController"
     ]
 }

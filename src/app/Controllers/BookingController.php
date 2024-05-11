@@ -2,8 +2,18 @@
 
 namespace App\Controllers;
 
+use App\Models\BookingModel;
+
 class BookingController extends BaseController
 {
+
+    private $bookingModel = NULL;
+
+    public function __construct()
+    {
+        $this->bookingModel = new BookingModel();
+    }
+
     public function index(): string
     {
         $data = [
