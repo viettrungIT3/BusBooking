@@ -12,6 +12,19 @@ class BookingController extends BaseController
         return view('frontend/checkout/checkout', $data);
     }
 
+    public function addCard($schedule_id)
+    {
+        $user_id = session()->get('current_user')['id'];
+        $quantity = $this->request->getPost('quantity');
+        $data[] = [
+            'user_id' => $user_id,
+            'schedule_id' => $schedule_id,
+            'quantity' => $quantity,
+        ];
+        session()->set('cards', $data);
+        return redirect()->to('/bookings');
+    }
+
     public function details($id)
     {
         // Kiểm tra xem session đã tồn tại chưa
