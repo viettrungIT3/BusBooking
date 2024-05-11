@@ -158,25 +158,28 @@
             <?php else: ?>
 
                 <div class="alert alert-warning" role="alert">
-                    <h6 class="alert-heading"><b>Đặt vé</b></h6>
+                    <form action="/bookings/<?= $schedule->id ?>" method="post">
+                        <h6 class="alert-heading"><b>Đặt vé</b></h6>
 
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Số vé: </h6>
-                        <div class="input-group" style="max-width: 100px;">
-                            <input id="num-ticket-<?= $p_id ?>" type="number" class="form-control" placeholder="0" min="0">
-                            <span class="input-group-text">vé</span>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6>Số vé: </h6>
+                            <div class="input-group" style="max-width: 100px;">
+                                <input id="num-ticket-<?= $p_id ?>" type="number" class="form-control" name="quantity" placeholder="0"
+                                    min="0">
+                                <span class="input-group-text">vé</span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h6>Tổng tiền: </h6>
-                        <span id="total-price-<?= $p_id ?>" class="price">0đ</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-end align-items-center">
-                        <button id="btn-continue-<?= $p_id ?>" class="btn btn-warning float-right">
-                            Tiếp tục
-                        </button>
-                    </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6>Tổng tiền: </h6>
+                            <span id="total-price-<?= $p_id ?>" class="price">0đ</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-end align-items-center">
+                            <button id="btn-continue-<?= $p_id ?>" class="btn btn-warning float-right">
+                                Tiếp tục
+                            </button>
+                        </div>
+                    </form>
                 </div>
             <?php endif; ?>
         </div>
