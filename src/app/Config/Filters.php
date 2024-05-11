@@ -25,6 +25,7 @@ class Filters extends BaseConfig
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
         'sessionLogin'  => \App\Filters\SessionLogin::class,
+        'sessionBooking'=> \App\Filters\SessionBooking::class
     ];
 
     /**

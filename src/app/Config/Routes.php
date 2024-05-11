@@ -34,12 +34,14 @@ $routes->get('/routes/view/(:num)', 'RouteController::view/$1');
 
 // Đặt vé và quản lý đặt vé
 $routes->group('bookings', ['filter' => 'sessionLogin'], function ($routes) {
-    $routes->get('check', 'BookingController::check');
-    $routes->get('(:num)', 'BookingController::details/$1');
     $routes->post('(:num)', 'BookingController::addCard/$1');
-    $routes->post('create', 'BookingController::create');
-    $routes->get('cancel/(:num)', 'BookingController::cancel/$1');
-    $routes->post('store', 'BookingController::store');
+    $routes->group('', ['filter' => 'sessionBooking'], function ($routes) {
+        $routes->get('check', 'BookingController::check');
+        $routes->get('(:num)', 'BookingController::details/$1');
+        $routes->post('create', 'BookingController::create');
+        $routes->get('cancel/(:num)', 'BookingController::cancel/$1');
+        $routes->post('store', 'BookingController::store');
+    });
 });
 
 
