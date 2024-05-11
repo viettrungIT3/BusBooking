@@ -158,14 +158,30 @@
             <?php else: ?>
 
                 <div class="alert alert-warning" role="alert">
-                    <form action="/bookings/<?= $schedule->id ?>" method="post">
+                    <?php
+                    $query_url = [];
+                    if (isset($_GET['origin'])) {
+                        $query_url['origin'] = urlencode($_GET['origin']);
+                    }
+                    if (isset($_GET['destination'])) {
+                        $query_url['destination'] = urlencode($_GET['destination']);
+                    }
+                    $query_url_string = '';
+                    foreach ($query_url as $key => $value) {
+                        $query_url_string .= $key . '=' . $value;
+                        if ($key !== array_key_last($query_url)) {
+                            $query_url_string .= '&';
+                        }
+                    }
+                    ?>
+                    <form action="/bookings/<?= $schedule->id . '?' . $query_url_string ?>" method="post">
                         <h6 class="alert-heading"><b>Đặt vé</b></h6>
 
                         <div class="d-flex justify-content-between align-items-center">
                             <h6>Số vé: </h6>
                             <div class="input-group" style="max-width: 100px;">
-                                <input id="num-ticket-<?= $p_id ?>" type="number" class="form-control" name="quantity" placeholder="0"
-                                    min="0">
+                                <input id="num-ticket-<?= $p_id ?>" type="number" class="form-control" name="quantity"
+                                    placeholder="0" min="0">
                                 <span class="input-group-text">vé</span>
                             </div>
                         </div>
