@@ -83,4 +83,13 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
     $routes->match(['get', 'post'], 'schedules/update/(:segment)', 'ScheduleController::update/$1');
     $routes->get('schedules/delete/(:num)', 'ScheduleController::delete/$1');
     $routes->post('schedules/clones', 'ScheduleController::clones');
+
+    // Phương thức thanh toán
+    $routes->get('payment-methods', 'PaymentMethodController::index');
+    $routes->get('payment-methods/create', 'PaymentMethodController::create');
+    $routes->post('payment-methods/store', 'PaymentMethodController::store');
+    $routes->get('payment-methods/edit/(:segment)', 'PaymentMethodController::edit/$1');
+    $routes->post('payment-methods/update/(:segment)', 'PaymentMethodController::update/$1');
+    $routes->get('payment-methods/delete/(:segment)', 'PaymentMethodController::delete/$1');
+
 });
