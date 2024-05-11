@@ -46,8 +46,8 @@ class BookingController extends BaseController
             'user_id' => $user_id,
             'schedule_id' => $schedule_id,
             'quantity' => $quantity,
-            'origin' => $_GET['origin'],
-            'destination' => $_GET['destination']
+            'origin' => $_GET['origin'] ?? '',
+            'destination' => $_GET['destination'] ?? ''
         ];
         $dataCard[] = $data;
         session()->set('bookings', $data);
@@ -57,23 +57,61 @@ class BookingController extends BaseController
 
     public function create()
     {
-        $user_id = session()->get('current_user')['id'];
+        helper(['form', 'text']);
         $bookingModel = new BookingModel();
-        $data = [
-            'user_id' => $user_id,
-            'schedule_id' => session('bookings')['schedule_id'],
-            'origin' => $this->request->getPost('origin'),
-            'destination' => $this->request->getPost('destination'),
-            'quantity' => session('bookings')['quantity'],
-            'notes' => $this->request->getPost('note'),
-            'status' => 'pending',
-            'payment_status' => 'unpaid',
-            'book_date' => date('Y-m-d H:i:s')
+        $origin = $this->request->getPost('origin');
+        $destination = $this->request->getPost('destination');
+
+
+        $rules = [
+            'origin' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Vui lòng chọn điểm  đi'
+                ]
+            ],
+            'destination' => [
+                'rules' => 'required|greater_than[origin]',
+                'errors' => [
+                    'required' => 'Vui lòng chọn điểm đến',
+                    'greater_than' => 'Tuyến đi không phù hợp. Vui lòng chọn lại!'
+                ]
+            ],
         ];
 
-        $bookingModel->insert($data);
-        session()->remove('bookings');
-        return redirect()->to('/bookings/payment/' . $bookingModel->getInsertID());
+        if (!$this->validate($rules)) {
+            if ($origin == NULL || $destination == NULL || $origin == '' || $destination == '') {
+                return redirect()->back()->withInput()->with('error', 'Vui chọn đầy đủ điểm đi, điểm đến');
+            }
+            if ($origin >= $destination) {
+                return redirect()->back()->withInput()->with('error', 'Tuyến đi không phù hợp. Vui lòng chọn lại!');
+            }
+        }
+        if ($origin == NULL || $destination == NULL || $origin == '' || $destination == '') {
+            return redirect()->back()->withInput()->with('error', 'Vui chọn đầy đủ điểm đi, điểm đến');
+        }
+        if ($origin >= $destination) {
+            return redirect()->back()->withInput()->with('error', 'Tuyến đi không phù hợp. Vui lòng chọn lại!');
+        }
+        try {
+            $data = [
+                'user_id' => session()->get('current_user')['id'],
+                'schedule_id' => session('bookings')['schedule_id'],
+                'origin' => $this->request->getPost('origin'),
+                'destination' => $this->request->getPost('destination'),
+                'quantity' => session('bookings')['quantity'],
+                'notes' => $this->request->getPost('note'),
+                'status' => 'pending',
+                'payment_status' => 'unpaid',
+                'book_date' => date('Y-m-d H:i:s')
+            ];
+
+            $bookingModel->insert($data);
+            session()->remove('bookings');
+            return redirect()->to('/bookings/payment/' . $bookingModel->getInsertID());
+        } catch (\Exception $e) {
+            return redirect()->back()->withInput()->with('error', $e->getMessage());
+        }
     }
 
     public function details($id)

@@ -27,6 +27,25 @@
 
 <section class="content-main">
     <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <?php if (isset($error)): ?>
+                    <div class="alert alert-danger">
+                        <?= $error ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (session('error')): ?>
+                    <div class="alert alert-danger">
+                        <?= session('error') ?>
+                    </div>
+                <?php endif; ?>
+                <?php if (isset($validation)): ?>
+                    <div class="alert alert-danger">
+                        <?= $validation->listErrors() ?>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
         <form action="/bookings/create" method="post">
             <div class="row mt-3 mb-5">
                 <div class="col-12 col-sm-8 mb-2">
@@ -51,7 +70,7 @@
                                                             id="origin-<?= $point['id'] ?>" value="<?= $point['id'] ?>"
                                                             data-name="<?= $point['name'] ?>"
                                                             data-time="<?= strtotime($point['arrival_time']) ?>"
-                                                            <?= $point['name'] == session('bookings')['origin'] ? 'checked' : '' ?>>
+                                                            <?= $point['name'] == session('bookings')['origin'] ? 'checked' : '' ?> required>
                                                         <label class="form-check-label" for="origin-<?= $point['id'] ?>">
                                                             <?= $point['name'] . ' (' . date('H:i d-m-Y', strtotime($point['arrival_time'])) . ')' ?>
                                                         </label>
@@ -72,7 +91,7 @@
                                                             id="destination-<?= $point['id'] ?>" value="<?= $point['id'] ?>"
                                                             data-name="<?= $point['name'] ?>"
                                                             data-time="<?= strtotime($point['arrival_time']) ?>"
-                                                            <?= $point['name'] == session('bookings')['destination'] ? 'checked' : '' ?>>
+                                                            <?= $point['name'] == session('bookings')['destination'] ? 'checked' : '' ?> required>
                                                         <label class="form-check-label"
                                                             for="destination-<?= $point['id'] ?>">
                                                             <?= $point['name'] . ' (' . date('H:i d-m-Y', strtotime($point['arrival_time'])) . ')' ?>
