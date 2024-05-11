@@ -54,11 +54,13 @@ CREATE TABLE `bookings` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
   `schedule_id` int NOT NULL,
-  `book_date` datetime NOT NULL,
+  `origin` int DEFAULT NULL,
+  `destination` int DEFAULT NULL,
   `quantity` int NOT NULL,
+  `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` varchar(50) NOT NULL,
-  `payment_status` varchar(50) NOT NULL DEFAULT 'Pending',
-  `notes` text,
+  `payment_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'unpaid',
+  `book_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `schedule_id` (`schedule_id`),
@@ -458,4 +460,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-11  9:17:18
+-- Dump completed on 2024-05-11 12:52:26
