@@ -26,12 +26,16 @@ class BookingController extends BaseController
     {
         $user_id = session()->get('current_user')['id'];
         $quantity = $this->request->getPost('quantity');
-        $data[] = [
+        $data = [
             'user_id' => $user_id,
             'schedule_id' => $schedule_id,
             'quantity' => $quantity,
+            'origin' => $_GET['origin'],
+            'destination' => $_GET['destination']
         ];
-        session()->set('cards', $data);
+        $dataCard[] = $data;
+        session()->set('bookings', $data);
+        session()->set('cards', $dataCard);
         return redirect()->to('/bookings');
     }
 
