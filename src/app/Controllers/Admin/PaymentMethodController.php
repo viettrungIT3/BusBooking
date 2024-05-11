@@ -26,6 +26,10 @@ class PaymentMethodController extends BaseController
     public function create()
     {
         // Logic để hiển thị form tạo mới
+        $data = [
+            'title' => 'Tạo phương thức thanh toán mới'
+        ];
+        return view('admin/payment-methods/create', $data);
     }
 
     public function store()
