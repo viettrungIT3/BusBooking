@@ -34,7 +34,7 @@ class BookingController extends BaseController
             'title' => 'Đặt chỗ',
             'schedule' => $dataSchedule,
         ];
-        
+
         return view('frontend/bookings/check.php', $data);
     }
 
@@ -53,6 +53,27 @@ class BookingController extends BaseController
         session()->set('bookings', $data);
         session()->set('cards', $dataCard);
         return redirect()->to('/bookings/check');
+    }
+
+    public function create()
+    {
+        $user_id = session()->get('current_user')['id'];
+        $bookingModel = new BookingModel();
+        $data = [
+            'user_id' => $user_id,
+            'schedule_id' => session('bookings')['schedule_id'],
+            'origin' => $this->request->getPost('origin'),
+            'destination' => $this->request->getPost('destination'),
+            'quantity' => session('bookings')['quantity'],
+            'notes' => $this->request->getPost('note'),
+            'status' => 'pending',
+            'payment_status' => 'unpaid',
+            'book_date' => date('Y-m-d H:i:s')
+        ];
+
+        $bookingModel->insert($data);
+        session()->remove('bookings');
+        return redirect()->to('/bookings/payment/' . $bookingModel->getInsertID());
     }
 
     public function details($id)
