@@ -11,10 +11,16 @@ class BookingModel extends Model
     protected $allowedFields = [
         'user_id',
         'schedule_id',
-        'book_date',
+        'origin',
+        'destination',
         'quantity',
+        'notes',
         'status',
         'payment_status',
-        'notes'
+        'book_date'
     ];
+
+    // Rules
+    // 'status'        => '[pending,confirmed,cancelled,expired,completed,refunded,failed,processing]',
+    // 'payment_status'=> '[paid,unpaid,refunded,failed]',
 }
