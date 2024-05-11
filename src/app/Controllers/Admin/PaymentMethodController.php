@@ -15,7 +15,12 @@ class PaymentMethodController extends BaseController
 
     public function index()
     {
-        // Logic để hien thi danh sach phuong thức thanh toan
+        $data = [
+            'paymentMethods' => $this->paymentMethodModel->findAll(),
+            'title' => 'Quản lý thanh toán'
+        ];
+
+        return view('admin/payment-methods/index', $data);
     }
 
     public function create()
