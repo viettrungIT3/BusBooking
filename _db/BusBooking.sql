@@ -58,6 +58,7 @@ CREATE TABLE `bookings` (
   `quantity` int NOT NULL,
   `status` varchar(50) NOT NULL,
   `payment_status` varchar(50) NOT NULL DEFAULT 'Pending',
+  `notes` text,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `schedule_id` (`schedule_id`),
@@ -457,4 +458,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-03 14:54:01
+-- Dump completed on 2024-05-11  9:17:18
