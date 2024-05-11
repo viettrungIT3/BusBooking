@@ -152,6 +152,23 @@ CREATE TABLE `buses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `payment_methods`
+--
+
+DROP TABLE IF EXISTS `payment_methods`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `payment_methods` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `description` text,
+  `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `status` tinyint(1) DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `payments`
 --
 
@@ -161,12 +178,14 @@ DROP TABLE IF EXISTS `payments`;
 CREATE TABLE `payments` (
   `id` int NOT NULL AUTO_INCREMENT,
   `booking_id` int NOT NULL,
-  `amount` float NOT NULL,
-  `proof_image` varchar(255) DEFAULT NULL,
+  `method_id` int DEFAULT NULL,
+  `image` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `status` varchar(50) NOT NULL,
-  `payment_date` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `booking_id` (`booking_id`),
+  KEY `fk_payment_methods` (`method_id`),
+  CONSTRAINT `fk_payment_methods` FOREIGN KEY (`method_id`) REFERENCES `payment_methods` (`id`),
   CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -313,4 +332,4 @@ CREATE TABLE `vehicle_types` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-11 12:52:23
+-- Dump completed on 2024-05-11 21:46:03
