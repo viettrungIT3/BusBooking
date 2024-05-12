@@ -234,7 +234,7 @@ CREATE TABLE `payment_methods` (
   `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +243,7 @@ CREATE TABLE `payment_methods` (
 
 LOCK TABLES `payment_methods` WRITE;
 /*!40000 ALTER TABLE `payment_methods` DISABLE KEYS */;
+INSERT INTO `payment_methods` VALUES (5,'Chuyển khoản ngân hàng','<p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Tên  TK: Nguyễn Việt Trung \r\n</span></p><p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Số TK: 0901000131200\r\n</span></p><p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;style&quot;:3,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Ngân hàng </span><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;style&quot;:3,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Vietcombank - chi nhánh Hà Nam</span></p>','uploads/payment-methods/1715507810_ce48875451382ef4f56a.jpeg',1),(6,'Ví điện tử MoMo','<p>Số tài khoản Momo: 0919047269</p>','uploads/payment-methods/1715508027_a0e6f160a88d78f4ef08.png',1);
 /*!40000 ALTER TABLE `payment_methods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -488,4 +489,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-11 21:46:00
+-- Dump completed on 2024-05-12 10:00:50
