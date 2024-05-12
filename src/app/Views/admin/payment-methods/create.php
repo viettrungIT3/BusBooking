@@ -2,6 +2,9 @@
 
 <?= $this->section('content') ?>
 
+<!-- summernote -->
+<link rel="stylesheet" href="<?= base_url('plugins/AdminLTE-3.2.0') ?>/plugins/summernote/summernote-bs4.min.css">
+
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -47,7 +50,8 @@
 
             <div class="col-12">
                 <div class="card">
-                    <form action="<?= base_url() ?>admin/payment-methods/store" method="post">
+                    <form action="<?= base_url() ?>admin/payment-methods/store" method="post"
+                        enctype="multipart/form-data">
                         <div class="card-header">
                             <h3 class="card-title">Thêm phương thức thanh toán</h3>
                         </div>
@@ -56,12 +60,19 @@
                                 <div class="col-md-8">
                                     <div class="form-group">
                                         <label for="inputName">Tên</label>
-                                        <input type="text" id="inputName" class="form-control" name="name" required>
+                                        <input type="text" list="listName" id="inputName" class="form-control"
+                                            name="name" required>
+                                        <datalist id="listName">
+                                            <option value="Chuyển khoản ngân hàng">
+                                            <option value="Ví điện tử MoMo">
+                                            <option value="Thanh toán tiền mặt">
+                                            <option value="Thanh toán trực tiếp tại văn phòng">
+                                        </datalist>
                                     </div>
                                     <div class="form-group">
-                                        <label for="inputDescription">Mô tả</label>
-                                        <textarea id="inputDescription" class="form-control" name="description"
-                                            rows="4" required></textarea>
+                                        <label for="description">Mô tả</label>
+                                        <textarea class="form-control" id="description"
+                                            name="description"><?= old('description') ?></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-4 text-center">
@@ -95,6 +106,16 @@
     </section>
 </div>
 
+<!-- Summernote -->
+<script src="<?= base_url('plugins/AdminLTE-3.2.0') ?>/plugins/summernote/summernote-bs4.min.js"></script>
+
+<script>
+    $(function () {
+        // Summernote
+        $('#description').summernote();
+        $('#notes').summernote();
+    })
+</script>
 
 <script>
     document.getElementById('uploadButton').addEventListener('click', function () {
