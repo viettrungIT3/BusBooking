@@ -90,24 +90,13 @@
                                         <td><?= $method['name'] ?></td>
                                         <td><?= $method['description'] ?></td>
                                         <td><?= $method['image'] ? '<image src="' . base_url($method['image']) . '" height="100" />' : '' ?></td>
-                                        <td>
-                                            <a href="/admin/payment-methods/edit/<?= $method['id'] ?>"
-                                                class="btn btn-info">Edit</a>
-                                            <a href="/admin/payment-methods/delete/<?= $method['id'] ?>"
-                                                class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
-                                        </td>
                                         <td class="text-center">
-											<!-- <a href="<?= base_url('admin/payment-methods/' . $row->id) ?>"
-												class="btn btn-primary btn-sm mb-1" title="Xem">
-												<i class="fas fa-eye"></i>
-												<span class="text-xxl-visible">Xem</span>
-											</a> -->
-											<a href="<?= base_url("admin/payment-methods/edit/" . $row->id) ?>"
+											<a href="<?= base_url("admin/payment-methods/edit/" . $method['id']) ?>"
 												class="btn btn-info btn-sm mb-1" title="Sửa">
 												<i class="fas fa-pencil-alt"></i>
 												<span class="text-xxl-visible">Sửa</span>
 											</a>
-											<a href="<?= base_url("admin/payment-methods/delete/" . $row->id) ?>"
+											<a href="<?= base_url("admin/payment-methods/delete/" . $method['id']) ?>"
 												class="btn btn-danger btn-sm mb-1" title="Xóa">
 												<i class="fas fa-trash"></i>
 												<span class="text-xxl-visible">Xóa</span>
