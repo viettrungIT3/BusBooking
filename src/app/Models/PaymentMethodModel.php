@@ -11,5 +11,5 @@ class PaymentMethodModel extends Model
     protected $returnType = 'array';
     protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['name', 'description', 'status', 'image'];
+    protected $allowedFields = ['name', 'description', 'status', 'image', 'type', 'sort_order'];
 }
