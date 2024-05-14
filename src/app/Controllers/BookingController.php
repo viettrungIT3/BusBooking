@@ -108,7 +108,7 @@ class BookingController extends BaseController
 
             $bookingModel->insert($data);
             session()->remove('bookings');
-            return redirect()->to('/bookings/payment/' . $bookingModel->getInsertID());
+            return redirect()->to('/payments/bookings/' . $bookingModel->getInsertID());
         } catch (\Exception $e) {
             return redirect()->back()->withInput()->with('error', $e->getMessage());
         }

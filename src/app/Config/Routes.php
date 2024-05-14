@@ -40,21 +40,19 @@ $routes->group('bookings', ['filter' => 'sessionLogin'], function ($routes) {
         $routes->get('(:num)', 'BookingController::details/$1');
         $routes->post('create', 'BookingController::create');
         $routes->get('cancel/(:num)', 'BookingController::cancel/$1');
-        $routes->post('store', 'BookingController::store');
     });
 });
 
-
+// Thanh toán
+$routes->group('payments', ['filter' => 'sessionLogin'], function ($routes) {
+    $routes->get('bookings/(:num)', 'PaymentController::index/$1');
+});
 
 $routes->group('user', ['filter' => 'sessionLogin'], function ($routes) {
     // Hồ sơ người dùng và cập nhật hồ sơ
     $routes->post('profile/update/(:num)', 'AuthController::update/$1');
     $routes->get('profile', 'AuthController::profile');
     $routes->get('profile/(:any)', 'AuthController::profile');
-
-    // Thanh toán
-    $routes->get('payments/(:num)', 'User\PaymentController::paymentForm/$1');
-    $routes->post('payments/process', 'User\PaymentController::process');
 
     // Gửi phản hồi
     $routes->get('feedback', 'User\FeedbackController::index');
