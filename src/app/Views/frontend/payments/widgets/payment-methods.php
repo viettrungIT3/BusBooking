@@ -28,7 +28,7 @@
                 <?php endif; ?>
               </div>
               <div class="col-5">
-                <?= view('frontend/bookings/widgets/upload_images_preview.php') ?>
+                <?= view('frontend/payments/widgets/upload_images_preview.php') ?>
               </div>
 
             <?php else: ?>

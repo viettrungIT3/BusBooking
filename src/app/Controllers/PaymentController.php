@@ -53,6 +53,6 @@ class PaymentController extends BaseController
             'payment_methods' => $paymentMethod,
         ];
 
-        return view('frontend/bookings/payment.php', $data);
+        return view('frontend/payments/index.php', $data);
     }
 }

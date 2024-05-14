@@ -110,7 +110,7 @@ function formatVietnameseDate($timestamp)
                                     <div>
                                         <p>Bạn hãy chọn một trong các hình thức thanh toán dưới đây:</p>
                                     </div>
-                                    <?= view('frontend/bookings/widgets/payment-methods.php'); ?>
+                                    <?= view('frontend/payments/widgets/payment-methods.php'); ?>
 
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
@@ -150,7 +150,7 @@ function formatVietnameseDate($timestamp)
                 </form>
             </div>
             <div class="col-12 col-sm-4 mb-2">
-                <?= view('frontend/bookings/widgets/booking-summary.php'); ?>
+                <?= view('frontend/payments/widgets/booking-summary.php'); ?>
             </div>
         </div>
     </div>
