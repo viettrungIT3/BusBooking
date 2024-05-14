@@ -233,8 +233,10 @@ CREATE TABLE `payment_methods` (
   `description` text,
   `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` tinyint(1) DEFAULT '1',
+  `type` varchar(100) DEFAULT NULL,
+  `sort_order` int DEFAULT '999',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,7 +245,7 @@ CREATE TABLE `payment_methods` (
 
 LOCK TABLES `payment_methods` WRITE;
 /*!40000 ALTER TABLE `payment_methods` DISABLE KEYS */;
-INSERT INTO `payment_methods` VALUES (5,'Chuyển khoản ngân hàng','<p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Tên  TK: Nguyễn Việt Trung \r\n</span></p><p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Số TK: 0901000131200\r\n</span></p><p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;style&quot;:3,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Ngân hàng </span><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;style&quot;:3,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Vietcombank - chi nhánh Hà Nam</span></p>','uploads/payment-methods/1715507810_ce48875451382ef4f56a.jpeg',1),(6,'Ví điện tử MoMo','<p>Số tài khoản Momo: 0919047269</p>','uploads/payment-methods/1715508027_a0e6f160a88d78f4ef08.png',1);
+INSERT INTO `payment_methods` VALUES (5,'Chuyển khoản ngân hàng','<p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Tên  TK: Nguyễn Việt Trung \r\n</span></p><p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Số TK: 0901000131200\r\n</span></p><p><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;style&quot;:3,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Ngân hàng </span><span data-tt=\"{&quot;paragraphStyle&quot;:{&quot;alignment&quot;:4,&quot;style&quot;:3,&quot;writingDirection&quot;:1}}\" style=\"white-space-collapse: preserve;\">Vietcombank - chi nhánh Hà Nam</span></p>','uploads/payment-methods/1715507810_ce48875451382ef4f56a.jpeg',1,'online',1),(6,'Ví điện tử MoMo','<p>Số tài khoản Momo: 0919047269</p>','uploads/payment-methods/1715508027_a0e6f160a88d78f4ef08.png',1,'online',2),(7,'Thanh toán tiền mặt','<p>Nhân viên sẽ gọi điện để xác nhận đặt vé và hẹn lịch thanh toán.</p><p>Hoặc bạn có thể liên hệ trực tiếp với tổng đài viên:</p><ol><li>Trần Văn Nghiệp:&nbsp;<a href=\"tel:0837841230\" style=\"font-family: &quot;Times New Roman&quot;; font-size: medium;\">0837841230</a></li><li>Nguyễn Việt Trung:&nbsp;<a href=\"tel:0919047269\" style=\"font-family: &quot;Times New Roman&quot;; font-size: medium;\">0919047269</a></li></ol><p><em style=\"color: rgb(51, 51, 51); font-family: helveticaneue, sans-serif, Arial; font-size: 14px; text-align: justify; user-select: text !important;\">(<span style=\"color: rgb(255, 102, 0); user-select: text !important;\">Lưu ý:</span>&nbsp;Vé của bạn sẽ được giữ nếu vé được xác nhận&nbsp;<span style=\"font-weight: bolder;\">khi hệ thống quản trị duyệt</span>&nbsp;và&nbsp;<span style=\"font-weight: bolder;\">vui lòng kiểm tra mail</span>).</em><br></p>',NULL,1,'offline',3);
 /*!40000 ALTER TABLE `payment_methods` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,4 +491,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-12 10:00:50
+-- Dump completed on 2024-05-14 13:44:01

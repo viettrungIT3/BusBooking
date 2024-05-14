@@ -164,6 +164,8 @@ CREATE TABLE `payment_methods` (
   `description` text,
   `image` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` tinyint(1) DEFAULT '1',
+  `type` varchar(100) DEFAULT NULL,
+  `sort_order` int DEFAULT '999',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -332,4 +334,4 @@ CREATE TABLE `vehicle_types` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-11 21:46:03
+-- Dump completed on 2024-05-14 13:43:57
