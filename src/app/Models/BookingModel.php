@@ -17,7 +17,9 @@ class BookingModel extends Model
         'notes',
         'status',
         'payment_status',
-        'book_date'
+        'email',
+        'created_at',
+        'updated_at',
     ];
 
     // Rules
