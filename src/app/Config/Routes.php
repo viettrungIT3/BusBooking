@@ -46,6 +46,7 @@ $routes->group('bookings', ['filter' => 'sessionLogin'], function ($routes) {
 // Thanh toán
 $routes->group('payments', ['filter' => 'sessionLogin'], function ($routes) {
     $routes->get('bookings/(:num)', 'PaymentController::index/$1');
+    $routes->post('bookings/(:num)', 'PaymentController::payment/$1');
 });
 
 $routes->group('user', ['filter' => 'sessionLogin'], function ($routes) {
