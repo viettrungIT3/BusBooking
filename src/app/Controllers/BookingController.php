@@ -103,7 +103,7 @@ class BookingController extends BaseController
                 'notes' => $this->request->getPost('note'),
                 'status' => 'pending',
                 'payment_status' => 'unpaid',
-                'book_date' => date('Y-m-d H:i:s')
+                'created_at' => date('Y-m-d H:i:s')
             ];
 
             $bookingModel->insert($data);

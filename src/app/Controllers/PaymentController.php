@@ -42,7 +42,7 @@ class PaymentController extends BaseController
         $paymentMethod = $paymentMethodModel->orderBy('sort_order', 'ASC')->findAll();
 
         // Tính thời gian còn lại         
-        $time_bookings = strtotime($booking['book_date']);
+        $time_bookings = strtotime($booking['created_at']);
         $remaining_time_seconds = $time_bookings + 3600 - time();
 
         $data = [
