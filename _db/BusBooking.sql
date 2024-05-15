@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.3.0, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.4.0, for Linux (x86_64)
 --
 -- Host: localhost    Database: BusBooking
 -- ------------------------------------------------------
--- Server version	8.3.0
+-- Server version	8.4.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -60,7 +60,9 @@ CREATE TABLE `bookings` (
   `notes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `status` varchar(50) NOT NULL,
   `payment_status` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'unpaid',
-  `book_date` datetime NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `schedule_id` (`schedule_id`),
@@ -491,4 +493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-14 13:44:01
+-- Dump completed on 2024-05-15 15:23:02
