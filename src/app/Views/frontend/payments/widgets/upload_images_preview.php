@@ -60,7 +60,7 @@
         resetDefaultBackgroundImages();
         resetDefaultInputPreviewSrcNames();
 
-        document.getElementById('input-preview__src-<?= $payment_method_id ?>').setAttribute('name', 'file');
+        document.getElementById('input-preview__src-<?= $payment_method_id ?>').setAttribute('name', 'image');
 
         var reader = new FileReader();
         var filePreview = document.getElementById('input-preview-<?= $payment_method_id ?>');

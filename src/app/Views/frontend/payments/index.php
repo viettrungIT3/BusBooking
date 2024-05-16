@@ -64,7 +64,8 @@ function formatVietnameseDate($timestamp)
     <div class="container">
         <div class="row mt-3 mb-5">
             <div class="col-12 col-sm-8 mb-2">
-                <form class="card g-3 needs-validation" novalidate>
+                <form action="/payments/bookings/<?= $booking['id'] ?>" method="post" enctype="multipart/form-data"
+                    class="card g-3 needs-validation" novalidate>
                     <div class="card-body">
                         <div class="card mb-3">
                             <div class="card-header">
@@ -116,8 +117,8 @@ function formatVietnameseDate($timestamp)
                                         <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
                                             required>
                                         <label class="form-check-label" for="invalidCheck">
-                                            Tôi đồng ý với <a href="/dieu-khoan-chinh-sach" class="orange">Điều Khoản Sử
-                                                Dụng</a> của Busbooking
+                                            Tôi đồng ý với <a href="/dieu-khoan-chinh-sach" class="orange">Điều
+                                                Khoản Sử Dụng</a> của Busbooking
                                         </label>
                                         <div class="invalid-feedback">
                                             Bạn phải đồng ý trước khi gửi.
@@ -127,10 +128,11 @@ function formatVietnameseDate($timestamp)
                                         <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
                                             required>
                                         <label class="form-check-label" for="invalidCheck">
-                                            Gửi <strong>thông tin thanh toán</strong> và <strong>thông tin vé khi được duyệt</strong> tới hòm thư
-                                            <input type="email" class="form-control"
+                                            Gửi <strong>thông tin thanh toán</strong> và <strong>thông tin vé khi
+                                                được duyệt</strong> tới hòm thư
+                                            <input type="email" class="form-control" name="email"
                                                 value="<?= esc(session()->get('current_user')['email']) ?>"
-                                                id="exampleInputEmail1" aria-describedby="emailHelp">
+                                                id="exampleInputEmail1" aria-describedby="emailHelp" required>
                                         </label>
                                         <div class="invalid-feedback">
                                             Bạn phải đồng ý trước khi gửi.
