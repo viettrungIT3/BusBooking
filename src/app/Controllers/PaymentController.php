@@ -9,6 +9,7 @@ use App\Models\BusModel;
 use App\Models\RoutesModel;
 use App\Models\StopPointModel;
 use App\Models\PaymentMethodModel;
+use App\Models\PaymentModel;
 
 class PaymentController extends BaseController
 {
@@ -54,5 +55,51 @@ class PaymentController extends BaseController
         ];
 
         return view('frontend/payments/index.php', $data);
+    }
+
+    public function payment($booking_id)
+    {
+        helper(['form']);
+        $rules = [
+            'payment' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Bạn cần chọn 1 phương thức thanh toán'
+                ],
+            ],
+            'email' => [
+                'rules' => 'valid_email',
+                'errors' => [
+                    'valid_email' => 'Địa chỉ email phải hợp lệ.',
+                ]
+            ],
+        ];
+
+        if ($this->validate($rules)) {
+            $file = $this->request->getFile('image');
+            $newName = NULL;
+            if ($file && $file->isValid() && !$file->hasMoved()) {
+                $newName = 'uploads/payments/' . $file->getRandomName();
+                if (!is_dir(ROOTPATH . 'public/uploads')) {
+                    mkdir(ROOTPATH . 'public/uploads', 0777, TRUE);
+                }
+                if (!is_dir(ROOTPATH . 'public/uploads/payments')) {
+                    mkdir(ROOTPATH . 'public/uploads/payments', 0777, TRUE);
+                }
+                $file->move(ROOTPATH . 'public', $newName);
+            }
+
+            $data = [
+                'booking_id' => $booking_id,
+                'method_id' => $this->request->getVar('payment'),
+                'image' => $newName,
+                'status' => 'pending',
+                'created_at' => date("Y-m-d H:i:s"),
+            ];
+            $paymentModel = new PaymentModel();
+            $paymentModel->save($data);
+            return redirect()->to('/payments/success/' . $booking_id);
+        }
+        return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
     }
 }
