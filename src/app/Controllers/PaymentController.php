@@ -89,6 +89,9 @@ class PaymentController extends BaseController
                 $file->move(ROOTPATH . 'public', $newName);
             }
 
+            $paymentModel = new PaymentModel();
+            $existingPayment = $paymentModel->where('booking_id', $booking_id)->first();
+    
             $data = [
                 'booking_id' => $booking_id,
                 'method_id' => $this->request->getVar('payment'),
@@ -96,7 +99,11 @@ class PaymentController extends BaseController
                 'status' => 'pending',
                 'created_at' => date("Y-m-d H:i:s"),
             ];
-            $paymentModel = new PaymentModel();
+    
+            if ($existingPayment) {
+                $data['id'] = $existingPayment['id'];
+            }
+    
             $paymentModel->save($data);
             return redirect()->to('/payments/success/' . $booking_id);
         }
