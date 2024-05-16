@@ -28,7 +28,7 @@ CI_ENVIRONMENT = development
 # APP
 #--------------------------------------------------------------------
 
-app.baseURL = 'http://localhost:6464/'
+app.baseURL = 'http://localhost:${SERVICE_PORT}/'
 # If you have trouble with `.`, you could also use `_`.
 # app_baseURL = ''
 # app.forceGlobalSecureRequests = false
@@ -44,7 +44,7 @@ database.default.username = root
 database.default.password = ${MYSQL_ROOT_PASSWORD}
 database.default.DBDriver = MySQLi
 database.default.DBPrefix =
-database.default.port = ${MYSQL_PORT}
+database.default.port = 3306
 
 # database.tests.hostname = localhost
 # database.tests.database = ci4_test
@@ -149,3 +149,29 @@ database.default.port = ${MYSQL_PORT}
 #--------------------------------------------------------------------
 
 # curlrequest.shareOptions = false
+
+#--------------------------------------------------------------------
+# JWT
+#--------------------------------------------------------------------
+# JWT_SECRET = 
+# JWT_TIME_OUT = 
+
+
+# --------------------------------------------------------------------
+# Login with google
+# --------------------------------------------------------------------
+# GOOGLE_CLIENT_ID=
+# GOOGLE_CLIENT_SECRET=
+
+#--------------------------------------------------------------------
+# EMAIL
+#--------------------------------------------------------------------
+
+# email.protocol = SMTP
+# email.SMTPHost = smtp.example.com
+# email.SMTPUser = your-email@example.com
+# email.SMTPPass = your-password
+# email.SMTPPort = 587
+# email.SMTPCrypto = tls
+# email.fromEmail = your-email@example.com
+# email.fromName = Your Name or Your Company
