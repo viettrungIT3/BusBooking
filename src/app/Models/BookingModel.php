@@ -16,7 +16,6 @@ class BookingModel extends Model
         'quantity',
         'notes',
         'status',
-        'payment_status',
         'email',
         'created_at',
         'updated_at',
@@ -24,5 +23,4 @@ class BookingModel extends Model
 
     // Rules
     // 'status'        => '[pending,confirmed,cancelled,expired,completed,refunded,failed,processing]',
-    // 'payment_status'=> '[paid,unpaid,refunded,failed]',
 }

@@ -102,7 +102,6 @@ class BookingController extends BaseController
                 'quantity' => session('bookings')['quantity'],
                 'notes' => $this->request->getPost('note'),
                 'status' => 'pending',
-                'payment_status' => 'unpaid',
                 'created_at' => date('Y-m-d H:i:s')
             ];
 

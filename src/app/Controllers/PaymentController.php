@@ -110,8 +110,6 @@ class PaymentController extends BaseController
             $paymentMethodModel = new PaymentMethodModel();
             if (
                 !$bookingModel->update($booking_id, [
-                    'status' => 'pending',
-                    'payment_status' => 'paid',
                     'email' => $this->request->getVar('email') ?? null,
                     'updated_at' => date("Y-m-d H:i:s"),
                 ])
