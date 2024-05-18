@@ -133,6 +133,20 @@ class PaymentController extends BaseController
         return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
     }
 
+    public function status($booking_id)
+    {
+        $bookingModel = new BookingModel();
+        $booking = $this->getBooking($booking_id);
+        if ($booking['payment'] == NULL) {
+            return redirect()->to('/payments/bookings/' . $booking_id)->with('error','Bạn cần phải thanh toán ');
+        }
+        $data = [
+            'title' => 'Thanh toán',
+            'booking' => $booking
+        ];
+        return view('frontend/payments/status.php', $data);
+    }
+
     public function getBooking($booking_id)
     {
 
@@ -153,7 +167,22 @@ class PaymentController extends BaseController
         $booking['origin'] = $stopPointModel->find($booking['origin']);
         $booking['destination'] = $stopPointModel->find($booking['destination']);
         $booking['schedule'] = $schedule;
+        $booking['payment'] = $this->getPayment($booking_id);
 
         return $booking;
+    }
+
+    public function getPayment($booking_id)
+    {
+        $paymentMethodModel = new PaymentMethodModel();
+        $paymentModel = new PaymentModel();
+
+        $data = $paymentModel->where('booking_id', $booking_id)->first();
+        if (empty($data)) {
+            return null;
+        }
+        $data['payment_method'] = $paymentMethodModel->find($data['method_id']);
+        unset($data['method_id']);
+        return $data;
     }
 }

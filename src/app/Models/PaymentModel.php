@@ -15,4 +15,7 @@ class PaymentModel extends Model
         'status',
         'created_at'
     ];
+
+    // Rules
+    // 'status'=> '[unpaid,pending,confirmed,reverification,cancelled,refunded,failed]',
 }
