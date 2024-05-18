@@ -90,6 +90,7 @@ class PaymentController extends BaseController
                 $file->move(ROOTPATH . 'public', $newName);
             }
 
+            $bookingModel = new BookingModel();
             $paymentModel = new PaymentModel();
             $existingPayment = $paymentModel->where('booking_id', $booking_id)->first();
 
@@ -107,6 +108,16 @@ class PaymentController extends BaseController
 
             $paymentModel->save($data);
             $paymentMethodModel = new PaymentMethodModel();
+            if (
+                !$bookingModel->update($booking_id, [
+                    'status' => 'pending',
+                    'payment_status' => 'paid',
+                    'email' => $this->request->getVar('email') ?? null,
+                    'updated_at' => date("Y-m-d H:i:s"),
+                ])
+            ) {
+                return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+            }
 
             $userEmail = $this->request->getVar('email');
             $dataEmail = [
