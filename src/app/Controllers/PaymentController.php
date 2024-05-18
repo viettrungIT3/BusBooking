@@ -21,6 +21,7 @@ class PaymentController extends BaseController
 
     public function index($booking_id)
     {
+
         $bookingModel = new BookingModel();
         $userModel = new UserModel();
         $scheduleModel = new SchedulesModel();
@@ -91,7 +92,7 @@ class PaymentController extends BaseController
 
             $paymentModel = new PaymentModel();
             $existingPayment = $paymentModel->where('booking_id', $booking_id)->first();
-    
+
             $data = [
                 'booking_id' => $booking_id,
                 'method_id' => $this->request->getVar('payment'),
@@ -99,14 +100,51 @@ class PaymentController extends BaseController
                 'status' => 'pending',
                 'created_at' => date("Y-m-d H:i:s"),
             ];
-    
+
             if ($existingPayment) {
                 $data['id'] = $existingPayment['id'];
             }
-    
+
             $paymentModel->save($data);
-            return redirect()->to('/payments/success/' . $booking_id);
+            $paymentMethodModel = new PaymentMethodModel();
+
+            $userEmail = $this->request->getVar('email');
+            $dataEmail = [
+                'booking' => $this->getBooking($booking_id),
+                'payment' => $paymentModel->where('booking_id', $booking_id)->first(),
+                'payment_method' => $paymentMethodModel->find($this->request->getVar('payment')),
+            ];
+
+            $mess = 'Thanh toán của bạn đã được gửi. <b>Vui lòng chờ hệ thống xác thực</b>.';
+            if ($this->sendEmail($userEmail, 'Biên lại thanh toán', $dataEmail, 'emails/receipt_payment', $newName)) {
+                $mess .= '<br>Hóa đơn của bạn đã được gửi tới hòm thư. Bạn có thể xem chi tiết trong email';
+            }
+            return redirect()->to('/payments/status/' . $booking_id)->with('success', $mess);
         }
         return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra. Vui lòng thử lại.');
+    }
+
+    public function getBooking($booking_id)
+    {
+
+        $bookingModel = new BookingModel();
+        $userModel = new UserModel();
+        $scheduleModel = new SchedulesModel();
+        $busModel = new BusModel();
+        $routesModel = new RoutesModel();
+        $stopPointModel = new StopPointModel();
+
+        $booking = $bookingModel->find($booking_id);
+        $schedule = $scheduleModel->find($booking['schedule_id']);
+        $schedule['stop_points'] = $stopPointModel->where('schedule_id', $schedule['id'])->orderBy('sequence', 'ASC')->findAll();
+        $schedule['bus'] = $busModel->select('id, name, license_plate, seat_number')->find($schedule['bus_id']);
+        $schedule['route'] = $routesModel->find($schedule['route_id']);
+
+        $booking['user'] = $userModel->find($booking['user_id']);
+        $booking['origin'] = $stopPointModel->find($booking['origin']);
+        $booking['destination'] = $stopPointModel->find($booking['destination']);
+        $booking['schedule'] = $schedule;
+
+        return $booking;
     }
 }
