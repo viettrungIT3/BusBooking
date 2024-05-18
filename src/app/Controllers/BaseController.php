@@ -65,4 +65,38 @@ abstract class BaseController extends Controller
         $adminModel = new AdministratorsModel();
         return $adminModel->find(session()->get('current_admin_id'));
     }
+
+    public function sendEmail($to, $subject, $data, $template = 'emails/ex_notification', $file_attach = null, $fromName = null)
+    {
+        $email = \Config\Services::email();
+        $config['mailType'] = 'html';
+
+        $email->initialize($config);
+
+        if (!$fromName) {
+            $fromName = env('email.fromName');
+        }
+
+        $email->setFrom(env('email.fromEmail'), $fromName);
+        $email->setTo($to);
+        $email->setSubject($subject);
+
+        if ($file_attach) {
+            $cid = $email->attach(ROOTPATH . 'public/' . $file_attach,'inline');
+        }
+        $data['file_attach'] = $file_attach;
+
+        // Render nội dung email từ template
+        $message = view($template, $data);
+
+        $email->setMessage($message);
+
+        if ($email->send()) {
+            return true;
+        } else {
+            log_message('error', 'Email không thể gửi. Chi tiết: ' . print_r($email->printDebugger(['headers']), true));
+            return false;
+        }
+    }
+
 }
