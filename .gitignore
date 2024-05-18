@@ -3,3 +3,4 @@ apache_log/*
 
 src/public/assets/.sass-cache
 src/app/Config/Email.php
+src/public/uploads/*
