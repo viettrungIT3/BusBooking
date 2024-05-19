@@ -3,6 +3,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\BookingModel;
+use Config\Services;
 
 class BookingController extends BaseController
 {
@@ -16,25 +17,29 @@ class BookingController extends BaseController
 
     public function index()
     {
-        $request = \Config\Services::request(); // Lấy service request
+        $request = request(); // Lấy service request
 
-        $startDate = $request->getGet('startDate');
-        $endDate = $request->getGet('endDate');
-    
-        // Kiểm tra nếu không có ngày bắt đầu và kết thúc trong URL
-        if (empty($startDate) || empty($endDate)) {
+        $filters = [
+            'startDate' => $request->getGet('startDate'),
+            'endDate' => $request->getGet('endDate'),
+            'status' => $request->getGet('status'),
+            'schedule' => $request->getGet('schedule')
+        ];
+
+        // Redirect to current date if no dates are specified
+        if (empty($filters['startDate']) || empty($filters['endDate'])) {
             $today = date('Y-m-d');
-            return redirect()->to('/admin/bookings?startDate=' . $today . '&endDate=' . $today);
+            return redirect()->to("/admin/bookings?startDate=$today&endDate=$today");
         }
-
 
         $data = [
             'title' => 'Đặt chỗ',
-            'bookings' => $this->bookingModel->getBookingsByDate($startDate, $endDate),
-            'meta_data' => [
-                'start_date' => $startDate,
-                'end_date' => $endDate
-            ]
+            'bookings' => $this->bookingModel->getBookings($filters),
+            'filters' => [
+                'status' => $this->bookingModel->getDistinctStatusesByDate($filters['startDate'], $filters['endDate']),
+                'schedule' => $this->bookingModel->getDistinctSchedulesByDate($filters['startDate'], $filters['endDate'])
+            ],
+            'meta_data' => $filters
         ];
 
         return view('admin/bookings/index.php', $data);
