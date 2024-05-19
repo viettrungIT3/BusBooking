@@ -73,8 +73,8 @@ function formatVietnameseDate($timestamp)
                         // Khai báo mảng lưu trữ các thông điệp tương ứng với mỗi trạng thái
                         $messages = [
                             'unpaid' => 'Thanh toán của quý khách chưa được thực hiện.',
-                            'pending' => 'Quá trình thanh toán của quý khách đang chờ duyệt.',
-                            'confirmed' => 'Thanh toán của quý khách đã được xác nhận.<br> Vui lòng kiểm tra hộp thư để xem chi tiết vé',
+                            'pending' => 'Quá trình thanh toán của quý khách đang chờ kiểm duyệt.',
+                            'confirmed' => 'Thanh toán của quý khách đã được xác nhận.',
                             'reverification' => 'Thanh toán cần xác minh lại. Vui lòng cung cấp thông tin theo yêu cầu.',
                             'cancelled' => 'Thanh toán đã bị hủy.',
                             'refunded' => 'Thanh toán đã được hoàn trả.',
@@ -102,15 +102,15 @@ function formatVietnameseDate($timestamp)
 
                     </div>
                     <div class="card-footer text-muted">
-                        <?php if ($booking['payment']['status'] == 'pending'): ?>
+                        <?php if ($booking['payment']['status'] == 'pending' || $booking['payment']['status'] == 'reverification'): ?>
                             <a href="<?= esc(base_url('/payments/renew-booking/' . $booking['id'])) ?>"
                                 class="btn btn-danger float-start">
                                 Thanh toán lại
                             </a>
-                            <a href="<?= esc(base_url('/schedules')) ?>" class="btn btn-info float-end">
-                                Tiếp tục đặt vé khác
-                            </a>
                         <?php endif; ?>
+                        <a href="<?= esc(base_url('/schedules')) ?>" class="btn btn-info float-end">
+                            Tiếp tục đặt vé khác
+                        </a>
                     </div>
                 </div>
             </div>
