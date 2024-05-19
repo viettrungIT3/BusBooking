@@ -68,54 +68,41 @@
             <!-- Log on to codeastro.com for more projects -->
             <div class="card shadow mb-4">
                 <div class="card-header">
-                    <h2 class="card-title">
-                        <div id="time-filer" class="pull-right"
-                            style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
-                            <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
-                            <span></span> <b class="caret"></b>
+                    <div class="card-title row">
+                        <div class="form-group ms-1 mb-2">
+                            <label for="statusFilter" class="mr-2">Ngày đặt:</label>
+                            <div id="time-filer" class="pull-right"
+                                style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                <span></span> <b class="caret"></b>
+                            </div>
                         </div>
 
-                        <script type="text/javascript">
-                            $(function () {
-
-                                const currentUrlParams = new URLSearchParams(window.location.search);
-                                let start = currentUrlParams.has('startDate') ? moment(currentUrlParams.get('startDate')) : moment();
-                                let end = currentUrlParams.has('endDate') ? moment(currentUrlParams.get('endDate')) : moment();
-
-
-                                function cb(start, end) {
-                                    $('#time-filer span').html(start.format('YYYY-MM-DD') + ' --> ' + end.format('YYYY-MM-DD'));
-
-                                    const currentStart = currentUrlParams.get('startDate');
-                                    const currentEnd = currentUrlParams.get('endDate');
-
-                                    // Chỉ tải lại trang nếu có sự khác biệt trong lựa chọn thời gian
-                                    if (start.format('YYYY-MM-DD') !== currentStart || end.format('YYYY-MM-DD') !== currentEnd) {
-                                        window.location.href = `${window.location.pathname}?startDate=${start.format('YYYY-MM-DD')}&endDate=${end.format('YYYY-MM-DD')}`;
-                                    }
-                                }
-
-
-
-
-                                $('#time-filer').daterangepicker({
-                                    startDate: start,
-                                    endDate: end,
-                                    ranges: {
-                                        'Hôm nay': [moment(), moment()],
-                                        'Ngày mai': [moment().add(1, 'days'), moment().add(1, 'days')],
-                                        '7 ngày trước': [moment().subtract(6, 'days'), moment()],
-                                        '7 ngày tới': [moment(), moment().add(6, 'days')],
-                                        'Tháng này': [moment().startOf('month'), moment().endOf('month')],
-                                    }
-                                }, cb);
-
-                                cb(start, end);
-
-                            });
-                        </script>
-
-                    </h2>
+                        <div class="form-group mx-1 mb-2">
+                            <label for="statusFilter" class="mr-2">Trạng thái:</label>
+                            <select class="form-control" name="status" id="statusFilter">
+                                <!-- lấy dữ liệu từ DB -->
+                                <option value="">Tất cả</option>
+                                <?php foreach ($filters['status'] as $row): ?>
+                                    <option value="<?= $row['status'] ?>" <?= isset($_GET["status"]) && htmlspecialchars($row['status']) == $_GET["status"] ? "selected" : ""; ?>>
+                                        <?= $row['status'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group mx-1 mb-2">
+                            <label for="scheduleFilter" class="mr-2">Lịch trình:</label>
+                            <select class="form-control" name="schedule" id="scheduleFilter">
+                                <option value="">Tất cả</option>
+                                <!-- lấy dữ liệu từ DB -->
+                                <?php foreach ($filters['schedule'] as $row): ?>
+                                    <option value="<?= $row['id'] ?>" <?= isset($_GET["schedule"]) && htmlspecialchars($row['id']) == $_GET["schedule"] ? "selected" : ""; ?>>
+                                        <?= $row['id'] . ': ' . $row['origin'] . ' -> ' . $row['destination'] . ' (' . number_format(($row['price']), 0, ",", ".") . 'đ)' ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                    </div>
                     <div class="card-tools">
                         <a href="<?= base_url('/admin/schedules/create') ?>" type="button"
                             class="btn btn-success pull-right">
@@ -147,7 +134,7 @@
                                         <td><?= $booking['id'] ?></td>
                                         <td><?= $booking['status'] ?></td>
                                         <td><?= $booking['quantity'] ?></td>
-                                        <td><?= $booking['user_id'] // Đổi thành tên người dùng nếu có ?></td>
+                                        <td><?= $booking['user_id'] ?></td>
                                         <td>
                                             <a href="<?= base_url('admin/schedules/show/' . $booking['schedule_id']) ?>">
                                                 <?= $booking['schedule_id'] // Đổi thành chi tiết lịch trình nếu có ?>
@@ -200,6 +187,47 @@
 <!-- Page specific script -->
 <script>
     $(function () {
+        const currentUrlParams = new URLSearchParams(window.location.search);
+        let start = currentUrlParams.has('startDate') ? moment(currentUrlParams.get('startDate')) : moment();
+        let end = currentUrlParams.has('endDate') ? moment(currentUrlParams.get('endDate')) : moment();
+
+        function cb(start, end) {
+            $('#time-filer span').html(start.format('YYYY-MM-DD') + ' --> ' + end.format('YYYY-MM-DD'));
+            if (start.format('YYYY-MM-DD') !== currentUrlParams.get('startDate') || end.format('YYYY-MM-DD') !== currentUrlParams.get('endDate')) {
+                updateParams('startDate', start.format('YYYY-MM-DD'));
+                updateParams('endDate', end.format('YYYY-MM-DD'));
+            }
+        }
+
+        $('#time-filer').daterangepicker({
+            startDate: start,
+            endDate: end,
+            ranges: {
+                'Hôm nay': [moment(), moment()],
+                'Ngày mai': [moment().add(1, 'days'), moment().add(1, 'days')],
+                '7 ngày trước': [moment().subtract(6, 'days'), moment()],
+                '7 ngày tới': [moment(), moment().add(6, 'days')],
+                'Tháng này': [moment().startOf('month'), moment().endOf('month')],
+            }
+        }, cb);
+
+        cb(start, end);
+
+        // Bind change event to filters
+        $('#statusFilter, #scheduleFilter').change(function () {
+            if ($(this).val() !== currentUrlParams.get(this.name)) {
+                updateParams(this.name, $(this).val());
+            }
+        });
+
+        function updateParams(key, value) {
+            currentUrlParams.set(key, value);
+            if (value === null || value === '') {
+                currentUrlParams.delete(key);
+            }
+            window.location.href = `${window.location.pathname}?${currentUrlParams.toString()}`;
+        }
+
         $("#table-view")
             .DataTable({
                 responsive: true,
@@ -220,4 +248,4 @@
 
 </script>
 
-<?= $this->endSection() ?>
+<?= $this->endSection() ?>C
