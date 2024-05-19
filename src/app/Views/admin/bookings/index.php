@@ -136,7 +136,6 @@
                                     <th>Lịch trình</th>
                                     <th>Điểm đi</th>
                                     <th>Điểm đến</th>
-                                    <th>Notes</th>
                                     <th>Ngày đặt</th>
                                     <th>Hành động</th>
                                 </tr>
@@ -156,7 +155,6 @@
                                         </td>
                                         <td><?= $booking['origin'] ?></td>
                                         <td><?= $booking['destination'] ?></td>
-                                        <td><?= $booking['notes'] ?></td>
                                         <td><?= $booking['created_at'] ?></td>
                                         <td>
                                             <!-- Định nghĩa hành động như sửa/xóa -->
@@ -242,24 +240,46 @@
             window.location.href = `${window.location.pathname}?${currentUrlParams.toString()}`;
         }
 
-        $("#table-view")
-            .DataTable({
-                responsive: true,
-                autoWidth: false,
-                buttons: ["copy", "csv", "excel", "pdf"],
-                columnDefs: [
-                    {
-                        targets: -1, // Đây là cách chỉ định cột cuối cùng
-                        visible: true, // Đảm bảo cột này luôn được hiển thị
-                        className: 'all' // Sử dụng lớp 'all' để cột này luôn hiển thị ở tất cả các điểm phá vỡ responsive
-                    }
-                ]
-            })
-            .buttons()
-            .container()
-            .appendTo("#example1_wrapper .col-md-6:eq(0)");
+        var groupColumn = 5;
+        var table = $('#table-view').DataTable({
+            responsive: true,
+            autoWidth: false,
+            columnDefs: [
+                {
+                    visible: false,
+                    targets: groupColumn
+                }, {
+                    targets: -1, // Đây là cách chỉ định cột cuối cùng
+                    visible: true, // Đảm bảo cột này luôn được hiển thị
+                    className: 'all' // Sử dụng lớp 'all' để cột này luôn hiển thị ở tất cả các điểm phá vỡ responsive
+                }
+            ],
+            order: [[groupColumn, 'asc']],
+            displayLength: 25,
+            drawCallback: function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var last = null;
+
+                api.column(groupColumn, { page: 'current' })
+                    .data()
+                    .each(function (group, i) {
+                        if (last !== group) {
+                            $(rows)
+                                .eq(i)
+                                .before(
+                                    '<tr class="group"><td colspan="999">Lịch trình: ' +
+                                    group +
+                                    '</td></tr>'
+                                );
+
+                            last = group;
+                        }
+                    });
+            }
+        });
     });
 
 </script>
 
-<?= $this->endSection() ?>C
+<?= $this->endSection() ?>
