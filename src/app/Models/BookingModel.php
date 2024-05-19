@@ -24,6 +24,20 @@ class BookingModel extends Model
     // Rules
     // 'status'        => '[pending,confirmed,cancelled,expired,completed,refunded,failed,processing]',
 
+    public static function getStatusOptions()
+    {
+        return [
+            'pending' => 'Chờ duyệt',
+            'confirmed' => 'Xác nhận',
+            'cancelled' => 'Hủy',
+            'expired' => 'Quá hạn',
+            'completed' => 'Hoàn thành',
+            'refunded' => 'Hoàn trả',
+            'failed' => 'Thất bại',
+            'processing' => 'Đang xử lý',
+        ];
+    }
+
     // Fetch bookings with optional filters
     public function getBookings($filters = [])
     {
@@ -74,7 +88,6 @@ class BookingModel extends Model
 
         return $builder->get()->getResultArray();
     }
-
 
     // Fetch distinct statuses for filter options
     public function getDistinctStatuses()
