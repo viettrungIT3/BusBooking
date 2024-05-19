@@ -23,6 +23,33 @@
     </div>
     <section class="content">
         <div class="row">
+            <!-- Hiển thị thông báo lỗi nếu có -->
+            <?php if (isset($validation)): ?>
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <?php echo $validation->listErrors(); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="col-12">
+                    <div class="alert alert-danger">
+                        <?= session()->getFlashdata('error'); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <?php if (session()->getFlashdata('success')): ?>
+                <div class="col-12">
+                    <div class="alert alert-success">
+                        <?= session()->getFlashdata('success'); ?>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+        </div>
+        <div class="row">
             <div class="col-12 col-sm-4">
                 <div class="info-box bg-light">
                     <div class="info-box-content">
@@ -36,7 +63,7 @@
                     <div class="info-box-content">
                         <span class="info-box-text text-center text-muted">Trạng thái thanh toán</span>
                         <span
-                            class="info-box-number text-center text-muted mb-0"><?= $booking['payment_status'] ?? 'pending' ?></span>
+                            class="info-box-number text-center text-muted mb-0"><?= $payment['status'] ?></span>
                     </div>
                 </div>
             </div>
@@ -306,7 +333,7 @@
                                                 <?= $booking['status'] ?>
                                             </h4>
                                             <p class="">Bạn có muốn thay đổi trạng thái sang:
-                                                <select name="new_booking_status" class="form-select form-select-sm"
+                                                <select class="form-select form-select-sm"
                                                     aria-label=".form-select-sm example" name="status"
                                                     onchange="submitBookingForm()">
                                                     <?php foreach ($meta_data['booking_status'] as $key => $value): ?>
@@ -320,8 +347,7 @@
                                     </div>
                                 </form>
 
-                                <form
-                                    action="<?= base_url('/admin/bookings/update_payment_status/' . $booking['id']) ?>"
+                                <form action="<?= base_url('admin/payments/update-status/' . $booking['id']) ?>"
                                     method="post" id="paymentStatusUpdateForm">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
@@ -329,7 +355,7 @@
                                                 <?= $payment['status'] ?>
                                             </h4>
                                             <p class="">Bạn có muốn thay đổi trạng thái thanh toán sang:
-                                                <select name="new_payment_status" class="form-select form-select-sm"
+                                                <select class="form-select form-select-sm"
                                                     aria-label=".form-select-sm example" name="status"
                                                     onchange="submitPaymentForm()">
                                                     <?php foreach ($meta_data['payment_status'] as $key => $value): ?>
@@ -355,25 +381,6 @@
                                     form.submit();
                                 }
                             </script>
-
-                            <!-- <div class="col-12">
-                                <div class="info-box bg-light">
-                                    <div class="info-box-content">
-                                        <h4 class="info-box-text text-muted">Trạng thái thanh toán :
-                                            <?= $payment['status'] ?></h4>
-                                        <p class="">Bạn có muốn thay đổi trạng thái sang:
-                                            <select class="form-select form-select-sm"
-                                                aria-label=".form-select-sm example">
-                                                <?php foreach ($meta_data['payment_status'] as $key => $value): ?>
-                                                    <option value="<?= $key ?>" <?= $key == $payment['status'] ? 'selected disabled' : '' ?>>
-                                                        <?= $key . ': ' . $value ?>
-                                                    </option>
-                                                <?php endforeach; ?>
-                                            </select>
-                                        </p>
-                                    </div>
-                                </div>
-                            </div> -->
                         </div>
                     </div>
                 </div>
