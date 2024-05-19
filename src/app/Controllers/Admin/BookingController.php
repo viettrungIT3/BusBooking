@@ -43,7 +43,7 @@ class BookingController extends BaseController
             'filters' => [
                 'status' => $this->bookingModel->getDistinctStatusesByDate($filters['startDate'], $filters['endDate']),
                 'schedule' => $this->bookingModel->getDistinctSchedulesByDate($filters['startDate'], $filters['endDate']),
-                'payment' => $paymentModel->getDefinedPaymentStatuses()
+                'payment_status' => $paymentModel->listPaymentStatusesWithDescriptions()
             ],
             'meta_data' => $filters
         ];

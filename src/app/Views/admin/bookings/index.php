@@ -91,6 +91,18 @@
                             </select>
                         </div>
                         <div class="form-group mx-1 mb-2">
+                            <label for="paymentStatusFilter" class="mr-2">Thanh toán:</label>
+                            <select class="form-control" name="payment_status" id="paymentStatusFilter">
+                                <!-- lấy dữ liệu từ DB -->
+                                <option value="">Tất cả</option>
+                                <?php foreach ($filters['payment_status'] as $row): ?>
+                                    <option value="<?= $row['status'] ?>" <?= isset($_GET["payment_status"]) && htmlspecialchars($row['status']) == $_GET["payment_status"] ? "selected" : ""; ?>>
+                                        <?= $row['status'] . ': ' . $row['description'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group mx-1 mb-2">
                             <label for="scheduleFilter" class="mr-2">Lịch trình:</label>
                             <select class="form-control" name="schedule" id="scheduleFilter">
                                 <option value="">Tất cả</option>
@@ -216,7 +228,7 @@
         cb(start, end);
 
         // Bind change event to filters
-        $('#statusFilter, #scheduleFilter').change(function () {
+        $('#statusFilter, #paymentStatusFilter, #scheduleFilter').change(function () {
             if ($(this).val() !== currentUrlParams.get(this.name)) {
                 updateParams(this.name, $(this).val());
             }
