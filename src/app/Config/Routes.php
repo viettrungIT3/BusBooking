@@ -90,6 +90,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
         $routes->get('(:num)', 'BookingController::detail/$1');
     });
 
+    // Quản lý thanh toán
+    $routes->group('payments', function ($routes) {
+        $routes->post('update-status/(:num)', 'PaymentController::updatePaymentStatus/$1');
+    });
+
     // Phương thức thanh toán
     $routes->get('payment-methods', 'PaymentMethodController::index');
     $routes->get('payment-methods/create', 'PaymentMethodController::create');
