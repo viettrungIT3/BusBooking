@@ -156,10 +156,13 @@
                                         <td><?= $booking['origin'] ?></td>
                                         <td><?= $booking['destination'] ?></td>
                                         <td><?= $booking['created_at'] ?></td>
-                                        <td>
-                                            <!-- Định nghĩa hành động như sửa/xóa -->
-                                            <a href="#" class="btn btn-primary">Chi tiết</a>
-                                        </td>
+										<td class="text-center">
+											<a href="<?= base_url('admin/bookings/' . $booking['id'] ) ?>"
+												class="btn btn-primary btn-sm mb-1" title="Xem">
+												<i class="fas fa-eye"></i>
+												<span class="text-xxl-visible">Xem</span>
+											</a>
+										</td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
