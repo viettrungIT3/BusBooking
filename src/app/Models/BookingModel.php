@@ -48,6 +48,34 @@ class BookingModel extends Model
         return $builder->get()->getResultArray();
     }
 
+    public function getBookingsWithPaymentStatus($filters = [])
+    {
+        $builder = $this->db->table($this->table);
+        $builder->select('bookings.*, payments.status as payment_status');
+        $builder->join('payments', 'payments.booking_id = bookings.id', 'left'); // Giả sử rằng 'left' join để có thể lấy cả những booking không có payment
+
+        // Apply filters if provided
+        if (!empty($filters['startDate'])) {
+            $builder->where('bookings.created_at >=', $filters['startDate']);
+        }
+        if (!empty($filters['endDate'])) {
+            $endDate = date('Y-m-d H:i:s', strtotime($filters['endDate'] . ' 23:59:59'));
+            $builder->where('bookings.created_at <=', $endDate);
+        }
+        if (!empty($filters['status'])) {
+            $builder->where('bookings.status', $filters['status']);
+        }
+        if (!empty($filters['schedule'])) {
+            $builder->where('bookings.schedule_id', $filters['schedule']);
+        }
+        if (!empty($filters['payment_status'])) {
+            $builder->where('payments.status', $filters['payment_status']);
+        }
+
+        return $builder->get()->getResultArray();
+    }
+
+
     // Fetch distinct statuses for filter options
     public function getDistinctStatuses()
     {

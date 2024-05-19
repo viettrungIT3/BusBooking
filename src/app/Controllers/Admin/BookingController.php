@@ -25,6 +25,7 @@ class BookingController extends BaseController
             'startDate' => $request->getGet('startDate'),
             'endDate' => $request->getGet('endDate'),
             'status' => $request->getGet('status'),
+            'payment_status' => $request->getGet('payment_status'),
             'schedule' => $request->getGet('schedule')
         ];
 
@@ -34,8 +35,7 @@ class BookingController extends BaseController
             return redirect()->to("/admin/bookings?startDate=$today&endDate=$today");
         }
 
-        $bookings = $this->bookingModel->getBookings($filters);
-        $this->appendPaymentStatus($bookings);
+        $bookings = $this->bookingModel->getBookingsWithPaymentStatus($filters);
 
         $data = [
             'title' => 'Đặt chỗ',
@@ -49,19 +49,5 @@ class BookingController extends BaseController
         ];
 
         return view('admin/bookings/index.php', $data);
-    }
-
-    protected function appendPaymentStatus(&$bookings)
-    {
-        $paymentModel = new PaymentModel();
-
-        foreach ($bookings as &$item) {
-            $data = $paymentModel->where('booking_id', $item['id'])->first();
-            if (empty($data)) {
-                $item['payment_status'] = 'unpaid';
-            } else {
-                $item['payment_status'] = $data['status'];
-            }
-        }
     }
 }
