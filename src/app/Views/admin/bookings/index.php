@@ -118,6 +118,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Trạng thái</th>
+                                    <th>Thanh toán</th>
                                     <th>Số lượng</th>
                                     <th>Người dùng</th>
                                     <th>Lịch trình</th>
@@ -133,6 +134,7 @@
                                     <tr>
                                         <td><?= $booking['id'] ?></td>
                                         <td><?= $booking['status'] ?></td>
+                                        <td><?= $booking['payment_status'] ?></td>
                                         <td><?= $booking['quantity'] ?></td>
                                         <td><?= $booking['user_id'] ?></td>
                                         <td>

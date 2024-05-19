@@ -3,6 +3,7 @@ namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
 use App\Models\BookingModel;
+use App\Models\PaymentModel;
 use Config\Services;
 
 class BookingController extends BaseController
@@ -18,6 +19,7 @@ class BookingController extends BaseController
     public function index()
     {
         $request = request(); // Lấy service request
+        $paymentModel = new PaymentModel();
 
         $filters = [
             'startDate' => $request->getGet('startDate'),
@@ -32,16 +34,34 @@ class BookingController extends BaseController
             return redirect()->to("/admin/bookings?startDate=$today&endDate=$today");
         }
 
+        $bookings = $this->bookingModel->getBookings($filters);
+        $this->appendPaymentStatus($bookings);
+
         $data = [
             'title' => 'Đặt chỗ',
-            'bookings' => $this->bookingModel->getBookings($filters),
+            'bookings' => $bookings,
             'filters' => [
                 'status' => $this->bookingModel->getDistinctStatusesByDate($filters['startDate'], $filters['endDate']),
-                'schedule' => $this->bookingModel->getDistinctSchedulesByDate($filters['startDate'], $filters['endDate'])
+                'schedule' => $this->bookingModel->getDistinctSchedulesByDate($filters['startDate'], $filters['endDate']),
+                'payment' => $paymentModel->getDefinedPaymentStatuses()
             ],
             'meta_data' => $filters
         ];
 
         return view('admin/bookings/index.php', $data);
+    }
+
+    protected function appendPaymentStatus(&$bookings)
+    {
+        $paymentModel = new PaymentModel();
+
+        foreach ($bookings as &$item) {
+            $data = $paymentModel->where('booking_id', $item['id'])->first();
+            if (empty($data)) {
+                $item['payment_status'] = 'unpaid';
+            } else {
+                $item['payment_status'] = $data['status'];
+            }
+        }
     }
 }
