@@ -85,7 +85,10 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
     $routes->post('schedules/clones', 'ScheduleController::clones');
 
     // Quản lý đặt vé
-    $routes->get('bookings', 'BookingController::index');
+    $routes->group('bookings', function ($routes) {
+        $routes->get('', 'BookingController::index');
+        $routes->get('(:num)', 'BookingController::detail/$1');
+    });
 
     // Phương thức thanh toán
     $routes->get('payment-methods', 'PaymentMethodController::index');
