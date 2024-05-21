@@ -116,14 +116,28 @@ class BookingController extends BaseController
 
             if ($updateStatus) {
                 $userModel = new UserModel();
+                $scheduleModel = new SchedulesModel();
+                $stopPointModel = new StopPointModel();
+                $busModel = new BusModel();
+                $routesModel = new RoutesModel();
+
+                $schedule = $scheduleModel->find($booking['schedule_id']);
+                $schedule['bus'] = $busModel->select('id, name, license_plate, seat_number')->find($schedule['bus_id']);
+                $schedule['route'] = $routesModel->find($schedule['route_id']);
+
                 $booking['user'] = $userModel->find($booking['user_id']);
+                $booking['origin'] = $stopPointModel->find($booking['origin']);
+                $booking['destination'] = $stopPointModel->find($booking['destination']);
+                $booking['schedule'] = $schedule;
+
                 $dataEmail = [
+                    'title' => 'Thông tin vé xe',
                     'booking' => $booking,
                     'status' => $this->bookingModel->getStatusOptions($newStatus),
                 ];
 
                 $mess = 'Trạng thái đặt chỗ đã được cập nhật thành công.';
-                if ($this->sendEmail($booking['email'], 'Cập nhật trạng thái đặt chỗ', $dataEmail, 'emails/ticket')) {
+                if ($this->sendEmail($booking['email'], 'Thông tin vé xe', $dataEmail, 'emails/ticket')) {
                     $mess .= '<br>Và đã được gửi tới hòm thư của khác hàng.';
                 }
 
