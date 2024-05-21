@@ -59,7 +59,7 @@ class BookingController extends BaseController
 
     public function detail($id)
     {
-        
+
         $bookingModel = new BookingModel();
         $userModel = new UserModel();
         $scheduleModel = new SchedulesModel();
@@ -68,12 +68,12 @@ class BookingController extends BaseController
         $stopPointModel = new StopPointModel();
         $paymentModel = new PaymentModel();
 
-        $booking = $this->bookingModel->find($id);        
+        $booking = $this->bookingModel->find($id);
         $schedule = $scheduleModel->find($booking['schedule_id']);
         $schedule['stop_points'] = $stopPointModel->where('schedule_id', $schedule['id'])->orderBy('sequence', 'ASC')->findAll();
         $schedule['bus'] = $busModel->select('id, name, license_plate, seat_number')->find($schedule['bus_id']);
         $schedule['route'] = $routesModel->find($schedule['route_id']);
-        
+
         $data = [
             'title' => 'Chi tiết đặt chỗ',
             'booking' => $booking,
@@ -81,12 +81,59 @@ class BookingController extends BaseController
             'payment' => $this->getPaymentByBookingId($id),
             'schedule' => $schedule,
             'meta_data' => [
-                'booking_status' => $bookingModel->getStatusOptions(), 
+                'booking_status' => $bookingModel->getStatusOptions(),
                 'payment_status' => $paymentModel->getStatusOptions()
             ]
         ];
 
         return view('admin/bookings/detail.php', $data);
+    }
+
+    public function updateStatus($booking_id)
+    {
+        $newStatus = $this->request->getVar('status');
+
+        $booking = $this->bookingModel->find($booking_id);
+
+        if (!empty($newStatus) || !empty($booking)) {
+
+            if (
+                $booking['status'] == 'confirmed' ||
+                $booking['status'] == 'canceled' ||
+                $booking['status'] == 'refunded' ||
+                $booking['status'] == 'completed'
+            ) {
+                return redirect()->back()->with('error', 'Trạng thái đang là: <b>' . $this->bookingModel->getStatusOptions($booking['status']) . '</b>. Không thể thay đổi.');
+            }
+            if ($newStatus == $booking['status']) {
+                return redirect()->back()->with('error', 'Vui lòng chọn 1 trạng thái khác trạng thái ban đầu');
+            }
+
+            $updateStatus = $this->bookingModel->update($booking_id, [
+                'status' => $newStatus,
+                'updated_at' => date("Y-m-d H:i:s")
+            ]);
+
+            if ($updateStatus) {
+                $userModel = new UserModel();
+                $booking['user'] = $userModel->find($booking['user_id']);
+                $dataEmail = [
+                    'booking' => $booking,
+                    'status' => $this->bookingModel->getStatusOptions($newStatus),
+                ];
+
+                $mess = 'Trạng thái đặt chỗ đã được cập nhật thành công.';
+                if ($this->sendEmail($booking['email'], 'Cập nhật trạng thái đặt chỗ', $dataEmail, 'emails/ticket')) {
+                    $mess .= '<br>Và đã được gửi tới hòm thư của khác hàng.';
+                }
+
+                return redirect()->to('/admin/bookings/' . $booking_id)->with('success', $mess);
+            } else {
+                return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật trạng thái đặt chỗ.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Dữ liệu không hợp lệ.');
+        }
     }
 
     public function getPaymentByBookingId($booking_id)

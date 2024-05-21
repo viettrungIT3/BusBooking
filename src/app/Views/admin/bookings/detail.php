@@ -325,7 +325,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <form
-                                    action="<?= base_url('/admin/bookings/update_booking_status/' . $booking['id']) ?>"
+                                    action="<?= base_url('/admin/bookings/update-status/' . $booking['id']) ?>"
                                     method="post" id="bookingStatusUpdateForm">
                                     <div class="info-box bg-light">
                                         <div class="info-box-content">
