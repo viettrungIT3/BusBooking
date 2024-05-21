@@ -24,9 +24,9 @@ class BookingModel extends Model
     // Rules
     // 'status'        => '[pending,confirmed,cancelled,expired,completed,refunded,failed,processing]',
 
-    public static function getStatusOptions()
+    public static function getStatusOptions($key = null)
     {
-        return [
+        $data = [
             'pending' => 'Chờ duyệt',
             'confirmed' => 'Xác nhận',
             'cancelled' => 'Hủy',
@@ -36,6 +36,11 @@ class BookingModel extends Model
             'failed' => 'Thất bại',
             'processing' => 'Đang xử lý',
         ];
+
+        if (is_null($key)) {
+            return $data;
+        }
+        return $data[$key];
     }
 
     // Fetch bookings with optional filters
