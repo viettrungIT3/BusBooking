@@ -4,8 +4,7 @@ namespace App\Controllers;
 
 class HomeController extends BaseController
 {
-    public function index(): string
-    {
-        return view('welcome_message');
+    public function index()   {
+        return redirect()->to('buses/view/4');
     }
 }
