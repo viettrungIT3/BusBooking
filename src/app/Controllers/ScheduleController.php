@@ -14,11 +14,12 @@ class ScheduleController extends Controller
 
     public function __construct()
     {
+        ini_set('memory_limit', '-1');
         $this->schedulesModel = new SchedulesModel();
         $this->busModel = new BusModel();
         $this->routesModel = new RoutesModel();
         $this->stopPointModel = new StopPointModel();
-    }
+    }   
 
     public function index()
     {

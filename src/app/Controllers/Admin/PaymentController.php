@@ -7,11 +7,12 @@ use App\Models\BookingModel;
 use App\Models\UserModel;
 
 class PaymentController extends BaseController
-{
-
+{    
+    
     private $paymentModel = NULL;
     public function __construct()
     {
+        ini_set('memory_limit', '-1');
         $this->paymentModel = new PaymentModel();
     }
 

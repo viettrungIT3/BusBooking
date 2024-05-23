@@ -6,7 +6,10 @@ use CodeIgniter\RESTful\ResourceController;
 
 class FileController extends ResourceController
 {
-
+    public function __construct() {
+        ini_set('memory_limit', '-1');
+    }
+    
     public function upload()
     {
         $file = $this->request->getFile('file');

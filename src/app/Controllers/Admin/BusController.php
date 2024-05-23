@@ -11,6 +11,11 @@ use App\Models\UtilityModel;
 
 class BusController extends BaseController
 {
+
+    public function __construct() {
+        ini_set('memory_limit', '-1');
+    }
+
     public function index()
     {
         $busModel = new BusModel();

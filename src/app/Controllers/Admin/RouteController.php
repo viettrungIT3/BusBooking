@@ -5,6 +5,12 @@ use App\Controllers\BaseController;
 
 class RouteController extends BaseController
 {
+
+
+    public function __construct() {
+        ini_set('memory_limit', '-1');
+    }
+
     public function index(): string
     {
         $routesModel = new \App\Models\RoutesModel();

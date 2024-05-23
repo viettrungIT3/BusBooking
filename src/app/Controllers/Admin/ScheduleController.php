@@ -8,6 +8,10 @@ use CodeIgniter\I18n\Time;
 class ScheduleController extends BaseController
 {
 
+    public function __construct() {
+        ini_set('memory_limit', '-1');
+    }
+
     public function index()
     {
         $request = \Config\Services::request(); // Lấy service request

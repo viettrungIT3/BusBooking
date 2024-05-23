@@ -13,10 +13,9 @@ use App\Models\PaymentModel;
 
 class PaymentController extends BaseController
 {
-
-
-    public function __construct()
+    function __construct()
     {
+        ini_set('memory_limit', '-1');
     }
 
     public function index($booking_id)

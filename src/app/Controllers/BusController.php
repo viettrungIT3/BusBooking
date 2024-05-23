@@ -15,9 +15,11 @@ class BusController extends Controller
 
     public function __construct()
     {
+        ini_set('memory_limit', '-1');
         $this->busModel = new BusModel();
         $this->stopPointModel = new StopPointModel();
     }
+
     public function index()
     {
         $data = [

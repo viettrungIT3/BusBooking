@@ -19,6 +19,7 @@ class BookingController extends BaseController
 
     public function __construct()
     {
+        ini_set('memory_limit', '-1');
         $this->bookingModel = new BookingModel();
     }
 
