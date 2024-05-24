@@ -116,7 +116,7 @@
                         </div>
                     </div>
                     <div class="card-tools">
-                        <a href="<?= base_url('/admin/schedules/create') ?>" type="button"
+                        <a href="<?= base_url('/admin/bookings/create') ?>" type="button"
                             class="btn btn-success pull-right">
                             Thêm chỗ
                         </a>

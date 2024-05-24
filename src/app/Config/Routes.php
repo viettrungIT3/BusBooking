@@ -94,6 +94,7 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
         $routes->get('', 'BookingController::index');
         $routes->get('(:num)', 'BookingController::detail/$1');
         $routes->post('update-status/(:num)', 'BookingController::updateStatus/$1');
+        $routes->match(['get', 'post'], 'create', 'DashboardController::error503/$1');
     });
 
     // Quản lý thanh toán
