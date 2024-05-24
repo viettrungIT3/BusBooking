@@ -10,6 +10,9 @@ class HomeController extends BaseController
     }
 
     public function index()   {
-        return redirect()->to('buses/view/4');
+        $data = [
+            'title' => 'BusBooking',
+        ];
+        return view('frontend/index', $data);
     }
 }
