@@ -22,7 +22,7 @@ $routes->get('/logout', 'AuthController::logout');
 // Trang chủ, giới thiệu, liên hệ
 $routes->get('/', 'HomeController::index');
 $routes->get('/about', 'AboutController::index');
-$routes->get('/contact', 'ContactController::index');
+$routes->get('/contact', 'HomeController::contact');
 
 // Xem danh sách và chi tiết lịch trình, xe buýt, tuyến đường
 $routes->get('/schedules', 'ScheduleController::index');

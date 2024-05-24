@@ -58,7 +58,7 @@
                             <li class="main_nav_item"><a href="<?= base_url('buses/view/4') ?>">Thông tin xe</a></li>
                             <li class="main_nav_item"><a href="<?= base_url('schedules') ?>">Đặt vé</a></li>
                             <li class="main_nav_item"><a href="<?= base_url() ?>">tin tức</a></li>
-                            <li class="main_nav_item"><a href="<?= base_url() ?>">liên hệ</a></li>
+                            <li class="main_nav_item"><a href="<?= base_url('contact') ?>">liên hệ</a></li>
                         </ul>
                     </div>
 

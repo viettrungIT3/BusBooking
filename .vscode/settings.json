@@ -7,10 +7,8 @@
         "DB",
         "FE",
         "BE",
-        "plugins",
-        "api",
         "resources",
-        "PENDING",
-        "BookingController"
+        "Admin Bookings",
+        "Admin Payment"
     ]
 }

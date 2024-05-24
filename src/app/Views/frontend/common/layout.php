@@ -18,7 +18,7 @@
         <?= $this->include('frontend/common/header.php') ?>
 
         <!-- Content -->
-        <!-- <?= $this->renderSection('content') ?> -->
+        <?= $this->renderSection('content') ?>
 
         <!-- Footer -->
         <?= $this->include('frontend/common/footer.php') ?>
