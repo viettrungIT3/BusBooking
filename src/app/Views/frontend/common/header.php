@@ -20,7 +20,8 @@
                         <?php if (session()->has('logged_in') && session()->get('logged_in') === true): ?>
                             <!-- Người dùng đã đăng nhập -->
                             <div class="user_box_login user_box_link">
-                                <a href="/profile" title="Thông tin cá nhân"><?= esc(session()->get('current_user')['name']) ?></a>
+                                <a href="/profile"
+                                    title="Thông tin cá nhân"><?= esc(session()->get('current_user')['name']) ?></a>
                             </div>
                             <div class="user_box_logout user_box_link">
                                 <a href="/logout">Đăng xuất</a>
@@ -47,16 +48,17 @@
             <div class="row">
                 <div class="col main_nav_col d-flex flex-row align-items-center justify-content-start">
                     <div class="logo_container">
-                        <div class="logo"><a href="#"><img src="<?php echo base_url() ?>/images/logo.png" alt="">Bus
+                        <div class="logo"><a href="<?= base_url() ?>"><img
+                                    src="<?php echo base_url() ?>/images/logo.png" alt="">Bus
                                 Booking</a></div>
                     </div>
                     <div class="main_nav_container ml-auto">
                         <ul class="main_nav_list">
-                            <li class="main_nav_item"><a href="index.html">trang chủ</a></li>
-                            <li class="main_nav_item"><a href="#">Giới thiệu</a></li>
-                            <li class="main_nav_item"><a href="offers.html">ưu đãi</a></li>
-                            <li class="main_nav_item"><a href="blog.html">tin tức</a></li>
-                            <li class="main_nav_item"><a href="contact.html">liên hệ</a></li>
+                            <li class="main_nav_item"><a href="<?= base_url() ?>">trang chủ</a></li>
+                            <li class="main_nav_item"><a href="<?= base_url('buses/view/4') ?>">Thông tin xe</a></li>
+                            <li class="main_nav_item"><a href="<?= base_url('schedules') ?>">Đặt vé</a></li>
+                            <li class="main_nav_item"><a href="<?= base_url() ?>">tin tức</a></li>
+                            <li class="main_nav_item"><a href="<?= base_url() ?>">liên hệ</a></li>
                         </ul>
                     </div>
 
@@ -74,13 +76,14 @@
         <div class="menu_close_container">
             <div class="menu_close"></div>
         </div>
-        <div class="logo menu_logo"><a href="#"><img src="<?php echo base_url() ?>/images/logo.png" alt=""></a></div>
+        <div class="logo menu_logo"><a href="<?= base_url() ?>"><img src="<?php echo base_url() ?>/images/logo.png"
+                    alt=""></a></div>
         <ul>
-            <li class="menu_item"><a href="#">trang chủ</a></li>
-            <li class="menu_item"><a href="about.html">về chúng tôi</a></li>
-            <li class="menu_item"><a href="offers.html">ưu đãi</a></li>
-            <li class="menu_item"><a href="blog.html">tin tức</a></li>
-            <li class="menu_item"><a href="contact.html">liên hệ</a></li>
+            <li class="menu_item"><a href="<?= base_url() ?>">trang chủ</a></li>
+            <li class="menu_item"><a href="<?= base_url('buses/view/4') ?>">Thông tin xe</a></li>
+            <li class="menu_item"><a href="<?= base_url('schedules') ?>">Đặt vé</a></li>
+            <li class="menu_item"><a href="<?= base_url() ?>">tin tức</a></li>
+            <li class="menu_item"><a href="<?= base_url() ?>">liên hệ</a></li>
         </ul>
     </div>
 </div>
