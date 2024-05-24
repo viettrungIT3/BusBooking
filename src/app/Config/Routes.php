@@ -110,4 +110,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
     $routes->post('payment-methods/update/(:segment)', 'PaymentMethodController::update/$1');
     $routes->get('payment-methods/delete/(:segment)', 'PaymentMethodController::delete/$1');
 
+    // Quản lý hộp thư
+    $routes->group('feedback', function ($routes) {
+        $routes->get('', 'DashboardController::error503/$1');
+    });
 });
