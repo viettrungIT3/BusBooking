@@ -19,4 +19,10 @@ class DashboardController extends BaseController
         return view('admin/dashboard.php', $data);
     }
 
+    public function error503($id = null)
+    {
+        return view('admin/errors/503.php', [
+            'title' => '503 - Hệ thống đang nâng cấp',
+        ]);
+    }
 }

@@ -70,7 +70,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
     // Quản lý xe buýt
     $routes->get('bus', 'BusController::index');
     $routes->match(['get', 'post'], 'bus/create', 'BusController::create');
-    $routes->get('bus/view/(:num)', 'BusController::view/$1');
+    $routes->get('bus/view/(:num)', 'DashboardController::error503/$1');
+    $routes->get('bus/edit/(:num)', 'DashboardController::error503/$1');
+    $routes->get('bus/delete/(:num)', 'DashboardController::error503/$1');
 
     // Quản lý tuyến đường
     $routes->get('routes', 'RouteController::index');

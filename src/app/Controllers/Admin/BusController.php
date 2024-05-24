@@ -12,7 +12,8 @@ use App\Models\UtilityModel;
 class BusController extends BaseController
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         ini_set('memory_limit', '-1');
     }
 
@@ -27,7 +28,6 @@ class BusController extends BaseController
         ];
         return view('admin/bus/index.php', $data);
     }
-
 
     public function create()
     {
@@ -117,7 +117,7 @@ class BusController extends BaseController
 
                 if ($db->transStatus() === false) {
                     return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra trong quá trình thêm mới.');
-                } 
+                }
 
                 return redirect()->to('/admin/bus')->with('success', 'Thêm mới thành công');
             } catch (\Exception $e) {
@@ -134,6 +134,4 @@ class BusController extends BaseController
 
         return view('admin/bus/create.php', $data);
     }
-
-
 }
