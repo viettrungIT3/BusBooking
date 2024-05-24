@@ -50,11 +50,12 @@
 									<th>Điểm đi</th>
 									<th>Điểm đến</th>
 									<th>Giá niêm yết</th>
+									<th>Hành động</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php $i = 1;
-								foreach ($routes as $row) {// die();
+								foreach ($routes as $row) {
 									?>
 									<tr>
 										<td>
@@ -71,6 +72,21 @@
 										</td>
 										<td class="text-end">
 											<?= number_format((float) ($row['listed_price']), 0, ",", "."); ?> VNĐ
+										</td>
+										<td align="center">
+											<a href="<?= base_url('admin/routes/view/' . $row['id']) ?>"
+												class="btn btn-primary btn-sm mb-1" title="Xem">
+												<i class="fas fa-eye"></i>
+												<span class="text-xxl-visible">Xem</span>
+											</a>
+											<a href="<?= base_url('admin/routes/edit/' . $row['id']) ?>" class="btn btn-info btn-sm mb-1" title="Sửa">
+												<i class="fas fa-pencil-alt"></i>
+												<span class="text-xxl-visible">Sửa</span>
+											</a>
+											<a href="<?= base_url('admin/routes/delete/' . $row['id']) ?>" class="btn btn-danger btn-sm mb-1" title="Xóa">
+												<i class="fas fa-trash"></i>
+												<span class="text-xxl-visible">Xóa</span>
+											</a>
 										</td>
 									</tr>
 									<?php

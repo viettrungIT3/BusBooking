@@ -77,6 +77,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin', 'filter' => 'se
     // Quản lý tuyến đường
     $routes->get('routes', 'RouteController::index');
     $routes->post('routes/create', 'RouteController::create');
+    $routes->get('routes/view/(:num)', 'DashboardController::error503/$1');
+    $routes->get('routes/edit/(:num)', 'DashboardController::error503/$1');
+    $routes->get('routes/delete/(:num)', 'DashboardController::error503/$1');
 
     // Quản lý lịch trình
     $routes->get('schedules', 'ScheduleController::index');
