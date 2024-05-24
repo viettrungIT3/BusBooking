@@ -66,7 +66,7 @@
             </p>
           </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-ticket-alt"></i>
             <p>
@@ -88,7 +88,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a href="#" class="nav-link">
             <i class="nav-icon fa fa-dollar-sign"></i>
